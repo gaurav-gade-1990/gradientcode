@@ -1,0 +1,3 @@
+{"id": 201, "slug": "returns-refunds-agent", "title": "Returns & Refunds Agent", "type": "design",
+ "difficulty": "Easy", "category": "design-easy", "tags": ["Customer Support", "RAG", "Tool Use", "Human Handoff"],
+ "time_minutes": 45, "related": ["react-tool-loop", "idempotent-tool-execution", "tool-args-schema-validation", "human-approval-gates", "hybrid-search-rrf", "prompt-injection-quarantine"]}

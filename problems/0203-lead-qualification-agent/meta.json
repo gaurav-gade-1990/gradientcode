@@ -1,0 +1,3 @@
+{"id": 203, "slug": "lead-qualification-agent", "title": "Lead Qualification Agent", "type": "design",
+ "difficulty": "Easy", "category": "design-easy", "tags": ["Sales", "Enrichment", "Scoring", "CRM Integration"],
+ "time_minutes": 45, "related": ["signed-webhook-delivery", "structured-output-repair", "idempotent-tool-execution", "retry-with-backoff", "tool-args-schema-validation", "pii-redaction-vault"]}

@@ -1,0 +1,3 @@
+{"id": 207, "slug": "llm-gateway-cost-controls", "title": "LLM Gateway with Cost Controls", "type": "design",
+ "difficulty": "Medium", "category": "design-medium", "tags": ["LLM Gateway", "Cost Control", "Rate Limiting", "Failover", "Observability"],
+ "time_minutes": 60, "related": ["token-bucket-rate-limiter", "model-router", "gateway-failover-hedging", "circuit-breaker", "tenant-cost-attribution", "pii-redaction-vault"]}
