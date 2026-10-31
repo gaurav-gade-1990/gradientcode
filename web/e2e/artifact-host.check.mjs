@@ -8,7 +8,8 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 const blocked = [];
 await page.route("**/*", (r) => {
   const u = new URL(r.request().url());
-  if (u.hostname !== "localhost" && u.hostname !== "127.0.0.1") { blocked.push(u.href); return r.abort(); }
+  // The host serves only same-origin files of web media types: no other hosts, no .zip or .whl.
+  if ((u.hostname !== "localhost" && u.hostname !== "127.0.0.1") || /\.(zip|whl)$/.test(u.pathname)) { blocked.push(u.href); return r.abort(); }
   return r.continue();
 });
 page.on("pageerror", (e) => console.log("pageerror:", e.message));

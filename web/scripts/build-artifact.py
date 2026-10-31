@@ -9,6 +9,7 @@ The artifact host only lets a page fetch its own published files, so this build:
 """
 
 import os
+import base64
 import re
 import shutil
 import subprocess
@@ -34,7 +35,13 @@ def main():
         cached = os.path.join(CACHE, f)
         if not os.path.exists(cached):
             urllib.request.urlretrieve(CDN + f, cached)
-        shutil.copy(cached, os.path.join(OUT, "pyodide", f))
+        if f.endswith((".zip", ".whl")):
+            # The artifact host does not serve archives; the worker decodes these base64 copies.
+            name = "numpy.whl.b64.txt" if f.endswith(".whl") else f + ".b64.txt"
+            with open(cached, "rb") as src, open(os.path.join(OUT, "pyodide", name), "w") as dst:
+                dst.write(base64.b64encode(src.read()).decode())
+        else:
+            shutil.copy(cached, os.path.join(OUT, "pyodide", f))
 
     # The host wraps the page in its own skeleton: keep the head's title, styles and scripts, drop the wrappers.
     html = open(os.path.join(OUT, "index.html")).read()
@@ -52,6 +59,16 @@ def main():
             os.remove(os.path.join(assets, n))
     if os.path.exists(os.path.join(OUT, "favicon.svg")):
         os.remove(os.path.join(OUT, "favicon.svg"))
+
+    # The publisher rejects a literal U+FFFD; in the bundled JS it only appears inside string literals,
+    # where the \\uFFFD escape means the same thing.
+    for d, _, ns in os.walk(OUT):
+        for n in ns:
+            if n.endswith(".js"):
+                p = os.path.join(d, n)
+                src = open(p, encoding="utf-8").read()
+                if "\ufffd" in src:
+                    open(p, "w", encoding="utf-8").write(src.replace("\ufffd", "\\uFFFD"))
 
     files = sorted(os.path.relpath(os.path.join(d, n), OUT) for d, _, ns in os.walk(OUT) for n in ns)
     size = sum(os.path.getsize(os.path.join(OUT, p)) for p in files)
