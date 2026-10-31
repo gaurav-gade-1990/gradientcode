@@ -297,7 +297,7 @@ class Value:
 | Example 3 | data `-0.635149`, `a=-0.894879` | tanh's `1 - t²` |
 | division and power | data `16.2978`, `a=22.2881, b=90.3125` | `/` and `** 2` through `** -1`; `3 / a` uses `__rtruediv__` |
 | relu dead and alive | `a=0, b=3` | relu gradient is 0 for negative input |
-| relu at zero | `a=0, b=0` | the forward value `relu(0) = 0`, so `b` gets `0`; `a`'s two paths cancel |
+| relu at zero | `a=0, b=0` | `a - 2` is exactly `0`: the forward value `relu(0) = 0` gives `b` a `0`, and relu's gradient `0` at `0` gives `a` a `0` (`>= 0` gives `5`) |
 | exp chain | `a=0.149146, b=-0.149146` | exp's derivative is itself; this is a softmax entry |
 | neuron | data `0.707107`, `w1=1, bias=0.5` | the classic micrograd neuron |
 | diamond reuse | `b=0.928364` | leaves shared across a large expression |
@@ -317,7 +317,8 @@ Memory is $O(V)$ for the graph, which stays alive until `backward` finishes. Tha
 - **Example 2 gives `a = 3` instead of `7`.** Your closures assign (`=`) instead of accumulating (`+=`). Every case with a reused value fails: "division and power", "diamond reuse", "deep chain" and others.
 - **Only "shared intermediate" and "shared at two depths" fail (`-2.668` and `12.0122` for `a`).** Your `backward` walks with a stack or queue and runs a node's closure once per path. Use a DFS topological order with a `seen` set (section 5).
 - **`TypeError: unsupported operand type(s) for *: 'int' and 'Value'`.** You're missing `__rmul__` or haven't wrapped plain numbers in `__mul__`. The starter provides the reflected operators, so check you didn't delete them.
-- **"relu dead and alive" gives `a = -2` instead of `0`.** Your relu passes the gradient through unconditionally. It must multiply by `1` only where `data > 0`. Note that writing `>= 0` instead of `> 0` is also wrong by the statement, but no test catches it: "relu at zero" builds its zero as `a - a`, so whatever relu passes back reaches `a` once with each sign and cancels.
+- **"relu dead and alive" gives `a = -2` instead of `0`.** Your relu passes the gradient through unconditionally. It must multiply by `1` only where `data > 0`.
+- **Only "relu at zero" fails, with `a = 5` instead of `0`.** Your relu gradient uses `>= 0` instead of `> 0` (`wrong_relu_grad_at_zero.py`). The statement fixes the gradient at exactly `0` to be `0`.
 
 ## 12. Follow-ups an interviewer might ask
 

@@ -153,7 +153,7 @@ def stratified_k_fold(y: np.ndarray, k: int) -> np.ndarray:
 |---|---|---|
 | Example 1 | `[0, 1, 1, 0, 0, 1]` | class 1 starts at fold 1 because class 0 had 3 samples (carry-over) |
 | Example 2 | `[0, 0, 1, 1, 2]` | ascending label order: class 2 before class 5 |
-| dealer carries over | `[0, 0, 1, 1, 2, 0, 1, 2]` | three classes in a row; each class's counts per fold differ by at most one |
+| dealer carries over | `[1, 0, 1, 2, 2, 1, 2, 0, 0]` | class 0 has 4 samples (not a multiple of 3), so class 1 starts at fold 1 and class 2 at fold 1; resetting would start both at fold 0 |
 | single class | `[0, 1, 2, 0, 1, 2, 0]` | with one class, the rule is plain `i % k` |
 | k equals 1 | `[0, 0, 0, 0]` | everything mod 1 is 0 |
 | k equals n | `[2, 0, 3, 1, 4]` | every sample gets its own fold, in visiting order |
@@ -171,7 +171,7 @@ In production, the fold array is computed once per experiment, so speed rarely m
 
 ## 11. If you got Wrong Answer
 
-- **The low-numbered folds are bigger, or one fold is empty** (e.g. "negative and gapped labels" gives sizes `[4, 3, 2, 0]`). You reset the dealer to 0 for every class (`wrong_reset_per_class.py`). It fails Example 1, "k equals n", "negative and gapped labels", "minority class" and both random cases. It happens to pass Example 2 and "dealer carries over", because there every class before the last has a multiple of `k` samples, so the reset changes nothing.
+- **The low-numbered folds are bigger, or one fold is empty** (e.g. "negative and gapped labels" gives sizes `[4, 3, 2, 0]`). You reset the dealer to 0 for every class (`wrong_reset_per_class.py`). It fails Example 1, "dealer carries over", "k equals n", "negative and gapped labels", "minority class" and both random cases. It happens to pass Example 2, because there the first class has exactly `k` samples, so the reset changes nothing.
 - **Example 2 gives `[0, 2, 0, 1, 1]`.** You visit classes in order of first appearance (`5` before `2`). Use `np.unique`, which sorts (`wrong_first_appearance_order.py`).
 - **Example 1 gives `[0, 1, 0, 1, 0, 1]`.** You returned `np.arange(n) % k`, which balances fold sizes but ignores labels. Here fold 0 gets only class 0 and fold 1 only class 1 (`wrong_not_stratified.py`).
 - **A different but balanced split.** You used `np.argsort(y)` without `kind="stable"`, or a gather `(...)[order]` instead of the scatter `folds[order] = ...`.

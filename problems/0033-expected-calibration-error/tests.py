@@ -20,7 +20,7 @@ def cases():
          "args": {"probs": np.array([[0.25, 0.75], [0.5, 0.5], [1.0, 0.0]]), "labels": np.array([1, 1, 0]), "n_bins": 4},
          "explanation": "0.5 lands in bin (0.25, 0.5] and its argmax is class 0 (a tie goes to the lower index), so it is wrong: gap 0.5. 0.75 lands in (0.5, 0.75] and is right: gap 0.25. 1.0 is in the last bin with gap 0. ECE = (0.5 + 0.25) / 3 = 0.25."},
         {"name": "confidence on the edges", "args": {"probs": np.array([[0.5, 0.25, 0.25], [0.25, 0.75, 0.0], [0.0, 0.0, 1.0], [0.75, 0.125, 0.125], [0.5, 0.5, 0.0]]),
-                                                    "labels": np.array([0, 0, 2, 0, 1]), "n_bins": 4}},
+                                                    "labels": np.array([0, 1, 0, 0, 1]), "n_bins": 4}},
         {"name": "edge value changes bins", "args": {"probs": np.array([[0.25, 0.75], [0.1, 0.9], [0.5, 0.5], [0.6, 0.4]]),
                                                      "labels": np.array([1, 1, 0, 1]), "n_bins": 4}},
         {"name": "uneven bin sizes", "args": {"probs": np.array([[0.95, 0.05], [0.92, 0.08], [0.97, 0.03], [0.91, 0.09], [0.55, 0.45]]),

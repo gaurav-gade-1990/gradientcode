@@ -15,7 +15,7 @@ $$
 where $\eta_{\max}$ is `base_lr` and $\eta_{\min}$ is `min_lr`.
 
 - Warmup rises linearly from `0` at step `0`. It reaches `base_lr` at step `W`, where the cosine phase starts.
-- The cosine phase falls from `base_lr` at step `W` to `min_lr` at step `T`.
+- The cosine phase falls from `base_lr` at step `W` to `min_lr` at step `T`. If `W = T`, there is no room to decay: step `T` is `base_lr` and every later step is `min_lr`.
 - Steps past `T` stay at `min_lr`. Don't let the cosine come back up.
 - With `warmup_steps = 0` there is no warmup.
 

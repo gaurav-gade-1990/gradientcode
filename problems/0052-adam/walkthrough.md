@@ -100,17 +100,17 @@ Every parameter moves by `lr = 0.001` against its gradient's sign. Without corre
 
 Here the history dominates. `v_hat` (`8.2084`) is far bigger than `m_hat²` (about `0.47`), so the moments say this parameter's gradients have been large but inconsistent in sign. Adam trusts the direction less, and the step is only about a quarter of `lr` for element 0 and a third for element 1.
 
-## 5. Key idea: `eps` outside the root, and why tests barely see it
+## 5. Key idea: `eps` outside the root, and when it shows
 
-The placement $\sqrt{\hat v} + \epsilon$ matters only when $\sqrt{\hat v}$ is comparable to or smaller than $\epsilon$, that is, tiny gradients. In "tiny gradients", $g = 10^{-6}$, $\epsilon = 10^{-3}$, $t = 1$:
+The placement $\sqrt{\hat v} + \epsilon$ matters only when $\sqrt{\hat v}$ is comparable to or smaller than $\epsilon$, that is, tiny gradients. In "tiny gradients", $g = 10^{-6}$, $\epsilon = 10^{-7}$, $t = 1$:
 
 $$
-\frac{\eta\,\hat m}{\sqrt{\hat v} + \epsilon} = \frac{10^{-3}\cdot 10^{-6}}{10^{-6} + 10^{-3}} = 9.99\times 10^{-7},
+\frac{\eta\,\hat m}{\sqrt{\hat v} + \epsilon} = \frac{10^{-3}\cdot 10^{-6}}{10^{-6} + 10^{-7}} = 9.09\times 10^{-4},
 \qquad
-\frac{\eta\,\hat m}{\sqrt{\hat v + \epsilon}} = \frac{10^{-9}}{0.0316} = 3.16\times 10^{-8}.
+\frac{\eta\,\hat m}{\sqrt{\hat v + \epsilon}} = \frac{10^{-9}}{3.16\times 10^{-4}} = 3.16\times 10^{-6}.
 $$
 
-The large `eps` caps the step far below `lr`: that's its job, keeping parameters with near-zero gradient from being amplified to full-size steps. Because the default `lr` is `1e-3`, both moves are under $10^{-6}$ against a parameter of size `0.826`, and the judge's `rtol = 1e-6` only just separates them (expected `-0.825951`, got `-0.82595`).
+Outside the root, `eps` is small next to $\sqrt{\hat v} = 10^{-6}$, so the step is still about 91% of `lr`. Inside the root, `eps` is added to $\hat v = 10^{-12}$ and swamps it, so the step shrinks almost 300 times. On the first element that is the difference between `-0.826859` and `-0.825953` (the parameter starts at `-0.82595`). With realistic gradients, $\hat v \gg \epsilon$ and the two placements agree to many digits, which is why only this case separates them.
 
 ## 6. Plan before you code
 
@@ -172,7 +172,7 @@ def adam_step(param, grad, m, v, t, lr=1e-3, beta1=0.9, beta2=0.999, eps=1e-8):
 |---|---|---|
 | Example 1 | `0.999`, `m = 0.01`, `v = 1e-5` | step 1: bias correction makes the move exactly `lr` |
 | Example 2 | `0.497613`, `m = 0.28`, `v = 0.04096` | existing moments at `t = 5` |
-| tiny gradients | `-0.825951` | `eps` outside the square root |
+| tiny gradients | `-0.826859` | `eps` outside the square root (custom `eps = 1e-7`) |
 | zero gradient | param unchanged, moments `0` | no move from zero moments; `t = 3` is harmless |
 | matrix param late step | `(4, 5)`, `-0.32562` | `t = 1000`: correction for `v` still matters |
 | custom betas | `-0.27176`, `m = -0.1157` | `beta1`, `beta2` are parameters, not hard-coded |
@@ -184,7 +184,7 @@ $O(n)$ time per step and $2n$ floats of state for $n$ parameters. In mixed-preci
 ## 11. If you got Wrong Answer
 
 - **Example 1 gives `0.996838` instead of `0.999`.** You skipped bias correction, so the first step is $\sqrt{1000}/10 = 3.16$ times too large. Every case except "zero gradient" fails.
-- **Only "tiny gradients" fails, by about `1e-6`.** `eps` is inside the root. Section 5 shows why the difference is so small.
+- **Only "tiny gradients" fails, with `-0.825953` instead of `-0.826859`.** `eps` is inside the root (`wrong_eps_inside_sqrt.py`). Section 5 shows why only tiny gradients expose it.
 - **The parameters match but `new_m` is `10` times too big on step 1.** You returned `m_hat` instead of `m`.
 - **`inf` or `nan` in the output at `t = 1`.** You computed `1 - beta1 ** (t - 1)`, which is `0` at `t = 1`, and NumPy divides the moments by zero. Use `t` as given.
 - **"custom betas" fails but the rest pass.** You hard-coded `0.9` and `0.999` somewhere instead of using `beta1` and `beta2`.

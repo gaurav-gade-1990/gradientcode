@@ -8,7 +8,7 @@ def cases():
          "explanation": "Class 0 (indices 0, 2, 4) is dealt folds 0, 1, 0. The dealer continues for class 1 (indices 1, 3, 5): folds 1, 0, 1."},
         {"name": "Example 2", "hidden": False, "args": {"y": np.array([5, 2, 2, 5, 2]), "k": 3},
          "explanation": "Class 2 comes first because 2 < 5: indices 1, 2, 4 get folds 0, 1, 2. Class 5 then continues at fold 0: indices 0, 3 get folds 0, 1."},
-        {"name": "dealer carries over", "args": {"y": np.array([1, 0, 0, 1, 0, 2, 2, 1]), "k": 3}},
+        {"name": "dealer carries over", "args": {"y": np.array([1, 0, 0, 1, 0, 2, 2, 1, 0]), "k": 3}},
         {"name": "single class", "args": {"y": np.full(7, 4), "k": 3}},
         {"name": "k equals 1", "args": {"y": np.array([3, 1, 2, 1]), "k": 1}},
         {"name": "k equals n", "args": {"y": np.array([1, 0, 1, 0, 2]), "k": 5}},

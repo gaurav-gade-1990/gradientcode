@@ -7,7 +7,7 @@ def cases():
         {"name": "Example 3", "hidden": False, "args": {"expr": "(a * b).tanh()", "inputs": {"a": 0.5, "b": -1.5}}},
         {"name": "division and power", "args": {"expr": "(a / b) ** 2 - 3 / a", "inputs": {"a": 1.7, "b": -0.4}}},
         {"name": "relu dead and alive", "args": {"expr": "(a * -2).relu() + (b * 3).relu()", "inputs": {"a": 1.0, "b": 0.7}}},
-        {"name": "relu at zero", "args": {"expr": "(a - a).relu() * b", "inputs": {"a": 2.0, "b": 5.0}}},
+        {"name": "relu at zero", "args": {"expr": "(a - 2).relu() * b", "inputs": {"a": 2.0, "b": 5.0}}},
         {"name": "exp chain", "args": {"expr": "(a.exp() + b.exp()) ** -1 * a.exp()", "inputs": {"a": 0.3, "b": -1.2}}},
         {"name": "neuron", "args": {"expr": "(x1 * w1 + x2 * w2 + bias).tanh()",
                                      "inputs": {"x1": 2.0, "x2": 0.0, "w1": -3.0, "w2": 1.0, "bias": 6.8813735870195432}}},

@@ -60,7 +60,7 @@ The bin count cancels. You only need two per-bin sums, and an empty bin has both
 
 Per-bin arrays, all shape `(4,)`: `count = [0, 1, 1, 1]`, `sum_conf = [0, 0.5, 0.75, 1.0]`, `sum_acc = [0, 0, 1, 1]`. The gaps are `0.5`, `0.25` and `0`, so ECE = `(0.5 + 0.25 + 0) / 3 = 0.25`.
 
-**The hidden case that decides the boundary rule, "edge value changes bins":** `probs = [[0.25, 0.75], [0.1, 0.9], [0.5, 0.5], [0.6, 0.4]]`, `labels = [1, 1, 0, 1]`, 4 bins. Confidences `[0.75, 0.9, 0.5, 0.6]`, correct `[1, 1, 1, 0]`.
+**A hidden case that decides the boundary rule, "edge value changes bins":** `probs = [[0.25, 0.75], [0.1, 0.9], [0.5, 0.5], [0.6, 0.4]]`, `labels = [1, 1, 0, 1]`, 4 bins. Confidences `[0.75, 0.9, 0.5, 0.6]`, correct `[1, 1, 1, 0]`.
 
 | | bins | count | `sum_conf` | `sum_acc` | ECE |
 |---|---|---|---|---|---|
@@ -171,7 +171,7 @@ def expected_calibration_error(probs: np.ndarray, labels: np.ndarray, n_bins: in
 |---|---|---|
 | Example 1 | `1.11022e-16` (zero up to rounding) | a perfectly calibrated bin: accuracy 3/4, confidence 0.75 |
 | Example 2 | `0.25` | argmax tie to class 0; `1.0` lands in the last bin |
-| confidence on the edges | `0.1` | several confidences exactly on edges, 3 classes |
+| confidence on the edges | `0.3` | confidences `0.5, 0.75, 1.0` sit exactly on edges; right-closed keeps the two correct `0.75`s apart from the wrong `1.0`, left-closed merges them and gives `0.1` |
 | edge value changes bins | `0.2375` | right-closed bins; left-closed gives `0.1125` |
 | uneven bin sizes | `0.26` | bin weighting: 4 samples in bin 9, 1 in bin 5 |
 | one bin | `0.0333333` | `n_bins = 1`, so ECE is \|overall accuracy − mean confidence\| |
@@ -188,7 +188,7 @@ In production you compute ECE on a held-out set after every training run or cali
 
 ## 11. If you got Wrong Answer
 
-- **Only "edge value changes bins" fails, with `0.1125`.** Your bins are left-closed: `floor(conf * B)` (`wrong_left_closed_bins.py`). This bug passes every other case, including "confidence on the edges".
+- **"edge value changes bins" gives `0.1125` and "confidence on the edges" gives `0.1`.** Your bins are left-closed: `floor(conf * B)` (`wrong_left_closed_bins.py`). This bug passes every other case.
 - **Example 1 gives `0.25` and "all wrong and confident" gives `0.015` instead of `0.985`.** You used the probability of the true class as the confidence (`wrong_true_class_prob.py`). For a wrong prediction that number is small, so the model looks humble rather than overconfident.
 - **"uneven bin sizes" gives `0.36875` instead of `0.26`.** You took a plain mean of the per-bin gaps (`wrong_unweighted_bins.py`). The lone sample in bin 5 got as much weight as the four in bin 9.
 - **`nan` or a divide warning.** You divided by `count` before removing empty bins.
