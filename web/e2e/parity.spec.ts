@@ -1,8 +1,9 @@
 /* Browser parity sweep: every code problem's reference solution must be Accepted by the Pyodide judge,
- * and its first wrong_*.py must not be. This catches anything that passes in CPython (scripts/check.py)
+ * and none of its wrong_*.py files may be (PARITY=all; otherwise only the first wrong file). This catches anything that passes in CPython (scripts/check.py)
  * but behaves differently in Pyodide. Slow (one judge call per file), so it only runs with PARITY=1:
  *
- *   PARITY=1 pnpm exec playwright test e2e/parity.spec.ts
+ *   PARITY=1 pnpm exec playwright test e2e/parity.spec.ts      # solution + first wrong file
+ *   PARITY=all pnpm exec playwright test e2e/parity.spec.ts    # solution + every wrong file
  */
 import { test, expect } from "@playwright/test";
 import fs from "node:fs";
@@ -26,8 +27,9 @@ test("every reference solution is Accepted in Pyodide and a wrong one is not", a
     if (p.type === "design") continue;
     const dir = path.join(PROBLEMS, folders[p.slug]);
     jobs.push({ slug: p.slug, label: "solution.py", code: fs.readFileSync(path.join(dir, "solution.py"), "utf8"), wantAccepted: true });
-    const wrong = fs.readdirSync(dir).filter((f) => f.startsWith("wrong_")).sort()[0];
-    if (wrong) jobs.push({ slug: p.slug, label: wrong, code: fs.readFileSync(path.join(dir, wrong), "utf8"), wantAccepted: false });
+    const wrongs = fs.readdirSync(dir).filter((f) => f.startsWith("wrong_")).sort();
+    for (const wrong of process.env.PARITY === "all" ? wrongs : wrongs.slice(0, 1))
+      jobs.push({ slug: p.slug, label: wrong, code: fs.readFileSync(path.join(dir, wrong), "utf8"), wantAccepted: false });
   }
 
   const results: { slug: string; label: string; status: string; ok: boolean; detail: string }[] = await page.evaluate(async (jobs) => {
