@@ -12,7 +12,7 @@ COPILOT = {"name": "refund-copilot",
 
 TOOLS = {
     "get_order": {"scopes": ["orders:read"], "resource_arg": "order_id", "admin_scope": "orders:admin"},
-    "refund_order": {"scopes": ["orders:read", "refunds:create"], "resource_arg": "order_id"},
+    "refund_order": {"scopes": ["refunds:create", "orders:read"], "resource_arg": "order_id"},
     "add_ticket_note": {"scopes": ["tickets:write"]},
     "export_orders": {"scopes": ["orders_export:run"]},
     "delete_customer": {"scopes": ["customers:delete"], "resource_arg": "customer_id"},

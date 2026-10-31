@@ -214,6 +214,8 @@ def build_context(messages, budget, keep_last, reserve, summarize):
 | tool pair kept whole | the `c1` call and its result both kept; 3 messages summarized | a unit is included as a whole |
 | tool pair too big stops the walk | `c1` pair plus units 0–2 summarized (5 messages); 72 tokens | stop at the first miss, even though older units would fit |
 | parallel calls one unit | the 68-token unit with two results dropped whole; 4 messages summarized | one assistant turn with two `tool` results is one unit |
+| small older turn after a big one is not used | the 68-token parallel unit stops the walk at 88 of a 105 ceiling; the 15-token first user turn would fit (103) but is summarized with it (4 messages); 116 tokens | stop at the first miss, even when an older unit fits |
+| reserve changes the cut | ceiling `100 - 20 = 80`: "A-1 arrived..." (17 tokens, 71 → 88) no longer fits, so 5 messages are summarized; 99 tokens | the reserve comes off the ceiling; without it that turn would be kept |
 | keep_last zero | nothing pinned; the walk keeps 3 units and stops at the tool pair | `keep_last=0` doesn't mean "keep everything" |
 | only system | just the system prompt, 14 tokens, no summarize call | the empty-history edge case |
 
@@ -229,8 +231,8 @@ Compare `summarize_calls` first. It shows exactly which messages you dropped.
 
 - **Example 1 or "only system" shows a summarize call with an empty list, or a summary message.** You call `summarize` unconditionally. Guard it with `if dropped`.
 - **Example 2 keeps the greeting and drops the tool unit instead.** You filled oldest-first. The walk goes from newest to oldest, starting just before the pinned tail.
-- **Example 2 keeps one more turn than expected (unit 1), and Example 3 keeps "Great, please send one."** You compared against `budget` and forgot to subtract `reserve`.
-- **"tool pair too big stops the walk" or "parallel calls one unit" keeps an old turn after a gap.** You skipped the unit that didn't fit and kept walking. Put the fit test in the `while` condition so the first miss ends the loop.
+- **Example 2 keeps one more turn than expected (unit 1), and Example 3 keeps "Great, please send one."** You compared against `budget` and forgot to subtract `reserve`. "reserve changes the cut" then keeps "A-1 arrived; A-2 is still on the way." too.
+- **"tool pair too big stops the walk", "parallel calls one unit" or "small older turn after a big one is not used" keeps an old turn after a gap.** You skipped the unit that didn't fit and kept walking. Put the fit test in the `while` condition so the first miss ends the loop.
 - **"pinned tail exceeds budget" starts with a `tool` message whose call was summarized away.** You treated every message as its own unit, so `keep_last=4` pinned four messages instead of four units.
 - **"keep_last zero" keeps everything.** You used `units[-keep_last:]`, and `units[-0:]` is the whole list.
 

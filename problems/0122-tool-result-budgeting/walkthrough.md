@@ -116,7 +116,7 @@ def _truncate_text(text, share):
     return (text[:end] + " " + marker if k else marker), True
 ```
 
-The fit test is `<=`. In "text one over", the budget is 41 and the ticket is exactly 41 tokens, so it's kept whole; a `<` test would truncate it.
+The fit test is `<=`. In "text exactly fits", the budget is 41 and the ticket is exactly 41 tokens, so it's kept whole; a `<` test would truncate it. One token less, in "text one over" (budget 40), and it's cut to its first 35 tokens plus `[truncated 6 tokens]`, 40 in all.
 
 **Step 3: lists.** First test the whole list against the full `share`; only a list that doesn't fit pays for a cursor. Then walk and `break` at the first item that doesn't fit.
 
@@ -210,8 +210,8 @@ def budget_results(results, budget):  # trim every tool result to fit one shared
 | errors exceed budget | text is `[truncated 41 tokens]`, list has 0 items and cursor `bDow`; total 21 | `R = max(0, ...)` and share 0 |
 | share below marker | marker alone (5 tokens) next to a 3-token text that fits; total 8 | `k = 0` gives the marker with no leading space |
 | share exactly marker plus one | `PAY [truncated 40 tokens]`, 6 tokens | `k = 1` |
-| text exactly fits | kept whole at 41 with budget 42 | the whole-text path |
-| text one over | kept whole at 41 with budget 41 | `<=`, not `<` |
+| text exactly fits | kept whole at 41 with budget 41 | `<=`, not `<` |
+| text one over | budget 40: first 35 tokens + ` [truncated 6 tokens]`, 40 tokens | one token over the share truncates |
 | punctuation heavy cut | `retry.max=5; retry.base_ms= [truncated 19 tokens]` | cutting by regex token, not characters |
 | big item first blocks smaller later items | 0 items, cursor `aGl0czow`, 3 tokens | `break`, never skip ahead |
 | list cursor with zero items | 0 items, cursor `bG9nczow` | an empty page still gets a cursor |
@@ -232,7 +232,7 @@ The production concern is what the trimming throws away. Even splitting is predi
 - **Example 1's ticket has no marker.** Silent truncation. The model will treat half a ticket as the whole ticket.
 - **Example 1's SQL error is cut, or Example 3's share is 10 instead of 12.** You treated errors like other results. Charge them first and keep them whole.
 - **"big item first blocks smaller later items" returns two items with cursor offset 2.** You skipped the big item and kept packing. Stop at the first item that doesn't fit.
-- **"text one over" is truncated.** Your fit test is `<`. Use `<=`.
+- **"text exactly fits" is truncated.** Your fit test is `<` (`wrong_text_fit_strict.py`). Use `<=`.
 - **"share below marker" content starts with a space.** When `k == 0`, return the marker alone.
 
 ## 11. Follow-ups an interviewer might ask

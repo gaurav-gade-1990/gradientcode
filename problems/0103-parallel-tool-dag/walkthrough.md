@@ -80,14 +80,14 @@ Final statuses: `geo` failed, `risk` cancelled, and `root`, `hist`, `sum`, `rout
 
 The tempting design is level by level: run every node with no deps, wait for all of them, then run the next layer. That's what `asyncio.gather` per layer gives you, and it's wrong here. The rule says to start ready nodes *right after each tool finishes*, and a layer barrier makes fast branches wait for slow ones.
 
-The "level barrier is slower" case shows it. `a` (4.0s) and `b` (1.0s) start at 0. `c` depends only on `b`.
+The "level barrier is slower" case shows it. `a` (4.0s) and `b` (1.0s) start at 0. `c` (3.5s) depends only on `b`.
 
 | | `c` starts | `d` starts | makespan |
 |---|---|---|---|
 | correct (refill on each finish) | 1 | 4 | 5.5 |
-| level barrier (`wrong_level_barrier.py`) | 4 | 4 | 5.5 |
+| level barrier (`wrong_level_barrier.py`) | 4 | 4 | 8 |
 
-Here the makespan happens to come out the same, because `a → d → e` is the long path either way. The event times are still wrong: `c` sat idle for three seconds it didn't need to wait, and the judge grades the events. In a graph where the fast branch is also the long one, the barrier would push the makespan out too.
+`c` sat idle for three seconds it didn't need to wait. Because `b → c` is 4.5s of work, that idle time lands on the critical path: `c` finishes at 7.5 instead of 4.5, so `e` can't start until 7.5 and the makespan grows from 5.5 to 8.
 
 The fix is to make every node's own wrapper task responsible for what happens after it finishes: record the status, free the slot, call `fill()`. No central coordinator, no layers.
 
@@ -263,7 +263,7 @@ def run_dag(loop, nodes, run_tool, max_concurrency):  # the executor the judge c
 | serial | one tool at a time, makespan 6.4 | `max_concurrency = 1` |
 | input order is not id order | `audit` and `hubspot` start first | the ready set is sorted by id |
 | failure cancels transitive descendants only | `b_parse`, `c_embed`, `d_index` cancelled; `e_meta`, `f_notify` ok | the DFS goes all the way down, and stops there |
-| level barrier is slower | `c` starts at 1, not 4 | no layer barriers |
+| level barrier is slower | `c` starts at 1, not 4; makespan 5.5, not 8 | no layer barriers |
 | freed slot goes to lowest ready id | `q1` starts at 3, `q9` at 3.5 | sort by id, not by deps order or input order |
 | fail in the middle with siblings | `geo` failed, `risk` cancelled, `route` ok | a node with one failed dep is cancelled while its other dep is still running |
 | wide fan-out | peak 3, makespan 6 | a long queue of ready nodes drained 3 at a time |

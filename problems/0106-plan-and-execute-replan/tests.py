@@ -40,6 +40,9 @@ def cases():
             "tool_table": TOOLS, "max_replans": 1}},
         {"name": "failed id reused with new args", "args": {"goal": GOAL, "plans": [
             [S1, S2, S3, S4], [{"id": "s3", "tool": "refund_charge", "args": {"charge_id": "ch_1"}}, S4]], "tool_table": TOOLS, "max_replans": 1}},
+        {"name": "restated refund is not issued twice", "args": {"goal": GOAL, "plans": [
+            [S1, {"id": "r1", "tool": "refund_charge", "args": {"charge_id": "ch_1"}}, S2, S3],
+            [S1, {"id": "r1", "tool": "refund_charge", "args": {"charge_id": "ch_1"}}, S3B, S4B]], "tool_table": TOOLS, "max_replans": 1}},
         {"name": "two failures, history grows", "args": {"goal": GOAL, "plans": [
             [S1, S3], [S2, S3], [S3B, S4B]], "tool_table": TOOLS, "max_replans": 3}},
     ]

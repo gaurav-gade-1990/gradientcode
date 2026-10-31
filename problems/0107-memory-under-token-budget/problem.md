@@ -18,6 +18,8 @@ Your support agent's conversations get long, and every turn resends the whole hi
 
 **Output.** Return a new list: the system prompt, then `{"role": "system", "content": "Summary of earlier conversation: " + summary}` if you summarized, then the included and pinned messages in their original order.
 
+The reserve is an estimate: don't trim anything to make the summary fit. If the summary message is longer than `reserve`, or the pinned messages alone exceed `budget`, the returned context is over `budget`, and that's expected.
+
 The judge records your context, its token count, and every `summarize` call.
 
 **Constraints**

@@ -11,7 +11,7 @@ def supervise(subtasks, workers, execute):
     failed_on = {t["id"]: set() for t in subtasks}
 
     def pick(tid):
-        options = [n for n in names if needs[tid] & skills[n] or not needs[tid] and n not in failed_on[tid]]
+        options = [n for n in names if (needs[tid] & skills[n] or not needs[tid]) and n not in failed_on[tid]]
         return min(options, key=lambda n: (len(queue[n]), n)) if options else None
 
     for t in subtasks:

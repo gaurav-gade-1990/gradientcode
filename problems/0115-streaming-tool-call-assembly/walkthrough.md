@@ -268,7 +268,7 @@ def assemble(events):  # rebuild one streamed assistant message from its events
 | multiple message_delta, missing usage | `stop_reason: "end_turn"`, `output_tokens: 3` | update only the fields present |
 | no message_start or delta | `get_weather` Oslo runs, usage `0`, `stop_reason: None` | `.get` defaults |
 | nested args split mid-string | `create_ticket` and `notify_slack` run, refund `invalid_json` | nested JSON, a trailing comma is invalid, braces inside a string value |
-| interleaved with a broken sibling | all three calls valid | interleaving across three blocks, an extra empty fragment, a tool with no deltas |
+| interleaved with a broken sibling | `toolu_a` and `toolu_c` valid; `toolu_b` (`{"order_id": "C-3"`, no closing brace) is `invalid_json` at index 1 | one broken block doesn't affect its interleaved siblings; an extra empty fragment; a tool with no deltas |
 
 ## 10. Complexity
 

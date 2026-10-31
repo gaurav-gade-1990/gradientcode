@@ -94,6 +94,12 @@ def cases():
             rpc("tools/call", 24, {"name": "list_warehouses"}),
             rpc("tools/call", 25, {"name": "get_order_status", "arguments": {"order_id": "Z-77", "verbose": True}}),
         ]),
+        case("fractional id is invalid", [
+            json.dumps({"jsonrpc": "2.0", "method": "ping", "id": 1.5}),
+            json.dumps({"jsonrpc": "2.0", "method": "tools/call", "id": 2.25,
+                        "params": {"name": "get_order_status", "arguments": {"order_id": "A-1"}}}),
+            rpc("ping", 3),
+        ]),
         case("whitespace and id zero", ['  {"jsonrpc":"2.0","id":0,"method":"ping"}\n', "not json at all",
                                         rpc("tools/call", -5, {"name": "list_warehouses", "arguments": {}})]),
     ]

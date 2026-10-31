@@ -51,6 +51,13 @@ def cases():
             {"role": "user", "content": "Please hurry."}],
             "specialist": {"name": "security", "system_prompt": "You are Acme's security specialist.", "tools": ["unlock_account"]},
             "summary": "Account locked after failed logins."}},
+        {"name": "empty string content with a kept tool call survives", "args": {"transcript": [
+            {"role": "user", "content": "Someone reset my password, it wasn't me."},
+            {"role": "assistant", "content": "", "tool_calls": [tc("u1", "unlock_account", email="lee@example.com"), tc("u2", "lookup_user", email="lee@example.com")]},
+            {"role": "tool", "tool_call_id": "u1", "content": "lee@example.com: sessions revoked, account locked"},
+            {"role": "tool", "tool_call_id": "u2", "content": "lee@example.com: password reset 2026-10-30 from new device"}],
+            "specialist": {"name": "security", "system_prompt": "You are Acme's security specialist.", "tools": ["unlock_account"]},
+            "summary": "Unrecognized password reset; sessions revoked."}},
         {"name": "multiple turns, interleaved", "args": {"transcript": [
             TRIAGE_SYS,
             {"role": "user", "content": "Two things: order A-5 never arrived and I want a refund."},

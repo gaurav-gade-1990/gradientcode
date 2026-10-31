@@ -322,6 +322,8 @@ class ApprovalRun:
 | queued blocked call denied on drain | after the reject: `denied c3 wire_transfer`, `executed c4 send_email` | queued calls still hit the blocked check |
 | expiry noticed by next call drains queue | at t=50: `expired`, `executed c3`, `executed c4` | expiry inside `call`, and expiry drains before the new call |
 | approve wrong id | `ignored c9 not_pending`; c2 still pending and later approved | a wrong id doesn't clear the slot |
+| outsider approving the wrong id is not_pending | `agent.bot` on `c9` is `ignored c9 not_pending`, not `not_authorized`; c2 later approved | the pending-id check comes before the approver check |
+| tool in both lists is denied | `denied c7 delete_account` at t=0, no `approval_requested`; c8 runs at t=5 | the blocked check comes before the approval check |
 | approve when nothing pending | `ignored c1 not_pending` | `pending is None` is handled |
 | expired then re-requested | old id c2 is `not_pending`; new id c6 approved and executed at t=43 | an expired approval can't be revived by a later click |
 
@@ -340,6 +342,8 @@ Compare the `events` lists. The first event that differs points to the bug:
 - **No `expired` event anywhere, and "expiry noticed by next call drains queue" never runs the email.** Expiry isn't implemented, or it isn't called at the start of `call`.
 - **"Example 3" has no `expired` at t=70.** `tick()` doesn't run the expiry check.
 - **"queued risky call pauses again" executes `delete_account` without an `approval_requested`, or "queued blocked call denied on drain" executes the wire transfer.** Your drain calls `execute` directly instead of `_process`.
+- **"outsider approving the wrong id is not_pending" logs `not_authorized`.** You check the approver before the pending id (`wrong_checks_approver_first.py`). Check the id first.
+- **"tool in both lists is denied" logs `approval_requested c7`.** Your policy function tests `approval_required` before `blocked` (`wrong_approval_before_blocked.py`).
 - **"duplicate approve does not re-execute" has two `issue_refund` executions.** You look approvals up in a table of past requests rather than comparing with the current pending call.
 - **In "Example 1" the email executes before the refund, or not at all.** You drain before running the approved call, or you forgot to drain after approving.
 

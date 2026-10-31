@@ -55,8 +55,8 @@ def cases():
         {"name": "tool pair kept whole", "args": {"messages": CHAT, "budget": 85, "keep_last": 2, "reserve": 0}},
         {"name": "tool pair too big stops the walk", "args": {"messages": CHAT, "budget": 75, "keep_last": 2, "reserve": 0}},
         {"name": "parallel calls one unit", "args": {"messages": PARALLEL, "budget": 160, "keep_last": 3, "reserve": 20}},
-        {"name": "small older turn after a big one is not used", "args": {"messages": PARALLEL, "budget": 110, "keep_last": 2, "reserve": 10}},
-        {"name": "reserve changes the cut", "args": {"messages": PARALLEL, "budget": 130, "keep_last": 2, "reserve": 40}},
+        {"name": "small older turn after a big one is not used", "args": {"messages": PARALLEL, "budget": 115, "keep_last": 2, "reserve": 10}},
+        {"name": "reserve changes the cut", "args": {"messages": PARALLEL, "budget": 100, "keep_last": 2, "reserve": 20}},
         {"name": "keep_last zero", "args": {"messages": CHAT, "budget": 60, "keep_last": 0, "reserve": 15}},
         {"name": "only system", "args": {"messages": [SYS], "budget": 50, "keep_last": 3, "reserve": 10}},
     ]

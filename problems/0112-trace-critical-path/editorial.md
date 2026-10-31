@@ -27,7 +27,7 @@ The child that ends last is the one the parent was waiting on when it finished, 
 ## Common mistakes
 
 - **Summing overlapping children.** With three parallel tool calls the parent gets negative self time.
-- **Not clipping.** A fire-and-forget email that outlives the request isn't the request's latency.
+- **Not clipping.** A fire-and-forget email that outlives the request isn't time the parent spent waiting, and without clipping it drives the parent's self time negative. Clipping is for self time only: the latest-end rule still puts that email on the critical path, and `time_by_kind` uses the raw intervals.
 - **Following the longest child.** A long LLM call that finished early isn't what the user waited on at the end.
 - **Summing durations by kind.** Three parallel LLM calls of 500 ms are 500 ms of waiting, not 1500. (The sum is still the right number for *cost*; report both in practice.)
 - **Re-parenting orphans to the root.** It mixes in spans from other requests or a sampled-away subtree.

@@ -24,7 +24,7 @@ The judge feeds your `McpServer` a session of raw messages. For each one it reco
 Three details are easy to miss:
 
 - **A notification is a valid message with no `"id"` key.** Not `id: null` (that is an Invalid Request), and not `id: 0` (that is a perfectly good id). Test with `"id" not in msg`.
-- **Python's `bool` is an `int`.** `isinstance(True, int)` is `True`, but JSON-RPC ids are strings or numbers. `{"id": true}` is an Invalid Request.
+- **Python's `bool` is an `int`.** `isinstance(True, int)` is `True`, but this server's ids are strings or integers. `{"id": true}` is an Invalid Request, and so is a fractional id like `1.5` (JSON-RPC discourages them, and the problem only allows integers).
 - **A tool that raises is a success at the protocol level.** It becomes `result` with `isError: true`. Only a bad *request* (unknown tool, missing required argument, non-dict arguments) is a `-32602` error.
 
 ## 3. Trace the examples by hand
@@ -292,6 +292,7 @@ class McpServer:  # one server instance per connection
 | invalid requests | eight `-32600`s, the last inside a batch with a ping result | each envelope rule, bool id, null id, non-dict params, non-object messages |
 | protocol version negotiation | `"2024-11-05"` echoed, `"2025-03-26"` fallback, two `-32602`s | version echo and fallback; missing `protocolVersion` or missing params |
 | tools/call params errors | four `-32602`s, then two results | missing required key, non-dict args, no name, no params; default `{}` arguments; extra keys allowed |
+| fractional id is invalid | two `-32600`s with id null, then the ping result; `tool_runs: []` | a `float` id is not a valid id, and its `tools/call` never runs |
 | whitespace and id zero | ping result with id 0, parse error, result with id -5 | `"id" not in msg`, not a falsy check; whitespace around JSON |
 
 ## 10. Complexity
@@ -306,6 +307,7 @@ In production, the dispatcher is never the bottleneck. The handlers are: a tool 
 - **"notification never runs a tool" has entries in `tool_runs`.** You return `None` for notifications only *after* dispatching. Check for the id before the method table.
 - **"batch of only notifications" gives `[]`.** Return `None` when the filtered batch list is empty.
 - **"invalid requests" has `{"id": true, "result": {}}`.** Your id check accepts bools. Exclude `bool` explicitly.
+- **"fractional id is invalid" answers `{"id": 1.5, "result": {}}` or runs `get_order_status`.** Your id check accepts any number (`wrong_float_id_accepted.py`). Test for `int`, not `(int, float)`.
 - **Example 2's refund is `-32603 Internal error`.** A tool exception belongs in `result` with `isError: true`.
 - **Example 3's `cancel_order` comes back as a result with `isError: true`.** An unknown tool is `-32602`, not a tool outcome.
 - **"whitespace and id zero" gives `None` for the ping.** You wrote `if not msg.get("id")`, which treats `0` as missing.

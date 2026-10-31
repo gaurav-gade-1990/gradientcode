@@ -39,7 +39,7 @@ def cases():
             N("d_index", "index.upsert", ["c_embed", "e_meta"], 1.0), N("e_meta", "meta.fetch", [], 2.5),
             N("f_notify", "slack.post", ["e_meta"], 0.5)], "max_concurrency": 2}},
         {"name": "level barrier is slower", "args": {"nodes": [
-            N("a", "search.web", [], 4.0), N("b", "search.kb", [], 1.0), N("c", "llm.summarize_kb", ["b"], 1.0),
+            N("a", "search.web", [], 4.0), N("b", "search.kb", [], 1.0), N("c", "llm.summarize_kb", ["b"], 3.5),
             N("d", "llm.summarize_web", ["a"], 1.0), N("e", "llm.merge", ["c", "d"], 0.5)], "max_concurrency": 3}},
         {"name": "freed slot goes to lowest ready id", "args": {"nodes": [
             N("p1", "orders.get", [], 3.0), N("p2", "orders.get", [], 1.0), N("p3", "orders.get", [], 2.5),

@@ -214,6 +214,7 @@ def handoff(transcript, specialist, llm):
 | same transcript to shipping | user, assistant with c2, tool c2 | the filter depends on `specialist["tools"]`: shipping also has `get_order` |
 | private turn calling an allowed tool | user, assistant "I'll connect you with billing." | `private` wins over an allowed tool name; the fraud flag never appears |
 | empty string content dropped | the two user messages only | `""` counts as no content, both for the emptied turn and the text-only turn |
+| empty string content with a kept tool call survives | the `""` assistant turn stays with only `u1`, and the `u1` result follows it | `""` content alone doesn't drop a turn; it must also have no calls left |
 | multiple turns, interleaved | user, assistant `None` with call a, tool a, assistant text, user | a turn with `None` content stays if a call survives; a private turn mid-conversation is dropped |
 | nothing but the user | user only | the minimal transcript; the summary is still requested once |
 | extra keys preserved | user with `name`, assistant with `model`, tool with `name` | copy the message, don't rebuild it |
@@ -236,6 +237,7 @@ Check `input_unchanged` first, then compare `summarizer_calls`, then `transcript
 - **`summarizer_calls` contains the triage system prompt or the scratchpad, but the transcript looks right.** You summarized `transcript` instead of `carried`.
 - **An `{"role": "assistant", "content": None}` turn in Example 1.** You're not dropping turns left with no calls and no content.
 - **"empty string content dropped" still has an assistant turn.** You tested `content is None`; `""` counts as empty too.
+- **"empty string content with a kept tool call survives" loses the assistant turn and the `u1` result.** You dropped the turn for its `""` content before filtering its calls (`wrong_drops_empty_content_with_calls.py`). Drop only when there's no content *and* no kept call.
 - **Two system prompts at the start.** You carried the triage system message.
 
 ## 12. Follow-ups an interviewer might ask

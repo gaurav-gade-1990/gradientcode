@@ -8,7 +8,7 @@ Your chat backend streams model replies to the browser and runs tool calls as so
 | `content_block_start` | `index`, `content_block` = `{"type": "text", "text": ""}` or `{"type": "tool_use", "id", "name", "input": {}}` | open block `index`. The `input: {}` placeholder carries no arguments; ignore it. |
 | `content_block_delta` | `index`, `delta` = `{"type": "text_delta", "text"}` or `{"type": "input_json_delta", "partial_json"}` | append the fragment to block `index`'s buffer |
 | `content_block_stop` | `index` | close block `index`. For a `tool_use` block, parse its buffer now. |
-| `message_delta` | `delta.stop_reason`, optional `usage.output_tokens` | record them; a later `message_delta` overwrites an earlier one |
+| `message_delta` | `delta.stop_reason`, optional `usage.output_tokens` | record them; a later `message_delta` overwrites each field it carries, and a field it leaves out keeps its earlier value |
 | `message_stop` | none | the stream is over: ignore every event after it |
 | `ping` | none | ignore |
 

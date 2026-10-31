@@ -47,9 +47,9 @@ def cases():
         {"name": "share exactly marker plus one", "args": {"results": [
             {"id": "t", "tool": "jira_get_issue", "type": "text", "content": JIRA}], "budget": 6}},
         {"name": "text exactly fits", "args": {"results": [
-            {"id": "t", "tool": "jira_get_issue", "type": "text", "content": JIRA}], "budget": 42}},
-        {"name": "text one over", "args": {"results": [
             {"id": "t", "tool": "jira_get_issue", "type": "text", "content": JIRA}], "budget": 41}},
+        {"name": "text one over", "args": {"results": [
+            {"id": "t", "tool": "jira_get_issue", "type": "text", "content": JIRA}], "budget": 40}},
         {"name": "punctuation heavy cut", "args": {"results": [
             {"id": "cfg", "tool": "read_file", "type": "text",
              "content": "retry.max=5; retry.base_ms=250;\n\ttimeouts: {connect: 2s, read: 30s}  # owner: platform-infra"}], "budget": 15}},

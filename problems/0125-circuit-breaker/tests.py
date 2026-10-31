@@ -33,7 +33,7 @@ def cases():
          "explanation": "slow is admitted while closed but finishes at t=9, after the breaker has tripped (t=0.5), gone half_open (t=7) and reopened when probe p1 failed (t=7.5). Its success belongs to an old generation and is ignored, so the breaker stays open and c7 is rejected."},
         {"name": "stale success must not close a half-open breaker",
          "args": {"calls": [call("slow", 0, True, 6.5), call("c2", 0, False), call("c3", 0, False), call("c4", 0, False), call("c5", 0, False),
-                            call("p1", 6, True, 3.0), call("p2", 6, True, 3.0), call("c8", 7, True), call("c9", 9.5, True)], "config": CFG}},
+                            call("p1", 6, True, 1.0), call("p2", 6, True, 3.0), call("c8", 7, True), call("c9", 9.5, True)], "config": CFG}},
         {"name": "stale failure must not reopen",
          "args": {"calls": [call("c1", 0, False), call("c2", 0, False), call("c3", 0, False), call("slowfail", 0, False, 6.0), call("c5", 0, False),
                             call("p1", 5.5, True, 2.0), call("p2", 5.75, True, 2.0), call("c8", 8, True)], "config": CFG}},

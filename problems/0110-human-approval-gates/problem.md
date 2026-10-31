@@ -19,12 +19,14 @@ The run is `"paused"` while an approval is pending and `"running"` otherwise; ex
 | in `approval_required` | `approval_requested {id, tool, expires_at}` with `expires_at = now + ttl`; the run pauses |
 | anything else | execute it, then `executed {id, tool, result}` |
 
+Check the rows in this order, so a tool listed in both `blocked` and `approval_required` is denied.
+
 **Methods.**
 
 | method | behavior |
 |---|---|
 | `call(call_id, tool, args)` | if paused: queue it and log `queued {id, tool}`. Otherwise process it. |
-| `approve(call_id, approver)` | if `call_id` isn't the pending call: `ignored {id, reason: "not_pending"}`. If `approver` isn't in `approvers`: `ignored {id, reason: "not_authorized"}` (still paused). Otherwise `approved {id, approver}`, execute it (`executed ...`), resume, and drain. |
+| `approve(call_id, approver)` | if `call_id` isn't the pending call: `ignored {id, reason: "not_pending"}`. Otherwise, if `approver` isn't in `approvers`: `ignored {id, reason: "not_authorized"}` (still paused). Otherwise `approved {id, approver}`, execute it (`executed ...`), resume, and drain. |
 | `reject(call_id, approver)` | same checks; then `rejected {id, approver}`, resume without executing, and drain |
 | `tick()` | only the expiry check |
 

@@ -217,7 +217,7 @@ class CircuitBreaker:  # fail fast while a provider is down, probe carefully whe
 | Example 1 | open at 3.5; c5 and c6 rejected | `min_calls` delays the trip; the open timeout |
 | Example 2 | open 0.5, half_open 6.0, closed 7.25 | lazy half-open; the probe limit; closing after two successes |
 | Example 3 | open 0.5, half_open 7.0, open 7.5 | a failed probe reopens; the slow success at 9.0 doesn't close it |
-| stale success must not close a half-open breaker | open 0.5, half_open 6.0, closed 9.0; c8 rejected | the breaker closes on the probes' results |
+| stale success must not close a half-open breaker | open 0.5, half_open 6.0, closed 9.0; c8 rejected | the generation check: `slow` at 6.5 is ignored, so p1 at 7.0 is only the first success |
 | stale failure must not reopen | open 0.5, half_open 5.5, closed 7.75 | the generation check: `slowfail` at 6.0 is ignored |
 | probe limit under concurrency | closed at 8.2; h3 and h4 rejected | `half_open_probes=3` under concurrent requests |
 | rolling window forgets old failures | open at 29.5 | pruning by time |
@@ -228,7 +228,7 @@ class CircuitBreaker:  # fail fast while a provider is down, probe carefully whe
 | reopen then recover twice | 8 transitions, final closed | repeated cycles; each `_enter` resets counters |
 | outage trace | 9 transitions over a simulated outage; 62 allowed, 28 rejected | everything together |
 
-In Example 3 and "stale success must not close a half-open breaker", removing the generation check doesn't change the result. In Example 3 the breaker is open when the stale success lands, and `record` ignores outcomes while open anyway. In the other case, the stale success at 6.5 and probe p1 at 9.0 reach two successes at the same moment the two probes would. "stale failure must not reopen" is the case that catches a missing check.
+In Example 3, removing the generation check doesn't change the result: the breaker is open when the stale success lands, and `record` ignores outcomes while open anyway. The two hidden stale cases do catch a missing check. In "stale success must not close a half-open breaker", `slow` succeeds at 6.5 while half-open, and probe p1 succeeds at 7.0. Counting the stale result makes two successes and closes the breaker at 7.0, so c8 at 7.0 is allowed. With the check, p1 is only the first success, c8 is rejected (both probes are out), and the breaker closes when p2 succeeds at 9.0. "stale failure must not reopen" is the same bug from the failure side.
 
 ## 10. Complexity
 
@@ -242,7 +242,7 @@ In production you keep **one breaker per (provider, model, region)**, so an outa
 - **"rolling window forgets old failures" trips early.** You never prune the window.
 - **"window boundary is exclusive" trips at t=10.** Your prune keeps `t >= now - window_s`. Use `>`.
 - **Example 2's p3 is allowed.** Half-open doesn't limit probes. Count `issued`.
-- **"stale failure must not reopen" reopens at 6.0.** You're counting stale results. Compare the permit with the current generation.
+- **"stale failure must not reopen" reopens at 6.0, or "stale success must not close a half-open breaker" closes at 7.0 and allows c8.** You're counting stale results (`wrong_counts_stale_results.py`). Compare the permit with the current generation.
 - **"open timeout boundary is inclusive" rejects `f` at 6.0.** Your timeout test is `<=`. Half-open starts at exactly `opened_at + open_timeout_s`.
 - **Example 2 reopens at 8.5, right after closing.** `_enter` doesn't clear the window, so the four failures from t=0.5 are still in it when c8 succeeds. Reset the window and counters on every transition.
 

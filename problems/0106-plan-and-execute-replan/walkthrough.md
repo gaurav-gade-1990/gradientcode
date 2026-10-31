@@ -66,7 +66,7 @@ The return value is `{"status": "completed", "completed": ["s1", "s2", "s3b", "s
 
 ## 4. Key idea: skip completed ids, and let the new plan replace the tail
 
-Planners often restate the whole plan when they replan. In Example 2 the second plan is `[s1, s2, s3b, s4b]`, even though s1 and s2 already ran. If you execute it as written, you fetch the order twice and, with a real side-effecting tool, could refund twice.
+Planners often restate the whole plan when they replan. In Example 2 the second plan is `[s1, s2, s3b, s4b]`, even though s1 and s2 already ran. If you execute it as written, you fetch the order twice and, with a real side-effecting tool, could refund twice. The hidden case "restated refund is not issued twice" does exactly that: the first plan refunds `ch_1` as step r1 before s3 fails, and the replan restates r1. The right run calls `refund_charge` with `ch_1` once.
 
 The fix is one check at the top of the loop: **if `step["id"]` is in `results`, skip it.** With that rule, "replace everything from the failed step onward" becomes trivial: set `steps` to the new plan and `i` to 0. The completed prefix is safe in `results`, so restated steps are skipped and new steps run.
 
@@ -265,6 +265,7 @@ def execute_plan(llm, tools, goal, max_replans):
 | replan replaces the tail | completed s1, s2, s3b | the old s4 and s5 never run |
 | failed id reused with new args | completed s1, s2, s3, s4; s3 = `"re_901"` | a failed id isn't in `results`, so it can run again |
 | two failures, history grows | completed s1, s2, s3b, s4b; 2 replans | each replan sees the history so far |
+| restated refund is not issued twice | completed s1, r1, s2, s3b, s4b; `refund_charge` with `ch_1` called once | the skip rule for a restated side-effecting step |
 
 ## 10. Complexity
 
@@ -276,7 +277,7 @@ In production the cost to bound is the number of model and tool calls. The repla
 
 Compare `tool_calls` first, then the planner payloads in `planner_calls`.
 
-- **`get_order` and `find_duplicate` appear twice in Example 2, and `completed` lists s1 and s2 twice.** You're not skipping ids already in `results`.
+- **`get_order` and `find_duplicate` appear twice in Example 2, and `completed` lists s1 and s2 twice** (or `refund_charge` runs twice with `ch_1` in "restated refund is not issued twice"). You're not skipping ids already in `results` (`wrong_redoes_completed_steps.py`).
 - **The second planner payload has `"completed": []`.** Your replan sends only the failure. Build every payload from the shared `completed` list.
 - **`refund_charge` is called with `{"charge_id": {"$ref": "s2"}}`.** You pass unresolved references through. Fail the step before calling the tool.
 - **"replan replaces the tail" ends `"failed"` after s3b succeeds.** You prepended the new plan to the old tail, so the old s4 ran with an unresolved reference.

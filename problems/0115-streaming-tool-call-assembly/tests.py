@@ -99,6 +99,6 @@ def cases():
             mdelta("tool_use", 140), END]}},
         {"name": "interleaved with a broken sibling", "args": {"events": [
             start(600), tool(0, "toolu_a", "lookup_order"), tool(1, "toolu_b", "lookup_order"), tool(2, "toolu_c", "list_open_tickets"),
-            jd(1, '{"order_id": "C-'), jd(0, '{"order_id": '), jd(1, '3"}'), jd(0, '"C-1"}'), jd(0, ""),
+            jd(1, '{"order_id": "C-'), jd(0, '{"order_id": '), jd(1, '3"'), jd(0, '"C-1"}'), jd(0, ""),
             stop(0), stop(1), stop(2), mdelta("tool_use", 33), END]}},
     ]

@@ -43,6 +43,10 @@ def cases():
         {"name": "expiry noticed by next call drains queue", "args": {"policy": POLICY, "ttl": 30, "ops": [
             REFUND, call(15, "c3", "send_email", to="dana@example.com"), call(50, "c4", "get_order", order_id="A-1182")]}},
         {"name": "approve wrong id", "args": {"policy": POLICY, "ttl": 300, "ops": [REFUND, approve(12, "c9", "lead.maria"), approve(13, "c2", "lead.maria")]}},
+        {"name": "outsider approving the wrong id is not_pending", "args": {"policy": POLICY, "ttl": 300, "ops": [
+            REFUND, approve(12, "c9", "agent.bot"), approve(13, "c2", "lead.maria")]}},
+        {"name": "tool in both lists is denied", "args": {"policy": dict(POLICY, blocked=["wire_transfer", "delete_account"]), "ttl": 300, "ops": [
+            call(0, "c7", "delete_account", user="u_77"), call(5, "c8", "get_order", order_id="A-1")]}},
         {"name": "approve when nothing pending", "args": {"policy": POLICY, "ttl": 300, "ops": [call(0, "c1", "get_order", order_id="A-1"), approve(5, "c1", "lead.maria")]}},
         {"name": "expired then re-requested", "args": {"policy": POLICY, "ttl": 20, "ops": [
             REFUND, tick(40), call(41, "c6", "issue_refund", order_id="A-1182", amount=84.0), approve(42, "c2", "lead.maria"), approve(43, "c6", "lead.maria")]}},

@@ -214,7 +214,7 @@ def authorize_calls(user, agent, role_scopes, tools, resources, calls):  # one d
 | wildcard on both sides | both allowed | `refunds:*` on both sides; admin reads another user's order |
 | prefix without colon does not match | `missing_scopes ['orders_export:run']`, then allowed | `orders:*` does not cover `orders_export:run` |
 | resource checks | `resource_not_found` ×2, `cross_tenant`, `resource_not_found`, `unknown_tool` | unknown id, absent arg, other tenant, integer id, check 1 before check 2 |
-| missing scopes sorted and unknown role | `missing_scopes ['orders:read', 'refunds:create']`, `missing_scopes ['tickets:write']` | `role_scopes.get(r, [])`; all missing scopes listed |
+| missing scopes sorted and unknown role | `missing_scopes ['orders:read', 'refunds:create']`, `missing_scopes ['tickets:write']` | `role_scopes.get(r, [])`; all missing scopes listed, sorted (`refund_order` declares them as `['refunds:create', 'orders:read']`) |
 | cross tenant user with admin | `cross_tenant`, allowed, `not_owner` | admin works inside the user's own tenant only |
 
 ## 10. Complexity
@@ -231,6 +231,7 @@ At scale, the cost isn't the matching, it's where the facts live. Roles, ownersh
 - **Example 3's `ord_7777` call is allowed.** Your admin check runs before the tenant check. Move the tenant check first.
 - **`resource checks` reports `agent_tool_not_allowed` for `unknown_tool_x`.** Check 2 runs before check 1. Look the tool up in `tools` first.
 - **Runtime Error with `KeyError: 'intern'`.** Use `role_scopes.get(r, [])`.
+- **"missing scopes sorted and unknown role" has `missing: ['refunds:create', 'orders:read']`.** You listed the missing scopes in the tool's declared order (`wrong_missing_unsorted.py`). Sort them.
 
 ## 12. Follow-ups an interviewer might ask
 

@@ -264,7 +264,7 @@ At scale the cost that matters is the worker calls, not the bookkeeping. The ret
 
 Compare `execute_calls` first. It shows the first decision you made differently.
 
-- **The first call is on the wrong worker, and the order follows the input list** (`writer` first in Example 1). You're iterating `workers` as given instead of sorted names.
+- **A tie goes to whoever is listed first in `workers`** (t1 lands on `billing` and t3 on `writer` in Example 1, instead of `analyst` and `polyglot`). Your tie-break follows the input list instead of the name (`wrong_ties_by_list_order.py`). If the *round* order follows the input list too, you're iterating `workers` as given instead of sorted names.
 - **A Spanish subtask runs on an English-only worker** ("needs all tags, not any" calls `aaron`). You used any-overlap (`&`) instead of the subset test (`<=`).
 - **The same worker appears twice for one subtask** (`[amy t1], ..., [amy t1]`). You're not excluding workers that already failed it.
 - **A subtask has `attempts: 3`** ("second attempt also fails" ends with `[duck t1]`). There's no retry cap.
