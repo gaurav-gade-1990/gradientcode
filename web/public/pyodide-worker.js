@@ -1,18 +1,19 @@
 /* GradientCode judge worker (classic Web Worker).
  * Loads Pyodide + NumPy from the CDN, writes harness.py and gc_runtime.py into the Pyodide FS, then answers judge requests.
- * Messages in:  {type: "init", harnessUrl, runtimeUrl}  |  {type: "judge", id, problem, code, mode, custom}
+ * Messages in:  {type: "init", harnessUrl, runtimeUrl, pyodideUrl?}  (pyodideUrl defaults to the jsDelivr CDN)  |  {type: "judge", id, problem, code, mode, custom}
  * Messages out: {type: "ready"} | {type: "error", error} | {type: "result", id, result} | {type: "result", id, error}
  */
-var PYODIDE_URL = "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/";
-importScripts(PYODIDE_URL + "pyodide.js");
+var CDN_PYODIDE_URL = "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/";
 
 var ready = null;
 var judgeFn = null;
 
-function init(harnessUrl, runtimeUrl) {
+function init(harnessUrl, runtimeUrl, pyodideUrl) {
   if (ready) return ready;
+  var indexURL = pyodideUrl || CDN_PYODIDE_URL;
   ready = (async function () {
-    var pyodide = await loadPyodide({ indexURL: PYODIDE_URL, stdout: function () {}, stderr: function () {} });
+    importScripts(indexURL + "pyodide.js");
+    var pyodide = await loadPyodide({ indexURL: indexURL, stdout: function () {}, stderr: function () {} });
     await pyodide.loadPackage("numpy");
     var files = await Promise.all([harnessUrl, runtimeUrl].map(async function (u) {
       var r = await fetch(u);
@@ -34,7 +35,7 @@ self.onmessage = async function (e) {
   var msg = e.data;
   if (msg.type === "init") {
     try {
-      await init(msg.harnessUrl, msg.runtimeUrl);
+      await init(msg.harnessUrl, msg.runtimeUrl, msg.pyodideUrl);
       self.postMessage({ type: "ready" });
     } catch (err) {
       self.postMessage({ type: "error", error: String(err && err.message ? err.message : err) });

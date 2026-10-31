@@ -71,6 +71,8 @@ class JudgeClient {
       type: "init",
       harnessUrl: new URL(`${BASE}harness.py`, location.href).href,
       runtimeUrl: new URL(`${BASE}gc_runtime.py`, location.href).href,
+      // The artifact build ships Pyodide next to the page, because its host only lets the page fetch its own files.
+      pyodideUrl: import.meta.env.VITE_ARTIFACT ? new URL(`${BASE}pyodide/`, location.href).href : undefined,
     });
     return this.ready;
   }
