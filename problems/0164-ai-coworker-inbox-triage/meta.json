@@ -1,0 +1,19 @@
+{
+  "id": 164,
+  "slug": "ai-coworker-inbox-triage",
+  "title": "AI Coworker Inbox Triage",
+  "difficulty": "Medium",
+  "category": "enterprise",
+  "tags": ["Scheduling", "SLA", "EDF", "Simulation", "Human in the Loop"],
+  "mode": "function",
+  "entry": "triage",
+  "signature": "def triage(coworkers, requests)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Simulate event by event. The only times anything can change are arrivals and completions, so jump between them with a heap of finish times.",
+    "At each time: free the coworkers that finish now, add the arrivals, then walk the pending queue in (deadline, arrives, id) order.",
+    "Escalate only when even the fastest skilled coworker, starting right now, would miss the deadline. If one could make it but is busy, keep waiting."
+  ],
+  "related": ["supervisor-worker-routing", "human-approval-gates", "agent-task-queue-leases"]
+}

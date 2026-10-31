@@ -1,0 +1,19 @@
+{
+  "id": 159,
+  "slug": "tenant-isolated-memory",
+  "title": "Tenant-Isolated Agent Memory",
+  "difficulty": "Medium",
+  "category": "enterprise",
+  "tags": ["Multi-tenant", "Agent Memory", "Privacy", "GDPR"],
+  "mode": "driver",
+  "entry": "MemoryStore",
+  "signature": "class MemoryStore: write(ctx, key, value, scope='private', sources=()), read(ctx, key), visible(ctx), delete_user(tenant, user)",
+  "compare": {"rtol": 0, "atol": 0},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Write one visibility predicate and use it everywhere: read, visible and the source check on write. The tenant check comes first, for every scope.",
+    "The upsert identity is (tenant, user, agent, key). User ids and team names repeat across tenants, so never key anything on them alone.",
+    "Deletion is a graph walk: start from the user's own memories, then keep adding any memory whose sources include a deleted one until nothing changes."
+  ],
+  "related": ["acl-aware-retrieval", "memory-under-token-budget", "pii-redaction-vault"]
+}

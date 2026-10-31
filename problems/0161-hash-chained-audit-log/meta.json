@@ -1,0 +1,19 @@
+{
+  "id": 161,
+  "slug": "hash-chained-audit-log",
+  "title": "Hash-Chained Audit Log",
+  "difficulty": "Easy",
+  "category": "enterprise",
+  "tags": ["Audit", "Hashing", "Compliance", "Tamper Evidence"],
+  "mode": "driver",
+  "entry": "append_event",
+  "signature": "def append_event(chain, event) -> dict\ndef verify_chain(chain, head=None) -> int",
+  "compare": {"rtol": 0, "atol": 0},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Canonical JSON means one byte string per event: json.dumps(event, sort_keys=True, separators=(',', ':'), ensure_ascii=False).",
+    "Store a deep copy of the event. If the caller reuses its dict after appending, your log must not change.",
+    "Verify three things per entry, in order: seq == index, prev_hash == the previous entry's stored hash, hash == recomputed hash. A rewritten tail only shows up against the published head."
+  ],
+  "related": ["pii-redaction-vault", "durable-workflow-replay", "signed-webhook-delivery"]
+}

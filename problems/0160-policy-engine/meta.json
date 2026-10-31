@@ -1,0 +1,19 @@
+{
+  "id": 160,
+  "slug": "policy-engine",
+  "title": "Agent Authorization Policy Engine",
+  "difficulty": "Medium",
+  "category": "enterprise",
+  "tags": ["Authorization", "ABAC", "Policy", "Multi-tenant"],
+  "mode": "function",
+  "entry": "evaluate",
+  "signature": "def evaluate(rules, requests)",
+  "compare": {"rtol": 0, "atol": 0},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Turn a glob into an anchored regex: escape everything, then replace each escaped * with .*. Use fullmatch, never search.",
+    "Resolve attribute paths to a sentinel when missing, and make every condition on a missing value false. None == None must not grant access.",
+    "Collect all matching rules first. If any is a deny, the answer is deny no matter how specific the allows are. Then pick the reported rule by (resource literals, action literals, condition count), earliest rule on ties."
+  ],
+  "related": ["tool-permission-scopes", "acl-aware-retrieval", "feature-flag-rollout"]
+}

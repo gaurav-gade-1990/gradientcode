@@ -1,0 +1,20 @@
+{
+  "id": 167,
+  "slug": "signed-webhook-delivery",
+  "title": "Signed Webhook Delivery",
+  "difficulty": "Medium",
+  "category": "enterprise",
+  "tags": ["Webhooks", "HMAC", "Retries", "Idempotency", "Security"],
+  "mode": "driver",
+  "entry": "deliver",
+  "signature": "def sign(secret, timestamp, body) -> str\ndef verify(secret, header, body, now, tolerance=300) -> str\nclass Receiver: __init__(secret, tolerance=300), handle(header, body, now) -> int, processed: list\ndef deliver(event, secret, send, clock, schedule) -> dict",
+  "compare": {"rtol": 0, "atol": 0},
+  "time_limit_ms": 2000,
+  "hints": [
+    "The signed payload is the exact string f\"{t}.{body}\". Verify against the raw body you received, never a re-serialized copy.",
+    "Parse every comma-separated key=value pair. Accept the header if any v1 matches (compare with hmac.compare_digest), then check |now - t| <= tolerance in both directions.",
+    "Sign inside the retry loop. A signature made before a 30-minute backoff is stale by the time it arrives.",
+    "The receiver remembers event ids it has processed and answers 200 to a repeat without processing it again."
+  ],
+  "related": ["idempotent-tool-execution", "retry-with-backoff", "transactional-outbox"]
+}

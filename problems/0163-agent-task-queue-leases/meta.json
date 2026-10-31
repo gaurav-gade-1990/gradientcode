@@ -1,0 +1,20 @@
+{
+  "id": 163,
+  "slug": "agent-task-queue-leases",
+  "title": "Agent Task Queue with Leases",
+  "difficulty": "Hard",
+  "category": "enterprise",
+  "tags": ["Queues", "Leases", "At-least-once", "Dead Letter Queue", "Idempotency"],
+  "mode": "driver",
+  "entry": "TaskQueue",
+  "signature": "class TaskQueue: __init__(clock, log, visibility_timeout=30.0, max_deliveries=3), enqueue(task_id, priority, payload), lease(worker), heartbeat(lease_id), ack(lease_id), nack(lease_id), sweep(), dead_letters()",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Start every public method with the same expiry sweep at clock.now(). Expiry is lazy, but it must look exactly as if it happened on time.",
+    "A lease id names one delivery: f\"{task}#{delivery}\". Only the task's current lease id is valid, so a zombie worker's old id is automatically stale.",
+    "Check 'already done' before 'current lease' in ack, so a retried ack is a quiet duplicate instead of a second completion.",
+    "Expiry and nack share one release path: back to ready, or to the DLQ once deliveries reach max_deliveries."
+  ],
+  "related": ["idempotent-tool-execution", "ai-coworker-inbox-triage", "durable-workflow-replay"]
+}
