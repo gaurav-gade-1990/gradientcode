@@ -1,0 +1,19 @@
+{
+  "id": 63,
+  "slug": "scaled-dot-product-attention",
+  "title": "Scaled Dot-Product Attention",
+  "difficulty": "Medium",
+  "category": "transformers",
+  "tags": ["Attention", "Transformers", "Numerical Stability", "Masking"],
+  "mode": "function",
+  "entry": "attention",
+  "signature": "def attention(q, k, v, mask=None) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Scores are q @ k^T over the last two axes. Use np.swapaxes(k, -1, -2) so leading batch axes are untouched.",
+    "Scale by 1 / sqrt(d_k), where d_k is the last dimension of q and k, not of v.",
+    "Apply the mask before the softmax by setting dropped scores to -inf. Then subtract the row max before exponentiating."
+  ],
+  "related": ["stable-softmax", "causal-attention-mask", "multi-head-attention"]
+}

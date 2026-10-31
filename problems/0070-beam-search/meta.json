@@ -1,0 +1,20 @@
+{
+  "id": 70,
+  "slug": "beam-search",
+  "title": "Beam Search Decoding",
+  "difficulty": "Medium",
+  "category": "transformers",
+  "tags": ["Decoding", "Search", "LLM", "Sorting"],
+  "mode": "driver",
+  "entry": "beam_search",
+  "signature": "def beam_search(next_logprobs, bos, eos, beam_width, max_len) -> list",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Each round, expand every live beam by every token, pool all the candidates, and keep the best beam_width.",
+    "Sort with the key (-score, sequence). Python compares lists lexicographically, so ties resolve by themselves.",
+    "A kept candidate that ends in eos is finished: move it out of the beam and never expand it again. The beam can shrink.",
+    "At the end, pool the finished and the still-live hypotheses, sort them the same way, and return the first beam_width."
+  ],
+  "related": ["top-k-top-p-sampling", "top-k-per-row", "perplexity"]
+}

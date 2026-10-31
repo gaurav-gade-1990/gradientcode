@@ -1,0 +1,20 @@
+{
+  "id": 68,
+  "slug": "transformer-block-forward",
+  "title": "Pre-LN Transformer Block Forward",
+  "difficulty": "Hard",
+  "category": "transformers",
+  "tags": ["Transformers", "Attention", "LayerNorm", "GELU", "Residuals"],
+  "mode": "function",
+  "entry": "transformer_block",
+  "signature": "def transformer_block(x, params, num_heads) -> np.ndarray",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Write three helpers first: layer_norm(x, g, b), causal multi-head attention, and the tanh-approximate GELU.",
+    "Pre-LN means the residual adds the sublayer's output to the un-normalized input: x = x + attn(ln1(x)), not ln1(x) + attn(ln1(x)).",
+    "LayerNorm normalizes over the last axis with the biased variance (divide by d) and eps inside the square root.",
+    "The causal mask applies inside every head. Query t sees keys 0..t."
+  ],
+  "related": ["multi-head-attention", "layernorm-forward-backward", "activation-functions", "causal-attention-mask"]
+}

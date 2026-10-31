@@ -1,0 +1,19 @@
+{
+  "id": 64,
+  "slug": "causal-attention-mask",
+  "title": "Causal Attention Mask with Offset",
+  "difficulty": "Easy",
+  "category": "transformers",
+  "tags": ["Attention", "Masking", "KV Cache"],
+  "mode": "function",
+  "entry": "causal_mask",
+  "signature": "def causal_mask(T_q: int, T_k: int, offset: int = 0) -> np.ndarray",
+  "compare": {"rtol": 0, "atol": 0},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Query row i sits at absolute position i + offset. Key column j sits at position j.",
+    "A query may see a key when j <= i + offset. That includes itself.",
+    "Build row and column index grids with np.arange and broadcasting, then np.where(allowed, 0.0, -np.inf)."
+  ],
+  "related": ["scaled-dot-product-attention", "kv-cache-decoding", "multi-head-attention"]
+}

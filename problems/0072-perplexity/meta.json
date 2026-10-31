@@ -1,0 +1,19 @@
+{
+  "id": 72,
+  "slug": "perplexity",
+  "title": "Perplexity with a Padding Mask",
+  "difficulty": "Easy",
+  "category": "transformers",
+  "tags": ["LLM", "Evaluation", "Masking"],
+  "mode": "function",
+  "entry": "perplexity",
+  "signature": "def perplexity(logprobs: np.ndarray, mask: np.ndarray) -> float",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Perplexity is exp of the average negative log-likelihood per real token.",
+    "Average over all real tokens in the batch together, not per sequence.",
+    "Padded positions can hold -inf, and 0 * -inf is nan. Select with np.where(mask, logprobs, 0.0) instead of multiplying."
+  ],
+  "related": ["binary-log-loss", "softmax-cross-entropy-gradient", "log-sum-exp"]
+}

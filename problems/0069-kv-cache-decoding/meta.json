@@ -1,0 +1,20 @@
+{
+  "id": 69,
+  "slug": "kv-cache-decoding",
+  "title": "KV-Cache Decoding",
+  "difficulty": "Hard",
+  "category": "transformers",
+  "tags": ["KV Cache", "Attention", "Inference", "LLM"],
+  "mode": "driver",
+  "entry": "CachedSelfAttention",
+  "signature": "class CachedSelfAttention: __init__(W_q, W_k, W_v, W_o, num_heads), prefill(x) -> (n, d), step(x_t) -> (d,)",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Keep the cached keys and values per instance, set up in __init__, with shape (num_heads, length, d_head).",
+    "Append the new tokens' K and V to the cache first, then attend. A token must see its own key.",
+    "In prefill, the new queries sit at positions P..P+n-1, where P is the cache length before the call. Query i may see key j when j <= P + i.",
+    "step(x_t) is prefill on a single row: prefill(x_t[None, :])[0]."
+  ],
+  "related": ["causal-attention-mask", "multi-head-attention", "grouped-query-attention", "rotary-position-embedding"]
+}

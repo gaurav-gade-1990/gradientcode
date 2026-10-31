@@ -1,0 +1,19 @@
+{
+  "id": 66,
+  "slug": "sinusoidal-positional-encoding",
+  "title": "Sinusoidal Positional Encoding",
+  "difficulty": "Easy",
+  "category": "transformers",
+  "tags": ["Transformers", "Positional Encoding", "Broadcasting"],
+  "mode": "function",
+  "entry": "positional_encoding",
+  "signature": "def positional_encoding(max_len: int, d_model: int, base: float = 10000.0) -> np.ndarray",
+  "compare": {"rtol": 1e-7, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Column pair (2i, 2i+1) shares one frequency: 1 / base^(2i / d_model).",
+    "Build angles = pos[:, None] * freq[None, :] with shape (max_len, d_model / 2).",
+    "Sines go in the even columns and cosines in the odd ones: pe[:, 0::2] and pe[:, 1::2]. They are interleaved, not concatenated."
+  ],
+  "related": ["rotary-position-embedding", "transformer-block-forward"]
+}

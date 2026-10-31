@@ -1,0 +1,19 @@
+{
+  "id": 62,
+  "slug": "gru-cell-forward",
+  "title": "GRU Forward over a Sequence",
+  "difficulty": "Medium",
+  "category": "transformers",
+  "tags": ["GRU", "Sequence Models", "Gating"],
+  "mode": "function",
+  "entry": "gru_forward",
+  "signature": "def gru_forward(x, h0, W_ih, W_hh, b_ih, b_hh) -> np.ndarray",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Per step, compute gi = x_t @ W_ih + b_ih and gh = h @ W_hh + b_hh, both (B, 3H). Split each into r, z, n blocks.",
+    "r and z add the two halves before the sigmoid. The candidate is n = tanh(gi_n + r * gh_n), and gh_n already includes b_hn.",
+    "The update keeps the old state where z is 1: h = (1 - z) * n + z * h."
+  ],
+  "related": ["lstm-cell-forward", "rnn-cell-forward"]
+}

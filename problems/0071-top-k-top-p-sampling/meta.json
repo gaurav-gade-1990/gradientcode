@@ -1,0 +1,20 @@
+{
+  "id": 71,
+  "slug": "top-k-top-p-sampling",
+  "title": "Temperature, Top-k and Top-p Sampling",
+  "difficulty": "Medium",
+  "category": "transformers",
+  "tags": ["Decoding", "Sampling", "LLM", "Sorting"],
+  "mode": "function",
+  "entry": "sample_token",
+  "signature": "def sample_token(logits, temperature, top_k, top_p, u) -> tuple",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Order matters: temperature, softmax, top-k, renormalize, top-p, renormalize, sample.",
+    "Get one ranking with np.argsort(-p, kind='stable'). Stable sorting keeps the lower index first on ties.",
+    "For top-p, walk the ranking and keep tokens until the running sum first reaches top_p. The token that crosses the threshold is kept.",
+    "Sample with the CDF in index order: the token is the first index whose cumulative probability is greater than u."
+  ],
+  "related": ["stable-softmax", "beam-search", "top-k-per-row", "speculative-decoding-acceptance"]
+}

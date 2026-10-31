@@ -1,0 +1,20 @@
+{
+  "id": 61,
+  "slug": "lstm-cell-forward",
+  "title": "LSTM Cell Forward",
+  "difficulty": "Medium",
+  "category": "transformers",
+  "tags": ["LSTM", "Sequence Models", "Gating"],
+  "mode": "function",
+  "entry": "lstm_cell",
+  "signature": "def lstm_cell(x, h_prev, c_prev, W, U, b) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Compute all four gates with one product: z = x @ W + h_prev @ U + b has shape (B, 4H).",
+    "Split z along the last axis into four contiguous blocks of width H, in the order i, f, g, o.",
+    "i, f and o use the sigmoid. g uses tanh. Then c = f * c_prev + i * g and h = o * tanh(c).",
+    "For large pre-activations, write the sigmoid so it never evaluates exp of a large positive number."
+  ],
+  "related": ["rnn-cell-forward", "gru-cell-forward", "activation-functions"]
+}

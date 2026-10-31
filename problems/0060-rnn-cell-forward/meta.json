@@ -1,0 +1,19 @@
+{
+  "id": 60,
+  "slug": "rnn-cell-forward",
+  "title": "Vanilla RNN Forward",
+  "difficulty": "Easy",
+  "category": "transformers",
+  "tags": ["RNN", "Sequence Models", "Recurrence"],
+  "mode": "function",
+  "entry": "rnn_forward",
+  "signature": "def rnn_forward(x, h0, W_xh, W_hh, b) -> np.ndarray",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "The time steps depend on each other, so loop over t. Each step is still a batched matrix product.",
+    "With row-vector inputs the update is h = tanh(x_t @ W_xh + h @ W_hh + b). W_hh is not transposed.",
+    "Store h after each update. h0 itself is not part of the output, so the result has T states, not T + 1."
+  ],
+  "related": ["lstm-cell-forward", "gru-cell-forward", "activation-functions"]
+}

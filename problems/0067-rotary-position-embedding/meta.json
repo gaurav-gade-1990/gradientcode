@@ -1,0 +1,19 @@
+{
+  "id": 67,
+  "slug": "rotary-position-embedding",
+  "title": "Rotary Position Embedding (RoPE)",
+  "difficulty": "Medium",
+  "category": "transformers",
+  "tags": ["Transformers", "Positional Encoding", "LLM", "Broadcasting"],
+  "mode": "function",
+  "entry": "apply_rope",
+  "signature": "def apply_rope(x, positions, base=10000.0) -> np.ndarray",
+  "compare": {"rtol": 1e-7, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Pair feature i with feature i + d/2 (the half-split layout), not with feature i + 1.",
+    "theta_i = base^(-2i/d) for i in 0..d/2-1, and the angle is positions[:, None] * theta[None, :], shape (T, d/2).",
+    "Rotate each pair counterclockwise: (x1 cos - x2 sin, x2 cos + x1 sin). The (T, d/2) cos and sin broadcast over the leading axes of x."
+  ],
+  "related": ["sinusoidal-positional-encoding", "multi-head-attention", "kv-cache-decoding"]
+}
