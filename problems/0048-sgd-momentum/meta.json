@@ -1,0 +1,19 @@
+{
+  "id": 48,
+  "slug": "sgd-momentum",
+  "title": "SGD with Momentum",
+  "difficulty": "Easy",
+  "category": "optim",
+  "tags": ["Optimizers", "Deep Learning"],
+  "mode": "function",
+  "entry": "sgd_momentum_step",
+  "signature": "def sgd_momentum_step(param, grad, buf, lr=0.01, momentum=0.9, weight_decay=0.0) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Fold weight decay into the gradient first: g = grad + weight_decay * param.",
+    "The buffer accumulates raw gradients: buf = momentum * buf + g. There is no (1 - momentum) factor.",
+    "The learning rate is applied when you step, not when you update the buffer: param - lr * buf."
+  ],
+  "related": ["nesterov-momentum", "adam", "rmsprop"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": 55,
+  "slug": "gradient-norm-clipping",
+  "title": "Gradient Norm Clipping",
+  "difficulty": "Easy",
+  "category": "optim",
+  "tags": ["Optimizers", "Deep Learning", "Numerical Stability"],
+  "mode": "function",
+  "entry": "clip_grad_norm",
+  "signature": "def clip_grad_norm(grads, max_norm) -> tuple",
+  "compare": {"rtol": 1e-7, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "The norm is global: square every element of every array, sum all of it, then take one square root.",
+    "Every array is scaled by the same coefficient, max_norm / (total_norm + 1e-6).",
+    "Clamp the coefficient at 1.0 so small gradients are never scaled up."
+  ],
+  "related": ["adam", "adamw", "cosine-schedule-with-warmup"]
+}

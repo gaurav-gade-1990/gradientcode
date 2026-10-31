@@ -1,0 +1,19 @@
+{
+  "id": 51,
+  "slug": "rmsprop",
+  "title": "RMSProp Optimizer Step",
+  "difficulty": "Easy",
+  "category": "optim",
+  "tags": ["Optimizers", "Deep Learning"],
+  "mode": "function",
+  "entry": "rmsprop_step",
+  "signature": "def rmsprop_step(param, grad, square_avg, lr=0.01, alpha=0.99, eps=1e-8, weight_decay=0.0) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "square_avg is an exponential moving average of g^2. alpha is the weight on the OLD average.",
+    "Update square_avg first, then divide the gradient by sqrt(square_avg) + eps.",
+    "There is no bias correction in RMSProp, and eps goes outside the square root."
+  ],
+  "related": ["adagrad", "adam", "sgd-momentum"]
+}

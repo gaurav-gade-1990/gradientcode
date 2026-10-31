@@ -1,0 +1,20 @@
+{
+  "id": 59,
+  "slug": "tensor-autograd-matmul",
+  "title": "Tensor Autograd with Matmul",
+  "difficulty": "Hard",
+  "category": "autograd",
+  "tags": ["Autograd", "Backpropagation", "Broadcasting", "Linear Algebra"],
+  "mode": "driver",
+  "entry": "Tensor",
+  "signature": "class Tensor: data, grad, __add__, __mul__, __matmul__, __radd__, __rmul__, __neg__, __sub__, __rsub__, relu(), sum(), mean(), backward()",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Reuse the scalar engine's structure: each op returns a new Tensor with its parents and a _backward closure. backward() walks a reverse topological order.",
+    "For C = A @ B with upstream gradient G: dA = G @ B.T and dB = A.T @ G. Check the shapes.",
+    "add and mul broadcast, so their gradients must be summed back down to each operand's shape (unbroadcast) before you accumulate.",
+    "sum() sends its gradient to every element unchanged. mean() sends grad / N, where N is the number of elements."
+  ],
+  "related": ["scalar-autograd-value", "unbroadcast-gradient", "topological-sort-backward"]
+}

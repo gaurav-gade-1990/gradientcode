@@ -1,0 +1,19 @@
+{
+  "id": 49,
+  "slug": "nesterov-momentum",
+  "title": "Nesterov Momentum",
+  "difficulty": "Medium",
+  "category": "optim",
+  "tags": ["Optimizers", "Deep Learning"],
+  "mode": "function",
+  "entry": "nesterov_step",
+  "signature": "def nesterov_step(param, grad, buf, lr=0.01, momentum=0.9, weight_decay=0.0) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Update the buffer exactly as in plain momentum: buf = momentum * buf + g.",
+    "Nesterov steps along g + momentum * buf, using the NEW buffer, instead of along buf.",
+    "The step g + momentum * new_buf equals the plain momentum step one move further ahead: it adds momentum * new_buf on top of g."
+  ],
+  "related": ["sgd-momentum", "adam"]
+}

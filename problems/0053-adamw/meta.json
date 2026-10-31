@@ -1,0 +1,19 @@
+{
+  "id": 53,
+  "slug": "adamw",
+  "title": "AdamW Optimizer Step",
+  "difficulty": "Medium",
+  "category": "optim",
+  "tags": ["Optimizers", "Deep Learning", "Regularization"],
+  "mode": "function",
+  "entry": "adamw_step",
+  "signature": "def adamw_step(param, grad, m, v, t, lr=1e-3, beta1=0.9, beta2=0.999, eps=1e-8, weight_decay=1e-2) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Weight decay never touches the gradient or the moments. m and v are computed from the raw grad.",
+    "Decay the parameters directly: param * (1 - lr * weight_decay). The decay is scaled by lr.",
+    "Then apply the ordinary bias-corrected Adam step, with eps outside the square root."
+  ],
+  "related": ["adam", "sgd-momentum", "rmsprop"]
+}

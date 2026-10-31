@@ -1,0 +1,19 @@
+{
+  "id": 58,
+  "slug": "unbroadcast-gradient",
+  "title": "Unbroadcast a Gradient",
+  "difficulty": "Medium",
+  "category": "autograd",
+  "tags": ["Autograd", "Broadcasting", "NumPy"],
+  "mode": "function",
+  "entry": "unbroadcast",
+  "signature": "def unbroadcast(grad: np.ndarray, shape: tuple) -> np.ndarray",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Broadcasting aligns shapes from the RIGHT. Extra leading axes in grad were added by broadcasting.",
+    "Sum away the extra leading axes first. Then grad has as many dims as the target.",
+    "Every axis where the target has size 1 but grad doesn't was stretched. Sum it with keepdims=True."
+  ],
+  "related": ["tensor-autograd-matmul", "topological-sort-backward", "scalar-autograd-value"]
+}

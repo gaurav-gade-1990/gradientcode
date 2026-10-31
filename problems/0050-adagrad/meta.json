@@ -1,0 +1,19 @@
+{
+  "id": 50,
+  "slug": "adagrad",
+  "title": "Adagrad Optimizer Step",
+  "difficulty": "Easy",
+  "category": "optim",
+  "tags": ["Optimizers", "Deep Learning"],
+  "mode": "function",
+  "entry": "adagrad_step",
+  "signature": "def adagrad_step(param, grad, state_sum, lr=0.01, eps=1e-10, weight_decay=0.0) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Add this step's squared gradient to the accumulator BEFORE you use it.",
+    "Each element gets its own step size: lr / (sqrt(state_sum) + eps).",
+    "eps goes outside the square root, and weight decay is added to the gradient first."
+  ],
+  "related": ["rmsprop", "adam", "sgd-momentum"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 57,
+  "slug": "topological-sort-backward",
+  "title": "Backward Pass over a Computation Graph",
+  "difficulty": "Medium",
+  "category": "autograd",
+  "tags": ["Autograd", "Backpropagation", "Graphs", "Topological Sort"],
+  "mode": "function",
+  "entry": "graph_backward",
+  "signature": "def graph_backward(ops, parents, inputs, output) -> tuple",
+  "compare": {"rtol": 1e-7, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "The node list is not in topological order. Sort it first, with Kahn's algorithm or a DFS post-order.",
+    "Run the forward pass in topological order and the backward pass in reverse topological order.",
+    "Each node pushes grad[node] * local_derivative into grad[parent] with +=. A node can be a parent twice, as in mul(a, a).",
+    "Start with every grad at 0 and grad[output] = 1. Nodes the output doesn't depend on keep a grad of 0."
+  ],
+  "related": ["scalar-autograd-value", "unbroadcast-gradient", "tensor-autograd-matmul"]
+}

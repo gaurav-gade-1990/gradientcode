@@ -1,0 +1,19 @@
+{
+  "id": 54,
+  "slug": "cosine-schedule-with-warmup",
+  "title": "Cosine Schedule with Warmup",
+  "difficulty": "Easy",
+  "category": "optim",
+  "tags": ["Optimizers", "Learning Rate Schedules", "Deep Learning"],
+  "mode": "function",
+  "entry": "cosine_lr",
+  "signature": "def cosine_lr(steps, base_lr, warmup_steps, total_steps, min_lr=0.0) -> np.ndarray",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Handle the two phases separately, then combine them with np.where.",
+    "Warmup is base_lr * s / warmup_steps, so step 0 has lr 0.",
+    "The cosine factor 0.5 * (1 + cos(pi * p)) goes from 1 to 0. Scale it into [min_lr, base_lr] and clip p at 1 so steps past the end stay at min_lr."
+  ],
+  "related": ["adamw", "adam", "gradient-norm-clipping"]
+}
