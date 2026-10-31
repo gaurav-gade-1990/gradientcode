@@ -1,0 +1,19 @@
+{
+  "id": 23,
+  "slug": "power-iteration",
+  "title": "Power Iteration",
+  "difficulty": "Medium",
+  "category": "classic-ml",
+  "tags": ["Linear Algebra", "Eigendecomposition", "Iterative Methods"],
+  "mode": "function",
+  "entry": "power_iteration",
+  "signature": "def power_iteration(A: np.ndarray, v0: np.ndarray, n_iters: int) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-8},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Repeat v = A @ v, then v = v / ||v||. Normalizing every step keeps the numbers from overflowing.",
+    "Estimate the eigenvalue with the Rayleigh quotient v^T A v. Using ||A v|| loses the sign of a negative eigenvalue.",
+    "Normalize v0 before the first step too, so n_iters = 0 still returns a unit vector."
+  ],
+  "related": ["pca", "covariance-matrix"]
+}

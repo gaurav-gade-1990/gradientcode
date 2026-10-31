@@ -1,0 +1,20 @@
+{
+  "id": 21,
+  "slug": "decision-tree-classifier",
+  "title": "Decision Tree Classifier (CART)",
+  "difficulty": "Hard",
+  "category": "classic-ml",
+  "tags": ["Decision Trees", "Recursion", "Classification"],
+  "mode": "function",
+  "entry": "decision_tree_predict",
+  "signature": "def decision_tree_predict(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, max_depth: int, min_samples_split: int = 2) -> np.ndarray",
+  "compare": {"rtol": 0, "atol": 0},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Write best_split(X, y) first (see the Gini best-split problem), then build the tree recursively on index subsets.",
+    "Check the stopping rules before searching for a split: depth == max_depth, fewer than min_samples_split samples, a pure node, or no candidate threshold.",
+    "A node can be stored as a tuple: ('leaf', label) or ('split', j, t, left, right). Route a test point left when x[j] <= t.",
+    "A leaf predicts its majority label. np.bincount(labels).argmax() already breaks ties toward the smallest label."
+  ],
+  "related": ["gini-impurity-best-split", "k-nearest-neighbors"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": 15,
+  "slug": "linear-svm-hinge-sgd",
+  "title": "Linear SVM with Hinge-Loss Subgradient Descent",
+  "difficulty": "Medium",
+  "category": "classic-ml",
+  "tags": ["SVM", "Subgradient", "Regularization", "Classification"],
+  "mode": "function",
+  "entry": "linear_svm",
+  "signature": "def linear_svm(X: np.ndarray, y: np.ndarray, lam: float, n_iters: int) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "A sample contributes to the hinge subgradient only if its margin y_i (w . x_i + b) is strictly below 1.",
+    "Average the hinge part over all n samples, including the inactive ones, then add lam * w. The bias gets no lam * b term.",
+    "The step size on iteration t (counting from 1) is 1 / (lam * t)."
+  ],
+  "related": ["perceptron", "logistic-regression-gd"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": 11,
+  "slug": "linear-regression-gradient-descent",
+  "title": "Linear Regression with Gradient Descent",
+  "difficulty": "Easy",
+  "category": "classic-ml",
+  "tags": ["Linear Models", "Gradient Descent", "Optimization"],
+  "mode": "function",
+  "entry": "linear_regression_gd",
+  "signature": "def linear_regression_gd(X: np.ndarray, y: np.ndarray, lr: float, n_iters: int) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Start from w = 0 and b = 0, then repeat the same update n_iters times.",
+    "The residual r = Xw + b - y drives both gradients: dw = (2/n) X^T r and db = (2/n) sum(r).",
+    "Compute both gradients from the same residual before you update either parameter."
+  ],
+  "related": ["linear-regression-closed-form", "logistic-regression-gd", "ridge-regression"]
+}

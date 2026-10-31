@@ -1,0 +1,20 @@
+{
+  "id": 24,
+  "slug": "gmm-em",
+  "title": "Gaussian Mixture Model with EM",
+  "difficulty": "Hard",
+  "category": "classic-ml",
+  "tags": ["Clustering", "EM Algorithm", "Probabilistic Models", "Numerical Stability"],
+  "mode": "function",
+  "entry": "gmm_em",
+  "signature": "def gmm_em(X: np.ndarray, means: np.ndarray, variances: np.ndarray, weights: np.ndarray, n_iter: int, reg_covar: float = 1e-6) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-8},
+  "time_limit_ms": 3000,
+  "hints": [
+    "E-step in log space: log r_ik = log pi_k + log N(x_i | mu_k, diag(var_k)). Normalize each row with log-sum-exp.",
+    "The log-sum-exp of each row is that point's log-likelihood. Sum those over points, before the M-step, to get the history entry.",
+    "M-step: N_k = sum_i r_ik, pi = N_k / n, mu_k = r_k^T X / N_k, var_k = r_k^T (X - mu_k_new)^2 / N_k + reg_covar.",
+    "Use the NEW means in the variance update."
+  ],
+  "related": ["k-means", "gaussian-naive-bayes", "log-sum-exp"]
+}

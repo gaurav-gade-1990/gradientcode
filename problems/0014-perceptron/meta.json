@@ -1,0 +1,19 @@
+{
+  "id": 14,
+  "slug": "perceptron",
+  "title": "Perceptron",
+  "difficulty": "Easy",
+  "category": "classic-ml",
+  "tags": ["Linear Models", "Online Learning", "Classification"],
+  "mode": "function",
+  "entry": "perceptron",
+  "signature": "def perceptron(X: np.ndarray, y: np.ndarray, n_epochs: int, lr: float = 1.0) -> tuple",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "This is an online algorithm. Visit the samples one at a time, in order, and update right away.",
+    "A sample counts as a mistake when y_i * (w . x_i + b) <= 0. Zero is a mistake too.",
+    "On a mistake: w += lr * y_i * x_i and b += lr * y_i."
+  ],
+  "related": ["linear-svm-hinge-sgd", "logistic-regression-gd"]
+}

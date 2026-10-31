@@ -19,6 +19,8 @@ import sys
 import time
 import warnings
 
+import numpy as np
+
 from lib import CATEGORIES, DIFFICULTIES, REQUIRED, build_problem, harness, problem_dirs, read
 
 ALLOWED_IMPORTS = {"numpy", "math", "collections", "heapq", "itertools", "functools", "re", "typing", "dataclasses", "copy", "random", "string", "bisect"}
@@ -38,6 +40,18 @@ def imports_ok(src, label, errors):
         for n in names:
             if n.split(".")[0] not in ALLOWED_IMPORTS:
                 errors.append("%s imports %s (only numpy + small stdlib allowed)" % (label, n))
+
+
+def has_nan(v):
+    if isinstance(v, np.ndarray):
+        return v.dtype.kind == "f" and bool(np.isnan(v).any())
+    if isinstance(v, float):
+        return v != v
+    if isinstance(v, (list, tuple)):
+        return any(has_nan(x) for x in v)
+    if isinstance(v, dict):
+        return any(has_nan(x) for x in v.values())
+    return False
 
 
 def check_problem(path):
@@ -102,6 +116,9 @@ def check_problem(path):
     if len(hidden) < 3:
         errors.append("need >= 3 hidden cases, have %d" % len(hidden))
 
+    for c in problem["cases"]:
+        if has_nan(harness.decode(c["expected"])) and not meta.get("allow_nan"):
+            errors.append("case %r expects NaN; a broken submission returning NaN would pass" % c["name"])
     res = harness.judge(problem, private["solution"], "submit")
     if res["status"] != "Accepted":
         errors.append("solution.py not Accepted: %s" % json.dumps(res["cases"][:1], indent=1))

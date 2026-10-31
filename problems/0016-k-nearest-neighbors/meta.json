@@ -1,0 +1,19 @@
+{
+  "id": 16,
+  "slug": "k-nearest-neighbors",
+  "title": "k-Nearest Neighbors Classifier",
+  "difficulty": "Medium",
+  "category": "classic-ml",
+  "tags": ["Nearest Neighbors", "Classification", "Vectorization"],
+  "mode": "function",
+  "entry": "knn_predict",
+  "signature": "def knn_predict(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, k: int) -> np.ndarray",
+  "compare": {"rtol": 0, "atol": 0},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Compute the full (m, n) matrix of squared distances with broadcasting. Squared distances give the same ordering as distances.",
+    "np.argsort(D, axis=1, kind=\"stable\") orders neighbors by distance and breaks distance ties by the lower training index.",
+    "np.bincount(...).argmax() breaks vote ties by the smallest label, which is not the rule here. Walk the k neighbors from nearest to farthest and return the first whose class has the top vote count."
+  ],
+  "related": ["pairwise-euclidean-distances", "k-means", "top-k-per-row"]
+}

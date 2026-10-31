@@ -1,0 +1,19 @@
+{
+  "id": 17,
+  "slug": "k-means",
+  "title": "k-Means Clustering (Lloyd's Algorithm)",
+  "difficulty": "Medium",
+  "category": "classic-ml",
+  "tags": ["Clustering", "Unsupervised Learning", "Vectorization"],
+  "mode": "function",
+  "entry": "kmeans",
+  "signature": "def kmeans(X: np.ndarray, init_centroids: np.ndarray, max_iter: int) -> tuple",
+  "compare": {"rtol": 1e-7, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Assignment: compute an (n, k) matrix of squared distances and take argmin over axis 1. argmin already returns the lowest index on ties.",
+    "Update: each centroid becomes the mean of its assigned points. A cluster with no points must keep its old centroid. The mean of an empty set is nan.",
+    "Return labels for the centroids you return. If you stop because max_iter ran out, assign the points one last time."
+  ],
+  "related": ["k-means-plus-plus-init", "gmm-em", "pairwise-euclidean-distances"]
+}

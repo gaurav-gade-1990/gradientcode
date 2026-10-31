@@ -1,0 +1,19 @@
+{
+  "id": 18,
+  "slug": "k-means-plus-plus-init",
+  "title": "k-Means++ Initialization",
+  "difficulty": "Medium",
+  "category": "classic-ml",
+  "tags": ["Clustering", "Sampling", "Unsupervised Learning"],
+  "mode": "function",
+  "entry": "kmeans_pp_init",
+  "signature": "def kmeans_pp_init(X: np.ndarray, k: int, u: np.ndarray) -> np.ndarray",
+  "compare": {"rtol": 0, "atol": 0},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Keep a running array D2 of each point's squared distance to its nearest chosen center. After you add a center, update it with np.minimum.",
+    "Sample by inverse CDF: cum = np.cumsum(D2) and target = u[j] * cum[-1].",
+    "np.searchsorted(cum, target, side=\"right\") returns the first index whose cumulative sum exceeds the target. With side=\"right\", a point whose D2 is 0 can never be picked."
+  ],
+  "related": ["k-means", "gmm-em"]
+}

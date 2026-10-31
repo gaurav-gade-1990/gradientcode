@@ -1,0 +1,19 @@
+{
+  "id": 22,
+  "slug": "pca",
+  "title": "Principal Component Analysis",
+  "difficulty": "Medium",
+  "category": "classic-ml",
+  "tags": ["Dimensionality Reduction", "Linear Algebra", "Eigendecomposition"],
+  "mode": "function",
+  "entry": "pca",
+  "signature": "def pca(X: np.ndarray, k: int) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-8},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Center the columns first. Then the sample covariance is Xc^T Xc / (n - 1).",
+    "np.linalg.eigh returns eigenvalues in ascending order, with eigenvectors as columns. Reverse both, take the first k, and transpose to rows.",
+    "An eigenvector is only defined up to sign. For each component, find the entry with the largest absolute value and flip the component if that entry is negative."
+  ],
+  "related": ["covariance-matrix", "power-iteration", "standardize-features"]
+}

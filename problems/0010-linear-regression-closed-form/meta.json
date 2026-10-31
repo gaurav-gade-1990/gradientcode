@@ -1,0 +1,19 @@
+{
+  "id": 10,
+  "slug": "linear-regression-closed-form",
+  "title": "Linear Regression (Closed Form)",
+  "difficulty": "Easy",
+  "category": "classic-ml",
+  "tags": ["Linear Models", "Least Squares", "Linear Algebra"],
+  "mode": "function",
+  "entry": "fit_linear_regression",
+  "signature": "def fit_linear_regression(X: np.ndarray, y: np.ndarray) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-8},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Absorb the bias into the weights: append a column of ones to X.",
+    "The least-squares solution of A theta = y solves the normal equations A^T A theta = A^T y.",
+    "Don't invert A^T A. It is singular when columns are linearly dependent. np.linalg.lstsq returns the minimum-norm solution in every case."
+  ],
+  "related": ["linear-regression-gradient-descent", "ridge-regression"]
+}

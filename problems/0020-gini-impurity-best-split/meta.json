@@ -1,0 +1,19 @@
+{
+  "id": 20,
+  "slug": "gini-impurity-best-split",
+  "title": "Best Split by Gini Impurity",
+  "difficulty": "Medium",
+  "category": "classic-ml",
+  "tags": ["Decision Trees", "Impurity", "Classification"],
+  "mode": "function",
+  "entry": "best_split",
+  "signature": "def best_split(X: np.ndarray, y: np.ndarray) -> tuple",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Gini(S) = 1 - sum_c p_c^2, where p_c is the class fraction in S. The split score weights each side by its share of the samples.",
+    "The candidate thresholds for a feature are the midpoints between consecutive sorted unique values. A constant feature has none.",
+    "Scan features in order and thresholds ascending. Replace the best only when the new score is lower by more than 1e-12, so ties keep the earliest candidate."
+  ],
+  "related": ["decision-tree-classifier"]
+}

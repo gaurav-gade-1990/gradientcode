@@ -1,0 +1,19 @@
+{
+  "id": 19,
+  "slug": "gaussian-naive-bayes",
+  "title": "Gaussian Naive Bayes",
+  "difficulty": "Medium",
+  "category": "classic-ml",
+  "tags": ["Probabilistic Models", "Classification", "Numerical Stability"],
+  "mode": "function",
+  "entry": "gaussian_nb",
+  "signature": "def gaussian_nb(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, var_smoothing: float = 1e-9) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-8},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Per class, fit the prior count/n, the per-feature mean, and the per-feature population variance (ddof=0). Add epsilon = var_smoothing * max(X_train.var(axis=0)) to every variance.",
+    "Work in log space: log prior - 0.5 * sum(log(2 pi var) + (x - mu)^2 / var), summed over features.",
+    "Normalize with log-sum-exp across classes. Exponentiating joint log-likelihoods around -1e4 underflows to 0 / 0."
+  ],
+  "related": ["log-sum-exp", "gmm-em"]
+}

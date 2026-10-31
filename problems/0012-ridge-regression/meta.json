@@ -1,0 +1,19 @@
+{
+  "id": 12,
+  "slug": "ridge-regression",
+  "title": "Ridge Regression",
+  "difficulty": "Medium",
+  "category": "classic-ml",
+  "tags": ["Linear Models", "Regularization", "Linear Algebra"],
+  "mode": "function",
+  "entry": "ridge_regression",
+  "signature": "def ridge_regression(X: np.ndarray, y: np.ndarray, alpha: float) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-8},
+  "time_limit_ms": 2000,
+  "hints": [
+    "The bias must not be penalized. Centering X and y removes it from the problem.",
+    "On centered data, w solves (Xc^T Xc + alpha I) w = Xc^T yc.",
+    "Recover the bias afterwards: b = mean(y) - mean(X, axis=0) @ w."
+  ],
+  "related": ["linear-regression-closed-form", "linear-regression-gradient-descent"]
+}
