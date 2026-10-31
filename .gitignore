@@ -10,3 +10,4 @@ playwright-report/
 web/public/gc_runtime.py
 .pyodide-local/
 dist-artifact/
+.wrangler/

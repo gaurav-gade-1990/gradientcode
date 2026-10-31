@@ -18,7 +18,7 @@ Open http://localhost:5180. You need Python 3.9 or newer on your PATH, because `
 
 ## Deploying
 
-The live site is https://gradient.appres.ai, a Cloudflare Pages project named `gradientcode`. To deploy, run `cd web && pnpm run deploy`. It builds the site and uploads `web/dist` with wrangler, and you need `npx wrangler login` once. Pages serves `index.html` for unknown paths, so deep links work. `web/public/_headers` sets the cache rules.
+The live site is https://gradient.appres.ai, a Cloudflare Pages project named `gradientcode`. Every push to `main` deploys it through `.github/workflows/deploy.yml`, after `scripts/check.py` passes. Pull requests run the check and the build only. The workflow needs a `CLOUDFLARE_API_TOKEN` repo secret. To deploy by hand, run `cd web && pnpm run deploy`. It builds the site and uploads `web/dist` with wrangler, and you need `npx wrangler login` once. Pages serves `index.html` for unknown paths, so deep links work. `web/public/_headers` sets the cache rules.
 
 ## How judging works
 

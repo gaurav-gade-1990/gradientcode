@@ -1,0 +1,52 @@
+# Checks every problem, builds the site, and on a push to main deploys it to Cloudflare Pages (gradient.appres.ai).
+# Pull requests run the check and the build but don't deploy.
+# Repo secret: CLOUDFLARE_API_TOKEN, an API token with Account > Cloudflare Pages > Edit.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      # The same NumPy version Pyodide 0.28.3 ships, so expected outputs match the browser.
+      - run: pip install numpy==2.2.5
+
+      - name: Check problems
+        run: python3 scripts/check.py
+
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: web/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+        working-directory: web
+      - run: pnpm build
+        working-directory: web
+
+      - name: Deploy to Cloudflare Pages
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: 2d1626e54e3df701c46334e1f3811f31
+          workingDirectory: web
+          wranglerVersion: "4.20.0"
+          command: pages deploy dist --project-name gradientcode --branch main --commit-hash ${{ github.sha }}
