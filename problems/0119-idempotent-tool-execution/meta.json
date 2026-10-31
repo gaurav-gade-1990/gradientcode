@@ -1,0 +1,19 @@
+{
+  "id": 119,
+  "slug": "idempotent-tool-execution",
+  "title": "Idempotent Side-Effecting Tool Calls",
+  "difficulty": "Easy",
+  "category": "tools-mcp",
+  "tags": ["Idempotency", "Tool Use", "Reliability"],
+  "mode": "driver",
+  "entry": "IdempotentExecutor",
+  "signature": "class IdempotentExecutor: __init__(self, clock, ttl), execute(self, key, tool, args, fn) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Store, per key, a fingerprint of the request (tool plus canonical JSON of args), the result, and the time it ran.",
+    "Canonical JSON means json.dumps(args, sort_keys=True). Two dicts with the same content in a different key order are the same request.",
+    "Expire lazily: on lookup, if now - stored_at >= ttl, delete the entry and treat the call as new. Don't store failures, so a retry can run the tool again."
+  ],
+  "related": ["retry-with-backoff", "api-idempotent-create", "durable-workflow-replay", "signed-webhook-delivery"]
+}

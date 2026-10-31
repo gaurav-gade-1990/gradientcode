@@ -1,0 +1,20 @@
+{
+  "id": 118,
+  "slug": "prompt-injection-quarantine",
+  "title": "Quarantine Prompt Injection in Tool Output",
+  "difficulty": "Medium",
+  "category": "tools-mcp",
+  "tags": ["Security", "Prompt Injection", "Tool Use", "Guardrails"],
+  "mode": "driver",
+  "entry": "InjectionGuard",
+  "signature": "class InjectionGuard: __init__(rules, min_len=6), wrap(call_id, tool, text) -> str, check_call(call_id, tool, arguments, approved) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Collect spans rule by rule with re.finditer(..., re.IGNORECASE). Skip a match that is empty or overlaps a span you already kept, then sort the kept spans by start.",
+    "Escape the original text between and inside spans (& first, then < and >). The markers you insert are the only unescaped brackets.",
+    "Remember the original text of every span, stripped or flagged. Stripping hides it from the model, not from the attacker's plan.",
+    "Taint is containment in either direction, case-insensitive, after strip(), and only for values of at least min_len characters. Walk dicts and lists and build dotted paths."
+  ],
+  "related": ["tool-permission-scopes", "human-approval-gates", "tool-args-schema-validation"]
+}

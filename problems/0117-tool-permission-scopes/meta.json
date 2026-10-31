@@ -1,0 +1,19 @@
+{
+  "id": 117,
+  "slug": "tool-permission-scopes",
+  "title": "Tool Permission Scopes for Agents",
+  "difficulty": "Medium",
+  "category": "tools-mcp",
+  "tags": ["Authorization", "Tool Use", "Multi-Tenant", "Security"],
+  "mode": "function",
+  "entry": "authorize_calls",
+  "signature": "def authorize_calls(user, agent, role_scopes, tools, resources, calls)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Write one helper, grants(grant_list, scope), that understands exact scopes, 'prefix:*' and '*'. Everything else is built on it.",
+    "The effective permission is the intersection, so a scope is granted only when grants(user, s) and grants(agent, s) are both true. Don't intersect the literal strings: 'orders:*' and 'orders:read' share nothing as strings.",
+    "Run the checks in the order of the table and stop at the first failure. The tenant check comes before the owner/admin check, so admin never crosses tenants."
+  ],
+  "related": ["tool-args-schema-validation", "policy-engine", "acl-aware-retrieval", "tenant-isolated-memory"]
+}

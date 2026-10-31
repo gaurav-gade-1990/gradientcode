@@ -1,0 +1,20 @@
+{
+  "id": 114,
+  "slug": "mcp-jsonrpc-dispatch",
+  "title": "MCP Server JSON-RPC Dispatch",
+  "difficulty": "Medium",
+  "category": "tools-mcp",
+  "tags": ["MCP", "JSON-RPC", "Tool Use", "Protocols"],
+  "mode": "driver",
+  "entry": "McpServer",
+  "signature": "class McpServer: __init__(self, server_info, tools), handle(self, raw) -> Optional[str]",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Work in layers: parse the text, then split a batch, then validate the envelope, then decide request vs notification, then dispatch on the method.",
+    "A notification is a valid message with no \"id\" key. It never gets a response, not even an error, and here it never runs a tool.",
+    "Two kinds of failure: protocol errors (bad envelope, unknown method, unknown tool, missing arguments) go in \"error\", and a tool that raises goes in \"result\" with isError: true, so the model can read the failure.",
+    "A batch whose elements are all notifications returns None, not \"[]\". An empty batch [] is a single Invalid Request object."
+  ],
+  "related": ["tool-args-schema-validation", "tool-registry-versioning", "streaming-tool-call-assembly"]
+}

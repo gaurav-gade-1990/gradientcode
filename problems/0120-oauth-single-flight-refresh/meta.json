@@ -1,0 +1,20 @@
+{
+  "id": 120,
+  "slug": "oauth-single-flight-refresh",
+  "title": "Single-Flight OAuth Token Refresh",
+  "difficulty": "Medium",
+  "category": "tools-mcp",
+  "tags": ["OAuth", "Concurrency", "Tool Use", "Reliability"],
+  "mode": "driver",
+  "entry": "AuthClient",
+  "signature": "class AuthClient: __init__(loop, token, refresh, send), call(request) -> generator returning the response dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Remember which token you sent with. A 401 only proves that token is bad, not the one you hold now.",
+    "Keep one slot for the refresh Task in flight. The first 401 spawns it with loop.spawn; every other 401 just does `yield task`.",
+    "Clear the slot in a finally block inside the refresh task, so a failed refresh does not poison every later call.",
+    "After the refresh (or after noticing the token already changed), send once more with self.token and return whatever comes back."
+  ],
+  "related": ["request-coalescing", "retry-with-backoff", "idempotent-tool-execution"]
+}

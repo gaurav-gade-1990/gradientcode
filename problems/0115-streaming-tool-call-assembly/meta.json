@@ -1,0 +1,20 @@
+{
+  "id": 115,
+  "slug": "streaming-tool-call-assembly",
+  "title": "Assemble Streamed Tool Calls",
+  "difficulty": "Medium",
+  "category": "tools-mcp",
+  "tags": ["Streaming", "Tool Use", "Anthropic API", "Parsing"],
+  "mode": "function",
+  "entry": "assemble",
+  "signature": "def assemble(events)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Keep one buffer per block index. Every delta carries its index, so route by it, never by which block started last.",
+    "A single partial_json fragment is almost never valid JSON on its own. Concatenate, and parse once at content_block_stop.",
+    "An empty (or whitespace-only) buffer means the tool takes no arguments: input is {}. A block that never sees its stop event was cut off and must not run.",
+    "Everything after message_stop is ignored, and ping events carry nothing."
+  ],
+  "related": ["sse-stream-parser", "tool-args-schema-validation", "structured-output-repair"]
+}

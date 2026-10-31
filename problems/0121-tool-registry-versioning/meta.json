@@ -1,0 +1,20 @@
+{
+  "id": 121,
+  "slug": "tool-registry-versioning",
+  "title": "Tool Registry with Semver Resolution",
+  "difficulty": "Easy",
+  "category": "tools-mcp",
+  "tags": ["Tools", "Semver", "Registry"],
+  "mode": "driver",
+  "entry": "ToolRegistry",
+  "signature": "class ToolRegistry: register(name, version, status='active'), resolve(spec) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Parse versions into integer tuples. Compare tuples, never the strings: '1.10.0' > '1.9.0' only as numbers.",
+    "Turn every range into a half-open interval [lower, upper). Pad the lower bound with zeros.",
+    "Caret bumps the leftmost non-zero part you were given (or the last given part if they are all zero). Tilde bumps the minor when a minor is given, else the major.",
+    "Filter by the interval first, then prefer active, then deprecated, then report removed or not_found."
+  ],
+  "related": ["skill-dependency-resolver", "tool-args-schema-validation", "mcp-jsonrpc-dispatch"]
+}

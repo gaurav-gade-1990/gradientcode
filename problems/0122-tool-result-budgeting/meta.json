@@ -1,0 +1,19 @@
+{
+  "id": 122,
+  "slug": "tool-result-budgeting",
+  "title": "Fit Tool Results into a Token Budget",
+  "difficulty": "Easy",
+  "category": "tools-mcp",
+  "tags": ["Tools", "Context Window", "Tokens", "Pagination"],
+  "mode": "function",
+  "entry": "budget_results",
+  "signature": "def budget_results(results, budget)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Charge every error result in full first. Split what is left evenly over the other results with integer division.",
+    "Truncate by token, not by character: cut the text at the end of the k-th match of the tokenizer regex, and reserve the 5 tokens the marker costs.",
+    "A list keeps a prefix of whole items. Stop at the first item that does not fit, and reserve 3 tokens for the cursor."
+  ],
+  "related": ["memory-under-token-budget", "context-packing", "cursor-pagination"]
+}

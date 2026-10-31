@@ -1,0 +1,20 @@
+{
+  "id": 116,
+  "slug": "structured-output-repair",
+  "title": "Repair and Validate Structured Output",
+  "difficulty": "Medium",
+  "category": "tools-mcp",
+  "tags": ["Structured Output", "JSON", "Validation", "Retries"],
+  "mode": "driver",
+  "entry": "get_structured",
+  "signature": "def get_structured(llm, messages, required)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Extraction picks a substring: the first ``` fenced block, else first '{' to LAST '}'. The last brace matters when objects nest.",
+    "Try json.loads on the raw candidate first. Only on failure apply the two regex repairs, in order, and try once more.",
+    "In Python, isinstance(True, int) is True. Check bool before int and number.",
+    "The re-ask carries the original messages, then your model's bad reply as an assistant turn, then the error message. There is at most one re-ask."
+  ],
+  "related": ["tool-args-schema-validation", "streaming-tool-call-assembly", "retry-with-backoff"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 113,
+  "slug": "tool-args-schema-validation",
+  "title": "Validate Tool-Call Arguments Against a JSON Schema",
+  "difficulty": "Medium",
+  "category": "tools-mcp",
+  "tags": ["Tool Use", "JSON Schema", "Validation"],
+  "mode": "function",
+  "entry": "validate_tool_args",
+  "signature": "def validate_tool_args(schema, args)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Recurse with the current JSON pointer. Each keyword only applies to its own kind of value: properties to objects, items to arrays, minimum to numbers, minLength to strings.",
+    "In Python, True is an int. Check for bool before you check for integer or number, and compare enum values with the same rule.",
+    "Escape keys in the pointer: '~' becomes '~0' first, then '/' becomes '~1'.",
+    "Collect every error, then sort by (path, keyword). The model fixes everything in one retry only if you report everything."
+  ],
+  "related": ["mcp-jsonrpc-dispatch", "structured-output-repair", "tool-permission-scopes"]
+}
