@@ -66,7 +66,7 @@ The order of checks in `put` matters. If you test capacity before checking for w
 
 When `get` frees a slot and a producer is blocked, the reference solution does the producer's work for it: it pushes the waiting item into the queue, then resolves the future with `True`. The woken producer just returns.
 
-The alternative, waking the producer and letting it re-check capacity itself, looks equivalent but isn't. Between the resolve and the producer actually resuming, another task at the same time can run `put` and take the freed slot, and the original producer has to wait again. Moving the item inside `get` guarantees blocked producers are served strictly in arrival order. That is the FIFO rule the problem states, and it is what "block two producers fifo" and "three blocked producers" check.
+The alternative, waking the producer and letting it re-check capacity itself, looks equivalent but isn't. Between the resolve and the producer actually resuming, another task at the same time can run `put` and take the freed slot, and the original producer has to wait again. Moving the item inside `get` guarantees blocked producers are served strictly in arrival order. That is the FIFO rule the problem states. "block two producers fifo" and "three blocked producers" check the wake order, and "freed slot goes to the blocked producer" catches the re-check version (`wrong_producer_rechecks_capacity.py`): at t=0.5 `a-2` is parked, `c` pops `b-1` and wakes `p1`, but `p2` runs at the same instant first and takes the slot with `b-2`.
 
 ## 6. Plan before you code
 
@@ -242,6 +242,7 @@ class BoundedQueue:
 | drop oldest burst | `dropped` starts `['q-1', 'm-2', 'm-3', 'q-2', ...]` | eviction order across two interleaved producers |
 | reject burst | `rejected = ['req-7', 'req-8', 'req-11', 'req-12']` | reject under load with two consumers |
 | fast consumer never fills | `max_depth` 1, nobody blocked | the fast path never yields, and depth is counted even when the item is popped at once |
+| freed slot goes to the blocked producer | gets alternate `a-1, b-1, a-2, b-2`; `p2` blocked 0.5 s | `get` moves the parked item in, so a same-instant `put` can't jump ahead |
 | three blocked producers | blocked 4.6, 5.0 and 5.4 s; 15 delivered | FIFO wakeup with three producers in line |
 
 ## 10. Complexity
@@ -256,6 +257,7 @@ At scale, the two numbers to watch are queue depth and producer blocked time. Si
 - **Extra `overflow` events and `blocked_s` of 0 under block.** You append instead of parking: `wrong_unbounded_buffer.py`, which reaches depth 3 in Example 1.
 - **`dropped` holds the newest item** (`tick-4` instead of `tick-2` in Example 2). You discarded the incoming item: `wrong_drops_newest.py`.
 - **"block two producers fifo" shows `p-files` where `p-search` was expected.** You wake producers with `putters.pop()` (newest first): `wrong_lifo_wakeup.py`.
+- **"freed slot goes to the blocked producer" delivers `b-2` before `a-2`.** `get` only wakes the producer, and the producer re-checks capacity and pushes its own item (`wrong_producer_rechecks_capacity.py`). Move the parked item into the queue inside `get`.
 - **"consumers wait first" gives `job-1` to `c`, not `a`.** You hand off with `getters.pop()`.
 - **Event times are late, such as `w2`'s first `get` at 0.6 instead of 0.2 in "block two consumers".** `put` checks capacity before waiting consumers, so the item sits in the queue while a consumer sleeps.
 - **A `put` appears before the matching `get`, or `max_depth` is 0 in "fast consumer never fills".** Your method yields on the fast path (for example a `yield None` at the top), which reorders tasks at the same virtual time.

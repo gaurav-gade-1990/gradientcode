@@ -263,6 +263,7 @@ def deliver(event, secret, send, clock, schedule):  # send one event with retrie
 | tampered in transit | 400, then 200 | a body changed in transit fails the signature |
 | custom schedule and tolerance | `evt_1001` failed in 3 but processed | a fractional clock, `int(clock.now())`, custom schedule and tolerance |
 | same event sent twice by the app | both sends 200, `processed: ['evt_1001', 'evt_1002']` | dedupe isn't only for retries |
+| tampered resend of a seen id | second send 400 then 200 at `1700000060`, `processed: ['evt_1001']` | verify runs before the dedupe lookup |
 
 ## 10. Complexity
 
@@ -282,6 +283,7 @@ What matters in production is outside the function. The receiver's seen-id set g
 - **"all probes": the 16th result is `stale` instead of `bad_signature`.** You checked the time before the signature.
 - **"all probes": the 13th result (a space before `v1`) is `ok`.** You stripped whitespace from keys. The spec says not to.
 - **"gives up after the schedule" sends `evt_1002` too late.** You slept after the final attempt.
+- **"tampered resend of a seen id": the tampered attempt gets 200.** You looked up the event id before verifying. A forged request with a known id must still get 400, so verify first.
 
 ## 12. Follow-ups an interviewer might ask
 

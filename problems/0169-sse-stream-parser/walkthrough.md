@@ -276,7 +276,7 @@ class SSEParser:  # one parser per stream; it keeps state between feed() calls
 | empty chunks and partial field name | `{"token":"ok"}` from the last chunk | `""` chunks, a field name split as `da` + `ta` |
 | id sticky, reset and no-colon field | ids `run_7:evt_1`, `run_7:evt_1`, `""`, `9` | split at the first colon, bare `id` resets to `""` |
 | event type resets after dispatch and after empty event | `message`, `error`, `message` | type clears even when nothing is emitted |
-| retry validation | final `retry` 1000 | `3s`, empty and `-1` are ignored |
+| retry validation | `1000`, then `2500`; final `retry` 2500 | `3s`, empty and `-1` after it are ignored, and the no-space `retry:1000` form is read |
 | everything after DONE ignored | only `last token`; id `"5"`, retry 100 | nothing after `[DONE]`, even in the same chunk |
 | DONE on a named event with id before it | no events; id `"77"`, `done` True | `id:` before `[DONE]` still counts |
 | incomplete trailing event never emitted | only `complete` | no blank line, no event |
@@ -303,6 +303,7 @@ Compare `events_per_chunk` position by position. Which chunk's list is off tells
 - **Example 3 gives `"two spaces"` with no leading space.** You used `strip()` (`wrong_strips_all_whitespace.py`). It also breaks "field parsing edge cases" and "multi-line JSON body".
 - **Multi-line data shows only its last line.** You assign `self._data = [value]` instead of appending (`wrong_overwrites_multiline_data.py`).
 - **Example 2's last event has id `""`.** You clear `last_event_id` on dispatch (`wrong_resets_id_per_event.py`).
+- **"retry validation" ends with `retry` -1.** You parsed with `int()` inside a `try` (`wrong_retry_accepts_negative.py`), which accepts `-1`, `+5` and ` 5`. Accept only a non-empty all-ASCII-digit value.
 - **"event type resets..." shows `ping` on the `hello` event.** You only reset the type when an event is emitted. Reset it before the empty-data check.
 
 ## 12. Follow-ups an interviewer might ask

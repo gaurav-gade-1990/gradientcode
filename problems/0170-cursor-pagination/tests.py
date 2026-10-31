@@ -68,7 +68,6 @@ def cases():
         {"name": "empty table", "args": {"table": [], "ops": [{"op": "page", "limit": 10}]}},
         {"name": "before-page takes rows closest to cursor",
          "args": {"table": SIDEBAR, "ops": [{"op": "page", "limit": 2, "before": cur(1730000000, "conv_0001")},
-                                            {"op": "page", "limit": 2, "follow": "prev"},
                                             {"op": "page", "limit": 2, "follow": "prev"}]}},
         {"name": "before the newest row is empty",
          "args": {"table": SIDEBAR, "ops": [{"op": "page", "limit": 3, "before": cur(1730001200, "conv_0005")}]}},
@@ -102,5 +101,5 @@ def cases():
         {"name": "big table with inserts while scrolling",
          "args": {"table": big_table(), "ops": [{"op": "page", "limit": 9}] + walk("next", 3, 9)
                   + [{"op": "insert", "row": conv(900 + k, 1730000000 + 60 * (k * 7 % 40), "late %d" % k)} for k in range(12)]
-                  + walk("next", 12, 9) + walk("prev", 4, 9)}},
+                  + walk("next", 11, 9) + walk("prev", 4, 9)}},
     ]

@@ -66,4 +66,5 @@ def cases():
         {"name": "custom schedule and tolerance", "args": {"secret": "whsec_globex_19", "events": [dict(PAID, tenant="globex"), dict(RUN_DONE, tenant="globex")],
                                                            "faults": ["503", "late:100", "lost", "ok"], "schedule": [5, 50], "tolerance": 60, "start": 1712345678.75}},
         {"name": "same event sent twice by the app", "args": {"secret": SECRET, "events": [PAID, PAID, RUN_DONE], "faults": []}},
+        {"name": "tampered resend of a seen id", "args": {"secret": SECRET, "events": [PAID, PAID], "faults": ["ok", "tamper", "ok"]}},
     ]

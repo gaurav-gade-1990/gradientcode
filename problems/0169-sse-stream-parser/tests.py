@@ -54,7 +54,7 @@ def cases():
          "args": {"chunks": ["event: ping\n\n", "data: hello\n\n", "event: error\ndata: {\"type\":\"overloaded_error\"}\n\n",
                              "data: after error\n\n"]}},
         {"name": "retry validation",
-         "args": {"chunks": ["retry: 2500\n", "retry: 3s\nretry:\nretry: -1\ndata: x\n\n", "retry:1000\n\n"]}},
+         "args": {"chunks": ["retry:1000\n", "retry: 2500\n", "retry: 3s\nretry:\nretry: -1\ndata: x\n\n"]}},
         {"name": "everything after DONE ignored",
          "args": {"chunks": ["id: 5\nretry: 100\ndata: last token\n\ndata: [DONE]\n\nid: 6\nretry: 999\ndata: junk\n\n",
                              "data: more junk\n\n"]}},

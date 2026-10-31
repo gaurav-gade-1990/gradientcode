@@ -37,6 +37,7 @@ def cases():
                   "users": [{"id": "u_101", "tenant": "acme", "attrs": {}}, {"id": "u_105", "tenant": "acme", "attrs": {}}]},
          "explanation": "The kill switch beats everything, including the allowlist and a 100% rollout."},
         {"name": "bucket exactly at threshold", "args": {"flags": [{"key": "agent-autopilot", "rollout_bp": 2090}, {"key": "agent-autopilot", "rollout_bp": 2091}], "users": ACME[:1]}},
+        {"name": "bucket 0 at rollout 0", "args": {"flags": [{"key": "agent-autopilot", "rollout_bp": 0}, {"key": "agent-autopilot", "rollout_bp": 1}], "users": [{"id": "u_21036", "tenant": "acme", "attrs": {}}]}},
         {"name": "rollout 0 and 100", "args": {"flags": [{"key": "agent-autopilot", "rollout_bp": 0}, {"key": "agent-autopilot", "rollout_bp": 10000}], "users": ACME + GLOBEX}},
         {"name": "ramp is monotonic", "args": {"flags": [{"key": "ticket-summaries-v2", "rollout_bp": bp} for bp in (500, 1000, 2500, 5000, 9000)], "users": ACME + GLOBEX}},
         {"name": "two flags pick different users", "args": {"flags": [{"key": "agent-autopilot", "rollout_bp": 3000}, {"key": "ticket-summaries-v2", "rollout_bp": 3000}], "users": ACME}},
@@ -48,6 +49,6 @@ def cases():
             {"id": "eu-off", "attr": "region", "op": "eq", "value": "eu", "serve": False},
             {"id": "staff", "attr": "role", "op": "in", "value": ["admin", "support"], "serve": True},
             {"id": "apac-on", "attr": "region", "op": "in", "value": ["apac"], "serve": True}], "rollout_bp": 4000}], "users": _users(30, "acme", 3)}},
-        {"name": "many users two tenants", "args": {"flags": [{"key": "agent-autopilot", "tenants": ["acme", "globex"], "allow": ["u_0040"], "rollout_bp": 1234},
+        {"name": "many users two tenants", "args": {"flags": [{"key": "agent-autopilot", "tenants": ["acme", "globex"], "allow": ["u_0075"], "rollout_bp": 1234},
                                                               {"key": "workflow-builder", "rollout_bp": 7777}], "users": _users(40, "acme", 1) + _users(40, "globex", 1)}},
     ]

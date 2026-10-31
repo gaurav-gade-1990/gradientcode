@@ -190,6 +190,7 @@ def run(ns, orders, redeliver=()):
         "published": clean["published"],
         "consumer": clean["consumer"],
         "broker_log": [[topic, m.get("seq"), m.get("event_id")] for topic, m in broker.log],
+        "messages": [dict(sorted(m.items())) for _, m in broker.log],     # the full published shape
         "outbox": [[k, row.get("event_id"), row.get("published")] for k, row in sorted(db.tables.get("outbox", {}).items())],
         "revenue": dict(sorted(store.tables.get("revenue", {}).items())),
         "violations": _violations(orders, db, store, broker),

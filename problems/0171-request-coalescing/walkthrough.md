@@ -222,7 +222,7 @@ The win at scale is the ratio of requests to upstream calls. In the herd case 40
 
 - **Example 2 shows globex getting `resp_0` with `response_tenant: "acme"`.** The tenant is missing from your key. "interleaved keys and tenants" and "thundering herd" fail the same way.
 - **"dict key order does not matter" shows two upstream calls.** You serialise messages without `sort_keys=True`.
-- **"model is part of the key" shows sonnet r2 getting the haiku answer.** The model is missing from the key.
+- **"model is part of the key" shows sonnet r2 getting the haiku answer.** The model is missing from the key (`wrong_key_without_model.py`).
 - **In Example 3, r3 gets `ServerError` at `end: 3` with only one upstream call.** You evict only on success. Move the `del` into a `finally`.
 - **In "no stale reuse after success", r3 and r4 get `resp_0` instantly at 2.5 and 2.6.** You never evict.
 - **In "sampled requests bypass", r2 and r3 get `resp_0`.** You coalesce sampled requests. Return early when `temperature > 0`.

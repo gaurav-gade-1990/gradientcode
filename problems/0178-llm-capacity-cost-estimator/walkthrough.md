@@ -82,7 +82,7 @@ Three separate rules go into the GPU count, and each has its own wrong file:
 - **Headroom.** A GPU at 100% utilization queues requests, and time-to-first-token climbs well before raw throughput runs out. Each GPU is counted at `tps × target_utilization`. Without that (`wrong_no_utilization_headroom.py`), Example 3 buys 134 GPUs instead of 223.
 - **Round up.** You can't buy 0.2 of a GPU, and missing capacity is an outage. `int()` (`wrong_gpus_rounded_down.py`) buys 222 in Example 3 and 1 in Example 2.
 
-The `- 1e-9` inside the `ceil` is there for float noise. With `dau = 14,400`, `sessions_per_user = 1.1`, $T = 7$, peak 3, $O = 400$ and a 2,200 tok/s GPU at 70%, the peak load is `1540.0000000000002` against a per-GPU capacity of exactly 1,540. Without the epsilon, `ceil` would buy 2 GPUs for a load that fits on 1. The `max(1, ...)` keeps a tiny pilot from computing zero GPUs.
+The `- 1e-9` inside the `ceil` is there for float noise. With `dau = 14,400`, `sessions_per_user = 1.1`, $T = 7$, peak 3, $O = 400$ and a 2,200 tok/s GPU at 70%, the peak load is `1540.0000000000002` against a per-GPU capacity of exactly 1,540. Without the epsilon, `ceil` would buy 2 GPUs for a load that fits on 1; that design is the "float noise on an exact fit" case. The `max(1, ...)` matters when there is no decode load at all: with `output_tokens = 0` the ratio is 0, `ceil(0 - 1e-9)` is 0, and without the floor self-hosting would cost $0 and win.
 
 ## 7. Plan before you code
 
@@ -228,6 +228,9 @@ def estimate(design):
 | Example 3 | 223 GPUs, $401,400 vs $1,636,948.80 | peak sizing with headroom, rounded up |
 | exact GPU boundary | 750 tok/s on 750 tok/s of capacity: 1 GPU | an exact fit doesn't buy an extra GPU |
 | just over the boundary | 750.0087 tok/s: 2 GPUs | anything over capacity rounds up |
+| float noise on an exact fit | `peak_output_tps` 1540.0000000000002 on 1,540 of capacity: 1 GPU | the `- 1e-9` absorbs float error |
+| no decode load still needs one GPU | `output_tokens` 0, peak 0 tok/s: 1 GPU, $1,737.84 API vs $1,800: `"api"` | the `max(1, ...)` floor |
+| API and self-host tie | $1,800.00 API vs $1,800 for 1 GPU: `"api"` | a tie stays on the API (`<=`) |
 | full cache hit | 1.935e10 of 1.989e10 input tokens cached | the new user message is never cached, even at a 100% hit rate |
 | long sessions, three models | $1,034,426.20 API, 48 GPUs, 31-day month | long-session history dominates; three model shares |
 | tiny pilot | $7.44 API vs 1 GPU at $1,800: `"api"` | small traffic still needs one whole GPU |
@@ -250,6 +253,9 @@ The judge reports the first field that differs, so the field name points at the 
 - **`peak_output_tps` is a third of the expected value** (Example 1: 83.3 instead of 250). You sized for `avg_qps`: `wrong_sized_for_average.py`.
 - **`self_host_gpus` is one short** (Example 3: 222 instead of 223). You rounded down with `int()`: `wrong_gpus_rounded_down.py`.
 - **`self_host_gpus` is far too low** (Example 3: 134). You ignored `target_utilization`: `wrong_no_utilization_headroom.py`.
+- **`self_host_gpus` is 2 instead of 1 in "float noise on an exact fit".** You dropped the `- 1e-9`: `wrong_gpus_no_epsilon.py`.
+- **`self_host_gpus` is 0 in "no decode load still needs one GPU".** You dropped the `max(1, ...)`: `wrong_gpus_no_minimum.py`.
+- **`recommendation` is `"self_host"` in "API and self-host tie".** You compared with `<`; a tie stays on the API: `wrong_tie_goes_self_host.py`.
 - **`by_model[...]["monthly_input_tokens"]` equals the fleet total.** You didn't multiply the model's tokens by its share.
 - **`cost_per_turn` is 30 times too big** (Example 1: 0.04944 instead of 0.001648). You divided by one day's turns, not the month's.
 

@@ -202,12 +202,13 @@ def evaluate_flags(flags, users):  # the entry point the flag service calls
 | Example 2 | `allowlist`, `rule:admins`, `rule:no-eu`, `tenant` | every gate but the kill switch, and first-rule-wins |
 | Example 3, kill switch over allowlist and rules | every row off with `killed` | gate 1 beats the allowlist, rules and a 100% rollout |
 | bucket exactly at threshold | off at 2090, on at 2091 | strict `<` |
+| bucket 0 at rollout 0 | acme `u_21036` (bucket 0) off at 0, on at 1 | strict `<` at the bottom: 0% is really off |
 | rollout 0 and 100 | all 16 off, then all 16 on | the two extremes |
 | ramp is monotonic | 1, 1, 6, 10, 15 of 16 on | the bucket ignores `rollout_bp`, so rollouts are sticky |
 | two flags pick different users | `u_101,u_103,u_105` vs `u_106,u_108` | the flag key is in the hash |
 | tenant gate before allowlist | globex `u_101`, `u_103` off with `tenant` | gate 2 before gate 3 |
 | rule order and missing attrs | 10 `staff`, 8 `eu-off`, 5 `apac-on`, 7 `rollout` | list order, `in` operator, missing `region` |
-| many users two tenants | 160 rows; 7 on for `agent-autopilot`, 66 on for `workflow-builder` | output order across 2 flags and 80 users, flags with missing keys |
+| many users two tenants | 160 rows; 9 on for `agent-autopilot` (`u_0075` at both acme and globex by `allowlist`), 66 on for `workflow-builder` | output order across 2 flags and 80 users, the allowlist in two tenants, flags with missing keys |
 
 ## 9. Complexity
 
@@ -219,8 +220,8 @@ In production this runs inside the SDK on every request, so the per-evaluation c
 
 Look at the first row that differs and compare `bucket` first, then `reason`.
 
-- **Every case fails, and every `bucket` differs.** You used `hash()`, or hashed only the user id (`wrong_python_hash.py`, `wrong_hash_ignores_flag_and_tenant.py` both fail all 11 cases). The string must be exactly `key:tenant:id`.
-- **Only "bucket exactly at threshold" fails, with the 2090 row on.** You wrote `bucket <= rollout_bp` (`wrong_bucket_off_by_one.py`).
+- **Every case fails, and every `bucket` differs.** You used `hash()`, or hashed only the user id (`wrong_python_hash.py`, `wrong_hash_ignores_flag_and_tenant.py` both fail all 12 cases). The string must be exactly `key:tenant:id`.
+- **Only "bucket exactly at threshold" and "bucket 0 at rollout 0" fail, with the 2090 row on and the bucket-0 user on at 0%.** You wrote `bucket <= rollout_bp` (`wrong_bucket_off_by_one.py`).
 - **Example 3 shows `allowlist` instead of `killed`.** Your allowlist check runs before the kill switch (`wrong_allowlist_beats_kill_switch.py`). The same bug also fails "kill switch over allowlist and rules" and "tenant gate before allowlist".
 - **globex users show `allowlist`.** The tenant gate must come before the allowlist.
 - **`u_103` in Example 2 shows `rule:no-eu`.** You're taking the last matching rule, or a rule with `serve: False` is overriding an earlier `True`. Stop at the first match.

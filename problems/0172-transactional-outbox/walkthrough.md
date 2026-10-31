@@ -51,7 +51,7 @@ Orders `A` (`ord_1001`, acme, 4200) and `C` (`ord_1003`, globex, 899). These are
 | 20–24 | consumer offset 0 | `begin`, `put revenue/acme`, `put processed/evt_ord_1001`, `commit`, ack |
 | 25–29 | consumer offset 1 | the same for globex |
 
-Clean result: responses `["created", "created"]`, `published: 2`, consumer `["applied", "applied"]`, broker log seq 1 then 2, revenue `{"acme": 4200, "globex": 899}`.
+Clean result: responses `["created", "created"]`, `published: 2`, consumer `["applied", "applied"]`, broker log seq 1 then 2, revenue `{"acme": 4200, "globex": 899}`. The judge also records every published message in full, so `messages[0]` must be exactly `{"event_id": "evt_ord_1001", "order_id": "ord_1001", "seq": 1, "tenant": "acme", "total_cents": 4200, "type": "order.placed"}`, with no `published` key.
 
 Now pick crash points and recover from each:
 
@@ -236,7 +236,7 @@ Every case also runs the full crash sweep. For the reference solution, `crash_re
 
 | test case | expected (clean run) | what it checks |
 |---|---|---|
-| Example 1 | `created, created`; published 2; acme 4200, globex 899 | the basic path, plus a crash at each of the 30 boundaries |
+| Example 1 | `created, created`; published 2; acme 4200, globex 899 | the basic path, the full message shape, plus a crash at each of the 30 boundaries |
 | Example 2 | `created, created, exists`; 2 outbox rows; acme 20100 | the existence check in `place_order` |
 | Example 3 | consumer `applied, duplicate, applied` | the processed marker on a lost ack |
 | single order | published 1; initech 2500 | the smallest scenario still survives every crash |
@@ -260,6 +260,7 @@ The clean run usually passes. Look at `crash_recovery.first_violation`, which na
 - **`revenue_double_counted`, first crash `consumer offset 0 (evt_ord_1001): before ack offset 0`.** Your dedupe is a `set` on the consumer. The rebuilt consumer has an empty set when offset 0 is redelivered.
 - **`revenue_double_counted`, first crash `consumer offset 0 (evt_ord_1001): before consumer_db.begin`.** You commit the revenue, then write the marker in a second transaction. The crash lands at that second `begin`.
 - **`duplicate_outbox_row` and `published_out_of_order`, even in the clean run of Example 2.** `place_order` doesn't check for an existing order. The double click writes `outbox/3` for `evt_ord_1001`.
+- **Every case fails in the clean run's `messages`, each one with an extra `"published": False`.** You published the outbox row as it is (`wrong_publishes_published_flag.py`). The message is the row without `published`, plus `seq`.
 - **Runtime Error `your code caught the simulated crash`.** A bare `except:` or `except BaseException` swallowed `Crash`. Let it propagate.
 
 ## 12. Follow-ups an interviewer might ask

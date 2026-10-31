@@ -30,6 +30,10 @@ def cases():
                                                                   output_tokens=750, self_host=dict(H100, target_utilization=0.5))}},
         {"name": "just over the boundary", "args": {"design": design(dau=86401, sessions_per_user=1, turns_per_session=1, peak_to_avg=1.0,
                                                                      output_tokens=750, self_host=dict(H100, target_utilization=0.5))}},
+        {"name": "float noise on an exact fit", "args": {"design": design(dau=14400, sessions_per_user=1.1, turns_per_session=7, peak_to_avg=3.0, output_tokens=400,
+                                                                         self_host={"output_tokens_per_sec_per_gpu": 2200.0, "target_utilization": 0.7, "gpu_hourly_cost": 2.5})}},
+        {"name": "no decode load still needs one GPU", "args": {"design": design(output_tokens=0)}},
+        {"name": "API and self-host tie", "args": {"design": design(models=[dict(SMALL, share=1.0, input=1.0, output=4.75)], turns_per_session=1, cache_hit_rate=0.0)}},
         {"name": "full cache hit", "args": {"design": design(cache_hit_rate=1.0, turns_per_session=10)}},
         {"name": "long sessions, three models", "args": {"design": design(
             dau=350000, sessions_per_user=0.4, turns_per_session=25, system_tokens=2500, user_tokens=120, output_tokens=400,

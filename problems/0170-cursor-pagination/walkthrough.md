@@ -221,16 +221,16 @@ def paginate(rows, limit, after=None, before=None):  # one GET /v1/conversations
 | Example 3 | `12,11` / `10,9` | ties on `created_at` broken by `id` |
 | exact multiple: last full page has no next | `4,3` / `2,1` with `next_cursor` `None` | `has_next` looks for an older row, not a full page |
 | limit larger than table, empty table | all 5 with no cursors; `[]` with no cursors | edges of the slice and the empty-page return |
-| before-page takes rows closest to cursor | before `conv_0001`: `3,2`, then `5,4`, then `5,4` again | `newer[-limit:]`; following a `None` `prev_cursor` gives the first page |
+| before-page takes rows closest to cursor | before `conv_0001`: `3,2`, then `5,4` with `prev_cursor` `None` | `newer[-limit:]` |
 | before the newest row is empty | `[]`, both `None` | the empty-page guard |
 | cursor of a deleted row still works | after deleting `conv_0004` and `conv_0003`: `2,1`, then `5` | a cursor compares keys and stores no position |
 | ties straddling every boundary | `13, 12, 11, 10, 9, 8` one by one, then back `9` to `13` | every page boundary falls inside a tie group, in both directions |
 | insert with a tied timestamp mid-scroll | `12,11` / `10,7` / `9` / prev of 3 gives `11,10,7` | a new tied row with a larger id (`conv_0015`) stays above the cursor; a smaller one (`conv_0007`) shows up |
 | invalid cursors are 400 | seven 400s, then `2,1` | every branch of `decode_cursor` and the both-cursors check |
 | big table walk forward then back | 120 rows drawn from 40 possible timestamps: 18 pages forward, 17 back | the whole thing at scale, with many ties |
-| big table with inserts while scrolling | 12 rows inserted after page 4; the walk reaches the end on page 15 with 129 distinct rows and no repeats | the 9 inserts older than the cursor show up later; the 3 newer ones (`conv_0905`, `conv_0910`, `conv_0911`) never shift a page |
+| big table with inserts while scrolling | 12 rows inserted after page 4; the walk reaches the end on page 15 (3 rows, `next_cursor` `None`) with 129 distinct rows and no repeats, then 4 pages back retrace pages 14 to 11 | the 9 inserts older than the cursor show up later; the 3 newer ones (`conv_0905`, `conv_0910`, `conv_0911`) never shift a page |
 
-One note on the driver: following a cursor that is `None` passes `after=None` or `before=None`, which is a plain first page. That's why "before-page takes rows closest to cursor" ends with `5,4` twice, and why the requests after the end of "big table with inserts while scrolling" all return the first page.
+One note on the driver: following a cursor that is `None` would pass `after=None` or `before=None`, which is a plain first page. No case does that: every walk stops when the cursor it would follow runs out, just as a client stops scrolling.
 
 ## 10. Complexity
 

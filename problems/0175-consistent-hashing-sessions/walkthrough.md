@@ -144,7 +144,7 @@ def _start(self, key):
     return 0 if i == len(self.points) else i
 ```
 
-`bisect_left`, not `bisect_right`. If a key's position equals a point's position exactly, the rule says that point (`>=`) owns it, and `bisect_right` would skip to the next one. With 32-bit positions an exact tie is rare, and none of the tests hit one, so `bisect_right` happens to pass here. It is still the wrong reading of the rule. Clamping with `min(i, len - 1)` instead of wrapping is the bug in `wrong_no_wraparound.py`.
+`bisect_left`, not `bisect_right`. If a key's position equals a point's position exactly, the rule says that point (`>=`) owns it, and `bisect_right` would skip to the next one. With 32-bit positions an exact tie is rare by chance, but a session id can be built to hit one: the key `"w1#1"` hashes to exactly the position of w1's point 1. "key exactly on a ring point" does that, and `bisect_right` (`wrong_bisect_right.py`) sends it to w2. Clamping with `min(i, len - 1)` instead of wrapping is the bug in `wrong_no_wraparound.py`.
 
 **Step 4: the failover walk.** Walk at most once round the ring. Collect names the first time you see them.
 
@@ -246,6 +246,7 @@ class HashRing:
 | scale out to six | moves of 74, 40, 19, 12, 19, then 28 out and 28 back | minimal movement across many changes; `stable_hash` and the `#` format |
 | failover lists | `sess-0` gives `["us-east-1", "us-east-3", "us-east-4"]`; with `n=8`, all four nodes | distinct nodes, clockwise order, stopping when every node is listed |
 | rolling restart | each remove then re-add restores the counts `{"w-a": 11, "w-b": 7, "w-c": 16, "w-d": 26}` | the ring depends only on membership |
+| key exactly on a ring point | after `add w2`, `w1#1` stays on w1 and `w2#2` moves to w2; lookup `["w1", "w2"]` | `>=` ownership: a key on a point belongs to that point (`bisect_left`) |
 | two vnodes many keys | `{"n1": 56, "n2": 24}`; lookup `["n1", "n2"]` | few vnodes leave the split uneven, and the exact split is graded |
 
 ## 10. Complexity
@@ -266,6 +267,7 @@ Memory is O(P). At 8 nodes and 64 vnodes that is 512 points, which is nothing. P
 - **"one vnode wraparound" gives `agent-b` 33 sessions instead of 16.** Keys past the last point are clamped to the last point instead of wrapping to index 0 (`wrong_no_wraparound.py`). It also fails "failover lists", "rolling restart" and "two vnodes many keys".
 - **"failover lists" repeats a node, such as `us-east-3` where `us-east-4` was expected.** You return the next `n` points, not the next `n` distinct nodes (`wrong_duplicate_failover.py`).
 - **Every count is off from the first two-node step, but `only_changed_node_moved` stays `True`.** Your point names don't match `"%s#%d"`, so the points sit somewhere else. The ring still behaves consistently, just not on the judge's ring.
+- **"key exactly on a ring point" sends `w1#1` to w2, and the lookup gives `["w2", "w1"]`.** You used `bisect_right` (`wrong_bisect_right.py`), so a key sitting exactly on a point skips past it.
 - **"duplicate add and unknown remove" fails with an error on `remove w9`.** You call `self.nodes.remove(name)` on an unknown node. The contract says to do nothing, so check membership first (or use `discard`).
 
 ## 12. Follow-ups an interviewer might ask
