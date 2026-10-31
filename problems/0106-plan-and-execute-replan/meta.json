@@ -1,0 +1,20 @@
+{
+  "id": 106,
+  "slug": "plan-and-execute-replan",
+  "title": "Plan-and-Execute with Replanning",
+  "difficulty": "Hard",
+  "category": "agents",
+  "tags": ["Agents", "Planning", "Fault Tolerance"],
+  "mode": "driver",
+  "entry": "execute_plan",
+  "signature": "def execute_plan(llm, tools, goal, max_replans)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Write one helper that builds the planner payload from (goal, completed, failed) and json.dumps it with sort_keys=True. The first call and every replan use it.",
+    "Keep `results` (id -> result) and `completed` (an ordered list). Skip any step whose id is already in results, even if the new plan lists it again.",
+    "Resolve {\"$ref\": id} arguments before calling the tool. A missing reference is a failed step that never touches the tool.",
+    "A replan replaces everything from the failed step onward. Check the replan budget before calling the planner, not after."
+  ],
+  "related": ["react-tool-loop", "durable-workflow-replay", "agent-loop-detection"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 103,
+  "slug": "parallel-tool-dag",
+  "title": "Parallel Tool Calls over a DAG",
+  "difficulty": "Medium",
+  "category": "agents",
+  "tags": ["Agents", "Concurrency", "Scheduling"],
+  "mode": "driver",
+  "entry": "run_dag",
+  "signature": "def run_dag(loop, nodes, run_tool, max_concurrency)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Spawn one wrapper task per node you start. Inside it, `yield loop.spawn(run_tool(node_id))` (or `yield from run_tool(node_id)`) inside a try/except ToolError.",
+    "When a wrapper finishes, update the node's status, free its slot, and immediately start whatever is ready now, in sorted id order, until the slots are full.",
+    "A failure cancels the node's transitive descendants and nothing else. Independent branches keep running.",
+    "Don't wait for a whole level of the DAG to finish before starting the next. A node becomes ready the moment its own deps are done."
+  ],
+  "related": ["react-tool-loop", "map-reduce-documents", "trace-critical-path"]
+}

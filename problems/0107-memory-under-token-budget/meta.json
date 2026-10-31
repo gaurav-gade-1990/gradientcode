@@ -1,0 +1,20 @@
+{
+  "id": 107,
+  "slug": "memory-under-token-budget",
+  "title": "Conversation Memory under a Token Budget",
+  "difficulty": "Medium",
+  "category": "agents",
+  "tags": ["Context Engineering", "Memory", "Token Budget"],
+  "mode": "driver",
+  "entry": "build_context",
+  "signature": "def build_context(messages, budget, keep_last, reserve, summarize)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "First group messages into units: an assistant turn with tool_calls plus the tool messages right after it is one unit, and anything else is a unit of one.",
+    "Pin the system prompt and the last keep_last units. Start the running total from message_tokens of those.",
+    "Walk the older units from newest to oldest and stop at the first one that would push the total past budget - reserve. Don't skip it and keep going.",
+    "Whatever is left, a contiguous prefix of the history, goes to summarize() once, in original order. If nothing is left, don't call it."
+  ],
+  "related": ["agent-handoff-context", "react-tool-loop", "context-packing"]
+}

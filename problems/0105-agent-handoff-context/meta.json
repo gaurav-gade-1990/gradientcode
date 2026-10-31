@@ -1,0 +1,20 @@
+{
+  "id": 105,
+  "slug": "agent-handoff-context",
+  "title": "Agent Handoff Context",
+  "difficulty": "Medium",
+  "category": "agents",
+  "tags": ["Multi-Agent", "Context Engineering", "Message Protocol"],
+  "mode": "driver",
+  "entry": "handoff",
+  "signature": "def handoff(transcript, specialist, llm)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Make one pass to decide which tool call ids survive: calls on non-private assistant turns whose tool the specialist has.",
+    "A tool message survives only if its tool_call_id is in that set. Otherwise the specialist sees a result for a call it never made.",
+    "Filter tool_calls on a copy. If none are left, delete the key, and drop the turn entirely when it has no content either.",
+    "Build the carried list first, then use it both for the summarizer call and for the final transcript, so the summarizer never sees the scratchpad."
+  ],
+  "related": ["supervisor-worker-routing", "memory-under-token-budget", "react-tool-loop"]
+}

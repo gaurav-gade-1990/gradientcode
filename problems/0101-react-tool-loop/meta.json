@@ -1,0 +1,20 @@
+{
+  "id": 101,
+  "slug": "react-tool-loop",
+  "title": "ReAct Tool Loop",
+  "difficulty": "Easy",
+  "category": "agents",
+  "tags": ["Agents", "Tool Use", "Message Protocol"],
+  "mode": "driver",
+  "entry": "run_agent",
+  "signature": "def run_agent(llm, tools, user_msg, max_steps)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Keep one growing `messages` list and send the whole list on every call.",
+    "Append the assistant turn (with its tool_calls) before any tool results. Providers reject a tool result whose call they never saw.",
+    "Run every tool call in the response, in order, and echo each call's own id in its tool message.",
+    "Count model calls, not tool calls. The response to call number max_steps is the last one you act on."
+  ],
+  "related": ["agent-loop-detection", "parallel-tool-dag", "memory-under-token-budget"]
+}

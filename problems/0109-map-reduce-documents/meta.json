@@ -1,0 +1,20 @@
+{
+  "id": 109,
+  "slug": "map-reduce-documents",
+  "title": "Map-Reduce Document Summarization",
+  "difficulty": "Medium",
+  "category": "agents",
+  "tags": ["LLM Pipelines", "Concurrency", "Long Context"],
+  "mode": "driver",
+  "entry": "summarize_docs",
+  "signature": "def summarize_docs(loop, summarize, docs, chunk_tokens, max_concurrency, batch_size)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Chunk with range(0, len(toks), chunk_tokens) so the last, shorter chunk is kept.",
+    "Write one pool(texts) generator: spawn min(c, n) workers that pull the next index from a shared counter and store each result at its index. Calling yield from pool(...) returns the results in input order.",
+    "Each reduce level splits the list into consecutive batches. A batch of one passes through with no call; the others are joined with \"\\n\" and summarized through the same pool.",
+    "Wrap the whole pipeline in one generator, spawn it, call loop.run(), and return the task's result."
+  ],
+  "related": ["parallel-tool-dag", "recursive-chunker", "token-bucket-rate-limiter"]
+}

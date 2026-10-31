@@ -1,0 +1,20 @@
+{
+  "id": 111,
+  "slug": "durable-workflow-replay",
+  "title": "Durable Workflow Replay",
+  "difficulty": "Hard",
+  "category": "agents",
+  "tags": ["Durable Execution", "Event Sourcing", "Fault Tolerance"],
+  "mode": "driver",
+  "entry": "run_workflow",
+  "signature": "def run_workflow(workflow, wf_input, history, activities)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Drive the generator by hand: gen.send(value), or gen.throw(error) when the last activity failed. StopIteration.value is the workflow's result.",
+    "Keep a sequence counter. While seq < len(history), the event at history[seq] must match the command by name and by canonical args; then feed its result or re-raise its error.",
+    "Past the end of the history, run the activity live and append its event to `history` before resuming the workflow. A crash right after must not lose it.",
+    "When the workflow returns, check that it consumed the whole history. Leftover events mean the code changed under a running workflow."
+  ],
+  "related": ["plan-and-execute-replan", "human-approval-gates", "saga-compensation"]
+}

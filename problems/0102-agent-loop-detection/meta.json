@@ -1,0 +1,19 @@
+{
+  "id": 102,
+  "slug": "agent-loop-detection",
+  "title": "Agent Loop Detection",
+  "difficulty": "Easy",
+  "category": "agents",
+  "tags": ["Agents", "Guardrails", "Cost Control"],
+  "mode": "driver",
+  "entry": "LoopGuard",
+  "signature": "class LoopGuard: __init__(self, n_repeat=3, max_cycle=3), check(self, name, arguments) -> None | dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Turn each call into one comparable string: the name plus json.dumps(arguments, sort_keys=True, separators=(\",\", \":\")).",
+    "Check the call before it is recorded as executed: append it to your history, then look at the tail of the history.",
+    "A cycle of length L means history[-2L:-L] == history[-L:]. Try L = 2, 3, ... and skip blocks where every call is identical; that is the repeat rule's job."
+  ],
+  "related": ["react-tool-loop", "plan-and-execute-replan"]
+}

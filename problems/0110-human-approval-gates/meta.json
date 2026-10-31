@@ -1,0 +1,20 @@
+{
+  "id": 110,
+  "slug": "human-approval-gates",
+  "title": "Human Approval Gates for Risky Tools",
+  "difficulty": "Medium",
+  "category": "agents",
+  "tags": ["Human in the Loop", "Guardrails", "State Machines"],
+  "mode": "driver",
+  "entry": "ApprovalRun",
+  "signature": "class ApprovalRun: __init__(self, policy, ttl, clock, execute, log), state, call(call_id, tool, args), approve(call_id, approver), reject(call_id, approver), tick()",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Keep at most one pending approval and a FIFO queue. `state` is just whether something is pending.",
+    "Run the expiry check first in every public method, tick() included: if now >= expires_at, log expired, clear the pending call, and drain the queue.",
+    "Draining means running each queued call back through the same policy function a fresh call uses. A queued refund must pause the run again.",
+    "approve and reject only act on the call that is pending right now, from someone in the approvers list. Everything else is an `ignored` event."
+  ],
+  "related": ["plan-and-execute-replan", "tool-permission-scopes", "policy-engine"]
+}

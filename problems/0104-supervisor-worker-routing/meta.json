@@ -1,0 +1,20 @@
+{
+  "id": 104,
+  "slug": "supervisor-worker-routing",
+  "title": "Supervisor-Worker Routing",
+  "difficulty": "Medium",
+  "category": "agents",
+  "tags": ["Multi-Agent", "Routing", "Load Balancing"],
+  "mode": "driver",
+  "entry": "supervise",
+  "signature": "def supervise(subtasks, workers, execute)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "A worker is eligible only if its skills contain every tag the subtask needs: set(needs) <= set(skills).",
+    "Use min over (len(queue[w]), w) so ties go to the alphabetically first name, whatever order the workers came in.",
+    "Rounds: loop over sorted worker names, pop at most one subtask per worker per round, until every queue is empty. A reassigned subtask goes to the back of its new worker's queue.",
+    "Track which workers already failed a subtask and how many times it was reassigned. One reassignment, never back to a worker that failed it."
+  ],
+  "related": ["parallel-tool-dag", "multi-agent-vote", "agent-handoff-context"]
+}

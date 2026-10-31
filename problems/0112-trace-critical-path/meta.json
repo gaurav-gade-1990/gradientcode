@@ -1,0 +1,20 @@
+{
+  "id": 112,
+  "slug": "trace-critical-path",
+  "title": "Agent Trace Critical Path",
+  "difficulty": "Medium",
+  "category": "agents",
+  "tags": ["Observability", "Tracing", "Intervals"],
+  "mode": "function",
+  "entry": "analyze_trace",
+  "signature": "def analyze_trace(spans)",
+  "compare": {"rtol": 1e-9, "atol": 1e-6},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Index children by parent id, then walk down from the root. Anything you never reach is an orphan.",
+    "Self time = duration minus the UNION of the children's intervals, each clipped to the parent. Parallel children overlap, so a sum double counts.",
+    "Write one union_length(intervals) helper (sort, then merge) and use it for both self time and time per kind.",
+    "The critical path picks min(children, key=(-end, -start, id)) at each level until it reaches a leaf."
+  ],
+  "related": ["parallel-tool-dag", "streaming-latency-percentiles", "slo-burn-rate-alerts"]
+}

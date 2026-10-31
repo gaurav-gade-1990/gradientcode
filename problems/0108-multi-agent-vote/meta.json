@@ -1,0 +1,19 @@
+{
+  "id": 108,
+  "slug": "multi-agent-vote",
+  "title": "Multi-Agent Weighted Vote",
+  "difficulty": "Easy",
+  "category": "agents",
+  "tags": ["Multi-Agent", "Ensembles", "Self-Consistency"],
+  "mode": "function",
+  "entry": "aggregate",
+  "signature": "def aggregate(votes, quorum)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Normalize first: strip, lowercase, collapse whitespace with ' '.join(s.split()), then rstrip('.!?'). An empty result is an abstention.",
+    "Clamp each confidence into [0, 1] before adding it to its answer's score, and round scores to 9 decimals before comparing them.",
+    "Sort the candidates by (-score, -count, first_index). The reason is \"tie_break\" when more than one answer has the top score."
+  ],
+  "related": ["supervisor-worker-routing", "llm-judge-position-swap"]
+}
