@@ -34,5 +34,5 @@ def call_with_retry(fn, clock, rand, max_attempts=5, base=0.5, cap=8.0):
 - Put this in **one gateway** that every model call goes through, not copied into each agent. Then retries, timeouts, tracing and cost accounting are written once.
 - Budget the **total** time as well as the attempts. A user-facing chat turn usually has a deadline of a few seconds, while batch jobs can wait minutes.
 - Retries multiply load. With 3 layers that each retry 3 times, one failure turns into 27 calls. Retry at one layer only, and pair retries with a **circuit breaker** (problem 125) so a dead provider fails fast.
-- Only retry **idempotent** operations. A tool call that charges a card needs an idempotency key (problem 121) before it's safe to retry.
+- Only retry **idempotent** operations. A tool call that charges a card needs an idempotency key (problem 119, idempotent-tool-execution) before it's safe to retry.
 - The Anthropic and OpenAI SDKs retry 429/5xx twice by default with exponential backoff and jitter, and they respect `retry-after`. Know what your SDK already does, so you don't stack your own retries on top of it.
