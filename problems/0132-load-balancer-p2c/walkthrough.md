@@ -233,7 +233,7 @@ def simulate_lb(requests, replicas, policy, pick2):    # one simulation for one 
 | burst at one instant | ten arrivals at `t=0`; round robin and least outstanding agree | `seq` keeps same-time arrivals in input order |
 | p2c ties take the first draw | `[2, 1, 3, 0, 1]` | ties go to `a`, not to the lower index |
 | fleet under load | 600 requests on 8 replicas, all three policies | everything at scale, including p99 at `n = 600` |
-| small p99 sample | round robin p50 3, p99 8 on 7 latencies | nearest rank on a tiny sample |
+| small p99 sample | round robin p50 5.17, p99 6.86 (max 6.96) on 100 latencies | n = 100 is the smallest sample where p99 is not the max: index 98, not 99 |
 
 ## 10. Complexity
 
@@ -249,7 +249,7 @@ Compare `max_outstanding` first; it is the field that exposes most bugs.
 - **Least outstanding sends work to the slow replica as if it were round robin** (Example 1 gives assignment `[0, 1, 2, 3, 0, 1, 2, 3]` and `max_outstanding [2, 2, 2, 2]`). You never decrement `outstanding` on completion.
 - **Least outstanding piles everything onto one replica** (Example 3 gives `[0, 0, 0]`). You count only the queue, so a replica whose slots are full looks empty. Count in-service requests too.
 - **"p2c ties take the first draw" gives `[1, 0, 2, 0, 1]`.** You break P2C ties by index. Keep `a` unless `b` is strictly less loaded.
-- **Only `p50` is off, and only on some cases** (least outstanding on "round robin piles onto a slow replica" gives 1.7 instead of 1.6). Your percentile index is `int(q * n)`. It differs from `ceil(q * n) - 1` exactly when `q * n` is a whole number, as `0.5 * 40` is.
+- **Only `p50` is off, and only on some cases** (least outstanding on "round robin piles onto a slow replica" gives 1.7 instead of 1.6). Your percentile index is `int(q * n)`. It differs from `ceil(q * n) - 1` exactly when `q * n` is a whole number, as `0.5 * 40` is. If only `p99` is off, and only in "small p99 sample" (round robin 6.96 instead of 6.86), you read p99 at `int(0.99 * n)`: with n = 100 that is index 99, the max.
 - **`AssertionError: pick2() called more times...` or `pick2_calls` is non-zero for round robin.** You call `pick2()` outside the `p2c` branch.
 
 ## 12. Follow-ups an interviewer might ask

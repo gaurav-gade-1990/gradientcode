@@ -216,6 +216,7 @@ def embedding_drift(ref, cur, cos_threshold, mmd_threshold):
 | uneven window sizes | `["centroid_shift"]`, mmd2 0.0478588 | `n = 14`, `m = 3`: the separate `n(n-1)` and `m(m-1)` denominators |
 | half the week is the new topic | `["centroid_shift"]`, mmd2 -0.00147319 | the centroid catches what a small-sample MMD misses |
 | bot replays two tickets | `["mmd"]`, distance 0.49021 | MMD catches a collapse that keeps the mean in place |
+| mostly empty bodies make the median distance 0 | `["centroid_shift"]`, distance 0.732739, sigma 1, mmd2 -0.026753 | 7 of 9 rows are all-zero, so 21 of the 36 pair distances are exactly 0 and the median is 0: the `sigma = 1.0` fallback |
 | high thresholds never fire | distance 1.04299, mmd2 0.0615949, no drift | thresholds come from the arguments; distance above 1 isn't clipped |
 
 ## 11. Complexity
@@ -233,6 +234,7 @@ Compare `sigma` first. It feeds `mmd2`, so a wrong bandwidth makes both numbers 
 - **In Example 1, `mmd2` is 0.0669 and `"mmd"` fires.** You used the biased estimator. Subtract the trace and divide by `n(n-1)` and `m(m-1)`. In Example 3 the biased version gives exactly 0.
 - **In "ingestion bug sends empty bodies", the distance is `nan` and `reasons` is only `["mmd"]`.** You divided by a zero centroid norm. Return 1.0 when either norm is 0.
 - **`sigma` is `nan` in the large-window cases and "bot replays two tickets".** Repeated tickets have a true distance of 0, which rounding turns into a tiny negative number, and its `sqrt` is `nan`. Clip with `np.maximum(d, 0.0)`.
+- **In "mostly empty bodies make the median distance 0", `sigma` is 0 and `mmd2` is `nan`.** Most pair distances are exactly 0, so the median is 0 and the kernel divides by zero. Use `sigma = 1.0` when the median is 0.
 - **`reasons` is `["mmd", "centroid_shift"]`.** Check the centroid first.
 
 ## 13. Follow-ups an interviewer might ask

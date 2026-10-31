@@ -58,6 +58,11 @@ def cases():
     recover = _series(rng, [((1000, 0.01, 400), (300, 0.05, 400))] * 2 + [((1000, 0.01, 400), (300, 0.01, 400))] * 4)
     exact_bp = [W("10:%02d" % i, {"requests": 1000, "errors": 10, "latencies_ms": [100] * 10}, {"requests": 500, "errors": 10, "latencies_ms": [120] * 10}) for i in range(3)]
     empty_lat = [W("11:%02d" % i, {"requests": 500, "errors": 5, "latencies_ms": []}, {"requests": 500, "errors": 5, "latencies_ms": [900] if i else []}) for i in range(3)]
+    gap = [W("16:00", {"requests": 900, "errors": 9, "latencies_ms": lat_b}, {"requests": 300, "errors": 3, "latencies_ms": lat_c}),
+           W("16:05", {"requests": 880, "errors": 9, "latencies_ms": lat_b}, {"requests": 290, "errors": 3, "latencies_ms": lat_c}),
+           W("16:10", {"requests": 150, "errors": 2, "latencies_ms": lat_b}, {"requests": 40, "errors": 0, "latencies_ms": lat_c[:4]}),
+           W("16:15", {"requests": 910, "errors": 9, "latencies_ms": lat_b}, {"requests": 305, "errors": 3, "latencies_ms": lat_c}),
+           W("16:20", {"requests": 900, "errors": 9, "latencies_ms": lat_b}, {"requests": 300, "errors": 3, "latencies_ms": lat_c})]
     return [
         {"name": "Example 1", "hidden": False, "args": {"windows": ex1, "policy": POLICY},
          "explanation": "14:00 has only 50 canary requests, so it extends without touching the streaks. 14:05 to 14:15 are healthy, but the third healthy window is the promote. 14:20 is never analyzed."},
@@ -73,5 +78,6 @@ def cases():
         {"name": "recovers then promotes", "args": {"windows": recover, "policy": _pol(fail_windows=3, pass_windows=3)}},
         {"name": "exactly at thresholds", "args": {"windows": exact_bp, "policy": _pol(min_requests=100, pass_windows=3)}},
         {"name": "missing latency samples", "args": {"windows": empty_lat, "policy": _pol(min_requests=100, pass_windows=3)}},
+        {"name": "low-traffic gap keeps the pass streak", "args": {"windows": gap, "policy": POLICY}},
         {"name": "runs out of windows", "args": {"windows": late[:2], "policy": _pol(pass_windows=5)}},
     ]

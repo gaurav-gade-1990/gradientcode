@@ -32,7 +32,7 @@ def cases():
         {"name": "preempt newest of three",
          "args": {"requests": [r("a", 0, 7, 5), r("b", 0, 3, 6), r("c", 0, 3, 6)], "config": dict(BASE, num_blocks=5, max_model_len=16)}},
         {"name": "self preemption",
-         "args": {"requests": [r("a", 0, 4, 6), r("b", 0, 4, 6)], "config": dict(BASE, num_blocks=4, max_model_len=12)}},
+         "args": {"requests": [r("a", 0, 5, 6), r("b", 0, 3, 6)], "config": dict(BASE, num_blocks=3, max_model_len=12)}},
         {"name": "repeated preemption keeps first ttft",
          "args": {"requests": [r("long", 0, 6, 10), r("x", 0, 6, 10), r("y", 1, 2, 3)], "config": dict(BASE, num_blocks=6, max_model_len=24)}},
         {"name": "head of line blocking is FCFS",

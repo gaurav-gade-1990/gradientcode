@@ -238,7 +238,8 @@ def validate(records, expectations, refs=None, id_column="request_id", sample_si
 | Example 1 | `failed_rows [0, 2, 3]`; unique fails both copies; range evaluates 3 | every duplicate fails; nulls are skipped by `range` |
 | Example 2 | regex and `cached` type fail row 1; `cost_usd` type evaluates 2 and passes; not_null passes under `mostly 0.5`; `failed_rows [0, 1]` | `fullmatch`, string `"false"` is not a bool, int `1` is a float, `mostly`-passing rows still listed |
 | clean hourly batch | `success True`, `cost_usd` type evaluates 83 of 120 | no false positives; cached rows with null cost are skipped |
-| dirty batch with incidents, dirty batch, sample of 5 | 11 failed rows; status passes at 148/149 | every check on one batch, `None` id in a sample |
+| dirty batch with incidents | 11 failed rows; status passes at 148/149 | every check on one batch, `None` id in a sample |
+| dirty batch, sample of 5 | 18 failed rows; latency_ms range fails 7 and lists 5 ids; created_at regex fails 2 | `bad[:sample_size]`, not a fixed 3; an int `created_at` fails the regex instead of raising |
 | mostly holds at 2 of 60 | status fails 2, `passed True`, `success True`, `failed_rows [3, 9]` | 58/60 ≥ 0.95 |
 | mostly breaks at 4 of 60 | status fails 4, `passed False` | 56/60 < 0.95 |
 | empty batch | every result `evaluated 0, passed True`, `success True` | no division by zero |
@@ -257,10 +258,11 @@ In production you don't pull the rows out of the warehouse to do this. Each chec
 - **`evaluated` equals the batch size on every check, and the clean batch fails.** Your checks count nulls as failures. `cost_usd` type then evaluates all 120 rows and fails the 37 cache hits. Only `not_null` evaluates every row.
 - **Example 1 has `failed_rows [2, 3]` and unique fails only 1 row.** You flag the second occurrence of a duplicate and let the first pass. Count the column first, then fail every row whose value occurs more than once.
 - **"bools are not ints" reports only `r5` failing the type check, or the dirty batch's `prompt_tokens` checks fail only row 52.** `True` slipped through `isinstance(v, int)`. Exclude `bool` explicitly.
+- **"dirty batch, sample of 5" lists only 3 ids for the 7 failing `latency_ms` rows.** You hard-coded the sample length. Slice with `bad[:sample_size]`.
 - **The dirty batch's `created_at` regex shows `failed 0`.** You used `re.match`, which ignores trailing junk like `" (retry)"`. Use `re.fullmatch`.
 - **"bools are not ints" has the unique check failing 4 rows.** Your unique key is the value alone, so `0`/`False` and `1`/`True` collide. Put `type(v).__name__` in the key.
 - **Example 2's `failed_rows` is missing row 0.** You only add a rule's bad rows when the rule fails. Rows that failed a `mostly`-passing rule still go in.
-- **Runtime Error: `TypeError: expected string or bytes-like object`.** You ran the regex on a non-string. The current tests never put a number in a regex column, so this passes the judge, but the statement says a non-string fails the check, and a real batch will contain one. Check `isinstance(v, str)` first.
+- **Runtime Error: `TypeError: expected string or bytes-like object`.** You ran the regex on a non-string. "dirty batch, sample of 5" has an epoch-seconds int in `created_at`, and the statement says a non-string fails the check. Check `isinstance(v, str)` first.
 
 ## 12. Follow-ups an interviewer might ask
 

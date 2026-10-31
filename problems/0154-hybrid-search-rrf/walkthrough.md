@@ -65,7 +65,7 @@ Equal RRF scores are common: any chunk at rank 1 in one list and absent from the
 2. **best rank** (the smaller of the two ranks), ascending: a chunk that some retriever put near the top beats one that was mediocre in both;
 3. `chunk_id`, ascending, as the final tie-break.
 
-In "tie broken by chunk_id", `kb/zz-badge#1` (BM25 rank 1) and `kb/aa-badge#1` (vector rank 1) both score `0.016393` with best rank 1, so `aa` comes first. In "duplicate hits count once", `expense-policy#2` (ranks 1 and 4) and `per-diem-table#1` (ranks 4 and 1) both score `0.032018`; both have best rank 1, and `expense-policy` sorts first by id.
+In "tie broken by best rank", `hr/leave#1` (BM25 rank 1, `1/11`) and `hr/aa-leave-faq#1` (vector rank 12 at weight 2, `2/22`) tie at `0.090909`, and best rank 1 beats 12, so `leave` comes first although `aa` sorts first by id. In "tie broken by chunk_id", `kb/zz-badge#1` (BM25 rank 1) and `kb/aa-badge#1` (vector rank 1) both score `0.016393` with best rank 1, so `aa` comes first. In "duplicate hits count once", `expense-policy#2` (ranks 1 and 4) and `per-diem-table#1` (ranks 4 and 1) both score `0.032018`; both have best rank 1, and `expense-policy` sorts first by id.
 
 ## 6. Plan before you code
 
@@ -164,7 +164,7 @@ def hybrid_search(query, bm25, vector, top_n, candidates=50, k=60, weights=None)
 | raw scores ignored | laptop-refresh#1 first | ranks, not 48.0 + 0.92 |
 | candidates deeper than top_n | kb/sla#1, kb/sla#7, kb/sla#8 | fetch 8, not 3; chunks deep in both lists win |
 | tie broken by chunk_id | kb/aa-badge#1 before kb/zz-badge#1 | equal score and best rank, so sort by id |
-| tie broken by best rank | hr/benefits#1 to #3 | `k = 10` and a vector weight of 2 |
+| tie broken by best rank | 13 results: hr/benefits#1 to #11, then hr/leave#1 before hr/aa-leave-faq#1, both 0.090909 | with `k = 10` and a vector weight of 2, BM25 rank 1 (1/11) ties vector rank 12 (2/22); best rank 1 beats 12 before the id is looked at |
 | vector index empty | the BM25 order, one term each | an empty list adds nothing |
 | both empty | `[]` | nothing to fuse |
 | fewer results than top_n | 5 results with `top_n = 10`; payments-api#2 before INC-30551#1 at 0.5 | return what exists; id tie-break with `k = 1` |
@@ -181,6 +181,7 @@ In production the knob that matters is `candidates` (Elasticsearch calls it `ran
 - **"raw scores ignored" puts `wiki/glossary#9` first with score 48.0.** You're adding raw scores and similarities.
 - **"duplicate hits count once" gives `expense-policy#2` 0.048147.** You counted both shard copies.
 - **"candidates deeper than top_n" returns `kb/escalation#1` and `kb/sla#2`, and the call log shows `limit = 3`.** You fetched `top_n` instead of `candidates`.
+- **"tie broken by best rank" puts `hr/aa-leave-faq#1` before `hr/leave#1`.** You broke the tie by `chunk_id` alone. Compare the best rank first.
 - **"tie broken by chunk_id" puts `zz` before `aa`.** Your sort only uses the score, so ties fall back to insertion order.
 - **Example 2's `payments-api#2` scores 0 and `INC-30551#1` moves to the top.** You treated a missing weight key as 0 instead of 1.0.
 

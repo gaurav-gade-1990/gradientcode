@@ -1,4 +1,6 @@
 SHORT_RULES = [{"severity": "page", "long": 6, "short": 2, "factor": 10.0}]
+FANOUT = ["sms", "page", "ticket", "email", "slack", "webhook", "dashboard", "jira", "oncall-backup", "ops-channel", "exec-summary", "audit-log"]
+FANOUT_RULES = [{"severity": s, "long": 10 + 2 * i, "short": 2 + i % 3, "factor": 2.0 + i} for i, s in enumerate(FANOUT)]
 
 
 def cases():
@@ -33,6 +35,7 @@ def cases():
                   "segments": [[40, 800, 2], [25, 800, 50], [10, 800, 300], [60, 800, 2]]}},
         {"name": "sustained outage ends open",
          "args": {"slo": 0.999, "segments": [[30, 5000, 2], [80, 5000, 2500]]}},
+        {"name": "twelve alerts open at once", "args": {"slo": 0.99, "rules": FANOUT_RULES, "segments": [[5, 100, 0], [40, 100, 50]]}},
         {"name": "healthy day no events",
          "args": {"slo": 0.999, "segments": [[300, 2500, 1], [100, 2500, 2]]}},
         {"name": "ticket from a long moderate burn",

@@ -297,7 +297,7 @@ def simulate_server(requests, config):
 | Example 2 | doc-b preempted at t=5.5, ttft 5.5, latency 32 | newest is preempted; re-prefill is 7 + 1 = 8 tokens; TTFT is kept |
 | Example 3 | too-long rejected; rag-b ttft 10.5 | `max_model_len` rejection; the token budget delays a prefill even with blocks free |
 | preempt newest of three | c preempted (1 time), a and b keep running | `running.pop()` takes the last admitted, not the one that needs the block |
-| self preemption | b preempted at t=13, latency 24.5 | a block shortage late in the stream; resume re-prefills 4 + 4 = 8 tokens |
+| self preemption | b preempts itself at t=4 (decode `["a"]`), latency 29.5 | a fits its next token in its blocks, so the newest, b, is the one that needs a block and evicts itself; it resumes with 3 + 1 = 4 tokens at t=16.5 |
 | repeated preemption keeps first ttft | y then x preempted; y ttft 7.5, latency 38.25 | victims stack at the front, so x (preempted last) resumes before y |
 | head of line blocking is FCFS | big ttft 28.25; small-2 waits behind it and is later preempted | `break`, not skip, when the head doesn't fit |
 | token budget caps prefill | p0, p1 at t=0; p2, p3 at t=7 | 10 + 10 fits a 24 budget, a third 10 doesn't |

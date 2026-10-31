@@ -20,7 +20,7 @@ The policies differ only in what they look at:
 - **Counting only the queue.** Requests in service are load too, so a replica with full slots and an empty queue looks idle.
 - **Never decrementing.** If the "done" hook doesn't fire on every path (streams, errors, client cancels), the counter turns into "requests ever assigned".
 - **Arrivals before completions.** At the same instant, a slot being released should be visible to the arriving request.
-- **An off-by-one in nearest-rank percentiles.** `int(0.99 * n)` reads past the rank for small n.
+- **An off-by-one in nearest-rank percentiles.** `int(q * n)` reads one past the rank whenever `q * n` is a whole number, such as p99 with n = 100.
 - **Breaking P2C ties by index.** This skews load toward low indices.
 
 ## Production notes

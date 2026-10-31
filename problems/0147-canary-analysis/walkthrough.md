@@ -201,6 +201,7 @@ def analyze_canary(windows, policy):  # walk the windows until a terminal decisi
 | recovers then promotes | promote at 14:20 | a good streak after early failures, with `fail_windows = 3` |
 | exactly at thresholds | promote, all `healthy` | strict `>` at exactly 100 bp and exactly 120% |
 | missing latency samples | promote | p99 `None` on one side skips the latency check |
+| low-traffic gap keeps the pass streak | promote at 16:15; 16:10 is `insufficient_samples` | two passes, a thin window that leaves the streak at 2, then the third pass promotes |
 | runs out of windows | `inconclusive`, two rows | no terminal decision |
 
 ## 10. Complexity
@@ -215,6 +216,7 @@ At scale, the real cost is collecting metrics. You don't ship raw latency lists;
 - **"isolated blips" rolls back at 14:15.** You never reset the fail streak on a healthy window.
 - **p99 values are around 300 to 400 in "tail latency only" instead of 1800.** You computed mean latency.
 - **Example 1's first row says `error_rate` instead of `insufficient_samples`, or "overnight low traffic" promotes at 14:05.** You're missing the minimum-samples rule.
+- **"low-traffic gap keeps the pass streak" extends at 16:15 and ends `inconclusive`.** Your insufficient-samples branch resets the streaks. Leave both counters alone there.
 - **Example 1 has a fifth row (14:20, rollback), or "recovers then promotes" has a 14:25 row.** You kept analyzing after a terminal decision.
 - **"exactly at thresholds" fails.** You used `>=` somewhere. Both the error and latency rules are strict.
 

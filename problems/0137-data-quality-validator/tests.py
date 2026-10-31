@@ -55,6 +55,11 @@ def cases():
     dirty[77]["request_id"] = None
     dirty[88]["cost_usd"] = "0.004"
 
+    dirty5 = [dict(r) for r in dirty]
+    for i in (5, 19, 44, 63, 101, 120):
+        dirty5[i]["latency_ms"] = -float(i)                    # a clock-skewed host, 7 bad rows with row 31
+    dirty5[130]["created_at"] = 1793366531                     # epoch seconds, not a string
+
     status_drift = _batch(rng, 60, 0x5e6f0000)
     for i in (3, 9):
         status_drift[i]["status"] = "rate_limited"
@@ -88,7 +93,7 @@ def cases():
          "explanation": "Row 1 uses a space instead of T, and its cached flag is the string 'false', not a bool. cost_usd is null on the cache hit: the type check skips it, and the int 1 counts as a float. not_null fails 1 of 3 rows, but 2/3 >= mostly = 0.5, so it passes and row 0 is still listed in failed_rows."},
         {"name": "clean hourly batch", "args": {"records": clean, "expectations": STANDARD, "refs": refs}},
         {"name": "dirty batch with incidents", "args": {"records": dirty, "expectations": STANDARD, "refs": refs}},
-        {"name": "dirty batch, sample of 5", "args": {"records": dirty, "expectations": STANDARD, "refs": refs, "sample_size": 5}},
+        {"name": "dirty batch, sample of 5", "args": {"records": dirty5, "expectations": STANDARD, "refs": refs, "sample_size": 5}},
         {"name": "mostly holds at 2 of 60", "args": {"records": status_drift, "expectations": STANDARD, "refs": refs}},
         {"name": "mostly breaks at 4 of 60", "args": {"records": status_drift4, "expectations": STANDARD, "refs": refs}},
         {"name": "empty batch", "args": {"records": [], "expectations": STANDARD, "refs": refs}},

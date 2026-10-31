@@ -53,6 +53,9 @@ def cases():
          "args": {"events": [ev("a", "2026-09-30", "globex", "agent", "mid-model", 0, 0, 1_000_000), ev("b", "2026-11-02", "globex", "agent", "mid-model", 0, 0, 1_000_000)],
                   "prices": {"mid-model": [{"effective": "2026-11-01", "input": 2.0, "cached_input": 0.2, "output": 10.0}] + PRICES["mid-model"]},
                   "shared_costs": [{"name": "gpu-reservation", "amount": 500.0}], "budgets": {"globex": 29.0}}},
+        {"name": "price entries oldest first",
+         "args": {"events": [ev("o1", "2026-10-20", "acme", "agent", "mid-model", 1_000_000, 0, 0)],
+                  "prices": {"mid-model": PRICES["mid-model"][::-1]}, "shared_costs": [], "budgets": {}}},
         {"name": "month of traffic",
          "args": {"events": month(240), "prices": PRICES, "shared_costs": SHARED, "budgets": {"acme": 15.0, "globex": 4.0}}},
     ]

@@ -51,6 +51,6 @@ def cases():
         {"name": "burst at one instant", "args": {"requests": reqs(10, 0.0), "replicas": DEGRADED, "policies": ALL, "pairs": pairs_for(10, 4, 1324)}},
         {"name": "p2c ties take the first draw", "args": {"requests": reqs(5, 10.0), "replicas": DEGRADED, "policies": ["p2c"], "pairs": [[2, 1], [1, 0], [3, 2], [0, 3], [1, 2]]}},
         {"name": "fleet under load", "args": {"requests": load(600, 132, 0.12), "replicas": FLEET, "policies": ALL, "pairs": pairs_for(600, 8, 1325)}},
-        {"name": "small p99 sample", "args": {"requests": [{"id": "x%d" % i, "arrival": float(i), "work": float(1 + (i * 7) % 5)} for i in range(7)],
-                                               "replicas": DEGRADED[:2], "policies": ALL, "pairs": pairs_for(7, 2, 1326)}},
+        {"name": "small p99 sample", "args": {"requests": [{"id": "x%d" % i, "arrival": 2.0 * i, "work": float(1 + (i * 7) % 5) + i / 100} for i in range(100)],
+                                               "replicas": DEGRADED[:2], "policies": ALL, "pairs": pairs_for(100, 2, 1326)}},
     ]

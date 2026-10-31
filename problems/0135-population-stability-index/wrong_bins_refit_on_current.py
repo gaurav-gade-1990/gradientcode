@@ -3,7 +3,7 @@ import numpy as np
 
 def psi_report(reference, current, n_bins=10, eps=1e-4):
     # Incident: the monitoring job refit the bins on today's window, so every bin of `current`
-    # held ~10% by construction and PSI stayed near zero while the prompt lengths doubled.
+    # held ~10% by construction and PSI was measured on bins that moved every day.
     ref = np.asarray(reference, dtype=float)
     cur = np.asarray(current, dtype=float)
     edges = np.unique(np.quantile(cur, [i / n_bins for i in range(1, n_bins)]))

@@ -184,6 +184,7 @@ class BurnRateAlerter:
 | flapping short window | page 3–9 and 10–12 | close and reopen on consecutive transitions, one event each |
 | custom rules and slo 99.5% | slow 50–89, fast 63–77 | rules and budget come from the arguments, not hard-coded |
 | sustained outage ends open | both open at 30, `active` `["page", "ticket"]` | `active()` in rules order; no repeated `open` events |
+| twelve alerts open at once | 12 `open` events (7 at minute 5, 5 at minute 6), all still open; `active` lists all 12 in `rules` order | with 12 open severities, a set's iteration order is out of rules order for essentially every hash seed |
 | healthy day no events | no events | burn 0.5 to 0.8 never crosses a factor |
 | ticket from a long moderate burn | ticket 368–464 | a slow burn that only the 6-hour rule catches |
 
@@ -200,7 +201,7 @@ In production you'd keep running sums per window instead of re-summing: add the 
 - **Example 3 has an extra `open` at minute 7 and the first interval never closes.** You emit `open` every minute the condition holds. Compare with the stored state.
 - **"night traffic is not averaged per minute" fires a ticket at minute 60 and a page at minute 61.** You average per-minute ratios. Sum errors and requests over the window, then divide.
 - **Runtime Error in "zero-traffic minutes at start".** Division by zero: return `0.0` when the window has no requests.
-- **`active` in "sustained outage ends open" is `["ticket", "page"]` on some runs and right on others.** You returned `list(self.open)`. String hashing is randomized per process, so a set's order changes from run to run. Walk `rules` instead.
+- **`active` in "twelve alerts open at once" lists the right severities in a scrambled order** (and "sustained outage ends open" fails on some runs only). You returned `list(self.open)`. String hashing is randomized per process, so a set's order changes from run to run. Walk `rules` instead.
 
 ## 12. Follow-ups an interviewer might ask
 

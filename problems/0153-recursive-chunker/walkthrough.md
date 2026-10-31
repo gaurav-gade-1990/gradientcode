@@ -209,7 +209,8 @@ def chunk_document(text, max_tokens, overlap_tokens):  # recursive split, then g
 | Example 2 | 3 chunks: 19, 21, 17 | line split; overlap rejected by the `max_tokens` budget |
 | Example 3 | 5 chunks: 12, 12, 12, 12, 6 | fall-through to single tokens, 3-token overlap |
 | empty and whitespace | `[]` | no tokens |
-| fits in one chunk, one token over | 1 chunk of 45 tokens each time | 45 fits under both 48 and 47 |
+| fits in one chunk | 1 chunk of 45 tokens | `max_tokens` 45: a run of exactly `max_tokens` tokens is one piece (`<=`, not `<`) |
+| one token over | 2 chunks, 27 and 18 tokens | `max_tokens` 44: the 45-token document splits at its blank lines into 2, 25 and 18; 2 + 25 fits, 27 + 18 doesn't, and the 25-token piece is too big for the 5-token overlap |
 | repeated sentence offsets | 7 chunks; the repeated sentence at `[209:268]` | offsets from spans, not `text.find` |
 | repeated sentence with overlap | 4 chunks, each at most 20 tokens | overlap with repeated text |
 | ticket thread | 3 chunks: 37, 27, 32 | mixed paragraphs, lines and sentences |

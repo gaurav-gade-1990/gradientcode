@@ -60,7 +60,7 @@ Look at what each end got wrong. `tp` 2 "fits", but after 141 GB of weights it h
 
 ### A trickier case: "feasible but zero concurrency"
 
-Same model, but `max_model_len` is 4,096 and the average request is 30,000 + 1,000 tokens. Feasibility now only needs `ceil(4096/16) = 256` blocks, so `tp` 2 (938 blocks) is feasible. But one average request needs `ceil(31000/16) = 1,938` blocks, so `938 // 1938 = 0`. The option stays in `options` with `max_concurrent_seqs` 0, `replica_qps` 0.0 and `replicas` and `gpus` both `None`. It is skipped when choosing. `tp` 4 and `tp` 8 both come out at 16 GPUs, and the tie goes to the smaller `tp`, 4.
+Same model, but `max_model_len` is 15,000 and the average request is 14,200 + 900 = 15,100 tokens, slightly longer than the cap (the averages describe the traffic, not one request the server must accept). Feasibility needs `ceil(15000/16) = 938` blocks, so `tp` 2 (exactly 938 blocks) is feasible. But one average request needs `ceil(15100/16) = 944` blocks, so `938 // 944 = 0`. The option stays in `options` with `max_concurrent_seqs` 0, `replica_qps` 0.0 and `replicas` and `gpus` both `None`. It is skipped when choosing. `tp` 4 (30 sequences, 2 replicas) and `tp` 8 (89 sequences, 1 replica) both come out at 8 GPUs, and the tie goes to the smaller `tp`, 4.
 
 ## 4. Key idea: Little's law turns memory into throughput
 
@@ -196,9 +196,10 @@ def plan_capacity(model, gpu, workload):
 | kv_heads must divide tp | tp 2, 4 GPUs | 4 KV heads, so tp 8 is skipped even though `max_tp` is 8 |
 | nothing feasible | `options` `[]`, `chosen` `None` | a 70B model on two L40S: the budget is negative at every tp |
 | long context forces higher tp | tp 8, 4 replicas, 32 GPUs | 131,072-token context needs 8,192 blocks, so tp 2 is infeasible; tp 8 beats tp 4 (40 GPUs) |
-| feasible but zero concurrency | tp 4, 16 GPUs | tp 2 is listed with `None`s and skipped; the 16-GPU tie goes to tp 4 |
+| feasible but zero concurrency | tp 4, 2 replicas, 8 GPUs | tp 2 is listed with `None`s and skipped; the 8-GPU tie goes to tp 4 |
 | tiny load still needs one replica | tp 1, 1 replica | `max(1, ...)` at 0.01 QPS |
 | full utilization target | tp 4, 11 replicas, 44 GPUs | `target_utilization_pct` 100 divides by the full replica QPS |
+| exact replica count is not rounded up | tp 1, 4 replicas, 4 GPUs | 5 / (1.78571 · 0.7) is exactly 4 but computes as 4.000000000000001; the `- 1e-9` keeps it at 4 |
 | scheduler cap dominates | tp 1, 3 GPUs | `max_num_seqs` 8 makes every option 3 replicas, so tp 1 wins on GPUs |
 
 ## 9. Complexity
@@ -217,6 +218,7 @@ Compare `kv_bytes_per_token` first, then each option's `num_blocks`, then `repli
 - **Example 1 picks 5 replicas and 20 GPUs.** You sized at 100% utilization. Divide by `qps * target_utilization_pct / 100`.
 - **The tp 8 option in Example 1 shows 538 concurrent sequences.** You forgot `min(max_num_seqs, ...)`. The pick happens to survive here (538 sequences gives 3 replicas, 24 GPUs, a tie lost to tp 4), but the `options` list doesn't.
 - **"kv_heads must divide tp" lists a tp 8 option.** You're missing `kv_heads % tp`.
+- **"exact replica count is not rounded up" gives 5 replicas instead of 4.** You dropped the `- 1e-9`, so float noise above an exact integer rounds up. Keep the epsilon inside the `ceil`.
 - **`nothing feasible` crashes, or `chosen` is a dict with `None` GPUs.** You called `min` on an empty list, or didn't filter out options whose `gpus` is `None`.
 
 ## 11. Follow-ups an interviewer might ask

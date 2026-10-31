@@ -23,7 +23,7 @@ Three details are easy to miss:
 
 - **Prices are per million tokens.** Divide by `1e6` once, at the end of the cost formula.
 - **`effective` dates compare as strings.** ISO `"YYYY-MM-DD"` sorts the same way as the dates it names, so `p["effective"] <= e["date"]` works without parsing.
-- **The price list is not sorted.** "price entries out of order" puts the newest entry first. Don't take `prices[model][0]` or `[-1]`. Scan for the best match.
+- **The price list is not sorted.** "price entries out of order" puts the newest entry first, and "price entries oldest first" reverses the list. Don't take `prices[model][0]` or `[-1]`, or the first entry that applies. Scan for the best match.
 
 ## 3. Trace Example 1 by hand
 
@@ -204,6 +204,7 @@ def attribute_costs(events, prices, shared_costs, budgets):
 | cached tokens are billed once | direct 14.5, no alerts | `(input - cached)` at the full rate |
 | no priced events leaves shared unallocated | `by_tenant` `{}`, `unallocated_shared` 200 | the `D == 0` path |
 | price entries out of order | a costs 15, b costs 10; 50% fires on a, 80% on b | scan every entry instead of trusting list order |
+| price entries oldest first | o1 costs 2.5, not 3 | the first entry that applies (2026-09-01) is not the latest one (2026-10-15) |
 | month of traffic | globex crosses 50, 80, 100 on u-0109, u-0184, u-0235 | everything at once over 240 events |
 
 ## 10. Complexity
@@ -220,6 +221,7 @@ At production scale (billions of events a month) the shape stays the same but mo
 - **Example 2 has acme at 7.5 and only u-4 in `unpriced`.** You used the latest price for every event, ignoring the date. Require `effective <= date`.
 - **"price entries out of order" bills b at $15 instead of $10, and a 100% alert fires.** You kept the last entry in the list that applies (`effective <= date`) instead of the one with the latest `effective` date. The list is not sorted, so compare dates.
 - **`ZeroDivisionError` on "no priced events leaves shared unallocated".** Guard `D > 0`, and return `unallocated_shared = S`.
+- **"price entries oldest first" bills o1 at $3 instead of $2.50.** You returned the first entry with `effective <= date`. That is right only when the list is newest first. Keep scanning and take the latest `effective`.
 - **Only one alert fires on `big` in "one event crosses several thresholds".** You `break` after the first threshold fires.
 
 ## 12. Follow-ups an interviewer might ask

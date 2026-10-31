@@ -1,5 +1,5 @@
-# Incident: p99 was read at index int(0.99 * n), one past nearest-rank, so dashboards showed the
-# max for small windows and paged on-call for a single slow request.
+# Bug: p99 was read at index int(0.99 * n) instead of ceil(0.99 * n) - 1. When 0.99 * n is whole
+# (a 100-request window) that is one past nearest-rank, so p99 showed the max and paged on a single slow request.
 import heapq
 import math
 from collections import deque
@@ -58,6 +58,6 @@ def simulate_lb(requests, replicas, policy, pick2):
     srt = sorted(latency)
 
     def pct(q):
-        return srt[min(len(srt) - 1, int(q * len(srt)))]
+        return srt[max(0, math.ceil(q * len(srt)) - 1)]
 
-    return {"assignment": assignment, "latency": latency, "p50": pct(0.50), "p99": pct(0.99), "max_outstanding": peak}
+    return {"assignment": assignment, "latency": latency, "p50": pct(0.50), "p99": srt[min(len(srt) - 1, int(0.99 * len(srt)))], "max_outstanding": peak}

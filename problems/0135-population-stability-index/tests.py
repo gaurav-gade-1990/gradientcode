@@ -34,7 +34,7 @@ def cases():
         {"name": "latency tail from a slow replica", "args": {"reference": latency_ref, "current": latency_cur}},
         {"name": "retry storm on tied feature", "args": {"reference": retries_ref, "current": retries_cur, "n_bins": 10}},
         {"name": "today's traffic all in one bin", "args": {"reference": ref30, "current": [999] * 40, "eps": 1e-3}},
-        {"name": "edge values exactly on cut points", "args": {"reference": list(range(1, 101)),
+        {"name": "edge values exactly on cut points", "args": {"reference": list(range(0, 101)),
                                                               "current": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 10.1, 20.1, 30.1]}},
         {"name": "constant reference", "args": {"reference": [256] * 50, "current": [256] * 30 + [300] * 10, "n_bins": 10}},
         {"name": "single request today", "args": {"reference": ref30[:100], "current": [181], "n_bins": 8}},

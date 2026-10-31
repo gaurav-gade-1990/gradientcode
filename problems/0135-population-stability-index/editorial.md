@@ -19,7 +19,7 @@ The `top_bin` field is the one the on-call actually reads: it says *where* the d
 
 ## Common mistakes
 
-- **Refitting the bins on the current window.** Every current bin then holds 1/n by construction, and PSI only measures how the *reference* looks in today's bins. A doubled prompt length can still look stable.
+- **Refitting the bins on the current window.** Every current bin then holds 1/n by construction, and PSI only measures how the *reference* looks in today's bins. The bins change every day, so the number can't be compared with yesterday's or with the alert bands.
 - **No epsilon.** One empty bin makes PSI `inf`, or `NaN` when both sides are empty. A `psi >= 0.25` alert is false for NaN, so the page never fires.
 - **Left-closed bins.** With `side="right"`, values equal to an edge move up a bin. Integer features (token counts, retries) sit on edges constantly, so this alone shows drift between two identical days.
 - **Keeping duplicate edges.** Tied features produce repeated quantiles. Zero-width bins inflate the bin count and misreport the per-bin table.

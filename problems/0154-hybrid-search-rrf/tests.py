@@ -69,7 +69,7 @@ def cases():
         {"name": "candidates deeper than top_n", "args": {"query": "SLA for sev2 escalation", "bm25_hits": DEEP_BM25, "vector_hits": DEEP_VEC, "top_n": 3, "candidates": 8}},
         {"name": "tie broken by chunk_id", "args": {"query": "badge access", "bm25_hits": [["kb/zz-badge#1", "kb/zz-badge", 5.0]],
                                                      "vector_hits": [["kb/aa-badge#1", "kb/aa-badge", 0.6]], "top_n": 2, "candidates": 10}},
-        {"name": "tie broken by best rank", "args": {"query": "parental leave", "k": 10, "weights": {"vector": 2.0}, "top_n": 3, "candidates": 12,
+        {"name": "tie broken by best rank", "args": {"query": "parental leave", "k": 10, "weights": {"vector": 2.0}, "top_n": 13, "candidates": 12,
             "bm25_hits": [["hr/leave#1", "hr/leave", 9.0]] + [["hr/misc#%d" % i, "hr/misc", 1.0] for i in range(2, 13)],
             "vector_hits": [["hr/benefits#%d" % i, "hr/benefits", 0.5] for i in range(1, 12)] + [["hr/aa-leave-faq#1", "hr/aa-leave-faq", 0.3]]}},
         {"name": "vector index empty", "args": {"query": "VPN", "bm25_hits": VPN_BM25, "vector_hits": [], "top_n": 3, "candidates": 4}},

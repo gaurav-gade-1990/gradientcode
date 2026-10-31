@@ -31,8 +31,10 @@ def cases():
         {"name": "nothing feasible", "args": {"model": LLAMA70, "gpu": dict(L40S, max_tp=2), "workload": CHAT}},
         {"name": "long context forces higher tp", "args": {"model": LLAMA70, "gpu": H100, "workload": dict(CHAT, max_model_len=131072, avg_prompt_tokens=60000, avg_output_tokens=800, target_qps=2)}},
         {"name": "feasible but zero concurrency", "args": {"model": LLAMA70, "gpu": H100,
-                                                            "workload": dict(CHAT, max_model_len=4096, avg_prompt_tokens=30000, avg_output_tokens=1000, target_qps=1)}},
+                                                            "workload": dict(CHAT, max_model_len=15000, avg_prompt_tokens=14200, avg_output_tokens=900, target_qps=1)}},
         {"name": "tiny load still needs one replica", "args": {"model": LLAMA8, "gpu": H100, "workload": dict(CHAT, target_qps=0.01)}},
         {"name": "full utilization target", "args": {"model": LLAMA70, "gpu": H100, "workload": dict(CHAT, target_utilization_pct=100, target_qps=120)}},
+        {"name": "exact replica count is not rounded up", "args": {"model": LLAMA8, "gpu": H100,
+                                                                     "workload": dict(CHAT, target_qps=5, avg_prompt_tokens=1000, avg_output_tokens=200, ttft_s=0.5, tpot_s=0.02, max_num_seqs=8)}},
         {"name": "scheduler cap dominates", "args": {"model": LLAMA8, "gpu": H100, "workload": dict(CHAT, target_qps=1, max_num_seqs=8)}},
     ]

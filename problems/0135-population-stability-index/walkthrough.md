@@ -189,7 +189,7 @@ def psi_report(reference, current, n_bins=10, eps=1e-4):   # PSI of today's wind
 | latency tail from a slow replica | PSI 0.0818723, `"stable"` | a tail shift that lands in the top bin barely moves PSI |
 | retry storm on tied feature | edges `[0, 1]` from `n_bins=10`, PSI 0.395937 | deduplication with ten requested bins |
 | today's traffic all in one bin | nine bins at `eps = 0.001`, PSI 6.17576 | a custom `eps` |
-| edge values exactly on cut points | edges `[10.9, 20.8, ...]`, PSI 0.11197 | quantile interpolation on 1 to 100 |
+| edge values exactly on cut points | edges `[10, 20, ..., 90]`, PSI 0.117078 | the deciles of 0 to 100 are whole numbers, so 10, 20, ..., 90 sit on edges and stay in the lower bin (`side="right"` gives 0.798162) |
 | constant reference | edges `[256]`, PSI 2.02715 | one interior edge, and an empty reference bin floored |
 | single request today | 1 in bin 3, every other bin floored, PSI 8.14173 | a one-element window |
 

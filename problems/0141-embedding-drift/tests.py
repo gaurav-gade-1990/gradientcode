@@ -79,6 +79,8 @@ def cases():
          "args": {"reference": BILLING + LOGIN, "current": BILLING[:4] + SSO[:4], "cos_threshold": 0.45, "mmd_threshold": 0.05}},
         {"name": "bot replays two tickets",
          "args": {"reference": BILLING + LOGIN, "current": [BILLING[0], LOGIN[0]] * 6, "cos_threshold": 0.6, "mmd_threshold": 0.05}},
+        {"name": "mostly empty bodies make the median distance 0",
+         "args": {"reference": [""] * 4 + [BILLING[0]], "current": [""] * 3 + [SSO[0]], "cos_threshold": 0.45, "mmd_threshold": 0.05}},
         {"name": "high thresholds never fire",
          "args": {"reference": BILLING, "current": SSO, "cos_threshold": 2.0, "mmd_threshold": 5.0}},
     ]

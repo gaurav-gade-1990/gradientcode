@@ -126,7 +126,7 @@ def _value(self, i):
     return 2 * self.gamma ** i / (self.gamma + 1)
 ```
 
-Compute the index exactly as the statement writes it. An algebraically equivalent form such as `math.log(v, gamma)` passes the current tests, but on a value that sits right at a bucket edge it can round to the neighbouring bucket, and the bucket table is graded.
+Compute the index exactly as the statement writes it. `math.log(v, gamma)` is fine: CPython computes it as `log(v) / log(gamma)`, so it gives the same float and the same bucket. Other algebraically equivalent forms are not. `math.log2(v) / math.log2(gamma)` rounds differently, and on values that sit right at a bucket edge, such as `gamma ** i`, it often lands in the neighbouring bucket. The bucket table is graded.
 
 **Step 2: `record`, validating first.** Check `count` and the sign of `value_ms` before touching any state, so a rejected call leaves the histogram exactly as it was:
 
