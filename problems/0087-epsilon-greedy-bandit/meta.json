@@ -1,0 +1,19 @@
+{
+  "id": 87,
+  "slug": "epsilon-greedy-bandit",
+  "title": "Epsilon-Greedy Bandit",
+  "difficulty": "Easy",
+  "category": "rl",
+  "tags": ["Reinforcement Learning", "Bandits", "Exploration"],
+  "mode": "function",
+  "entry": "epsilon_greedy",
+  "signature": "def epsilon_greedy(rewards: np.ndarray, epsilon: float, u: np.ndarray, explore_arms: np.ndarray) -> tuple",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Keep two arrays of length n_arms: Q (the running mean reward) and N (the pull counts). Both start at zero.",
+    "At step t, explore when u[t] < epsilon (strictly) and pull explore_arms[t]; otherwise pull np.argmax(Q), which picks the lowest index on ties.",
+    "After pulling arm a, update N[a] += 1 and Q[a] += (r - Q[a]) / N[a]. That is the exact sample mean, not a constant step size."
+  ],
+  "related": ["q-learning-update"]
+}

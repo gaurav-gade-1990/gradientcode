@@ -1,0 +1,20 @@
+{
+  "id": 90,
+  "slug": "gae-advantages",
+  "title": "Generalized Advantage Estimation",
+  "difficulty": "Medium",
+  "category": "rl",
+  "tags": ["Reinforcement Learning", "Policy Gradient", "PPO"],
+  "mode": "function",
+  "entry": "gae",
+  "signature": "def gae(rewards: np.ndarray, values: np.ndarray, dones: np.ndarray, last_value, gamma: float = 0.99, lam: float = 0.95) -> tuple",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Append last_value to values so V(s_{t+1}) is always values_ext[t + 1].",
+    "delta_t = r_t + gamma * (1 - done_t) * V(s_{t+1}) - V(s_t). The mask is done_t, the flag for the same step, not done_{t+1}.",
+    "Loop backward: A_t = delta_t + gamma * lam * (1 - done_t) * A_{t+1}. The mask cuts the recursion at episode boundaries.",
+    "returns = advantages + values. Index time on axis 0 and the same code works for (T,) and (T, N)."
+  ],
+  "related": ["reinforce-loss-gradient", "q-learning-update"]
+}

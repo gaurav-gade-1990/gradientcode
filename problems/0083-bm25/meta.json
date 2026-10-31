@@ -1,0 +1,20 @@
+{
+  "id": 83,
+  "slug": "bm25",
+  "title": "Okapi BM25 Scoring",
+  "difficulty": "Medium",
+  "category": "retrieval",
+  "tags": ["Retrieval", "NLP", "Search"],
+  "mode": "function",
+  "entry": "bm25_scores",
+  "signature": "def bm25_scores(docs: list, query: str, k1: float = 1.5, b: float = 0.75) -> np.ndarray",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Tokenize the documents and the query with s.lower().split(). Compute every document's length and the average length.",
+    "The Lucene idf is log(1 + (N - df + 0.5) / (df + 0.5)). It is always positive, unlike the classic Robertson form.",
+    "The tf part is tf * (k1 + 1) / (tf + k1 * (1 - b + b * len(d) / avgdl)). b controls how much long documents are penalized.",
+    "Loop over the query tokens including repeats; each one adds idf * tf-part to every document's score."
+  ],
+  "related": ["tf-idf", "top-k-cosine-retrieval"]
+}

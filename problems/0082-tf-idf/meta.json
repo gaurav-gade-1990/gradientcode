@@ -1,0 +1,20 @@
+{
+  "id": 82,
+  "slug": "tf-idf",
+  "title": "TF-IDF Vectorizer",
+  "difficulty": "Medium",
+  "category": "retrieval",
+  "tags": ["NLP", "Retrieval", "Text Features"],
+  "mode": "function",
+  "entry": "tfidf",
+  "signature": "def tfidf(docs: list) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Tokenize with doc.lower().split(). Build the vocabulary as the sorted set of all tokens, then map each token to its column.",
+    "tf is the raw count of a term in a document. df is the number of documents that contain the term at least once.",
+    "idf = log((1 + n) / (1 + df)) + 1, with the natural log. Multiply each column of the count matrix by its idf.",
+    "Divide each row by its L2 norm. A row of all zeros (an empty document) stays all zeros."
+  ],
+  "related": ["bm25", "top-k-cosine-retrieval", "cosine-similarity-matrix"]
+}

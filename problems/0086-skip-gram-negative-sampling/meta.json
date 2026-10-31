@@ -1,0 +1,20 @@
+{
+  "id": 86,
+  "slug": "skip-gram-negative-sampling",
+  "title": "Skip-gram with Negative Sampling",
+  "difficulty": "Hard",
+  "category": "retrieval",
+  "tags": ["Embeddings", "word2vec", "Gradients", "NLP"],
+  "mode": "function",
+  "entry": "sgns_loss_and_grads",
+  "signature": "def sgns_loss_and_grads(W_in: np.ndarray, W_out: np.ndarray, center: int, context: int, negatives: np.ndarray) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Let v = W_in[center]. Compute the positive score s_o = W_out[context] @ v and the negative scores s_k = W_out[negatives] @ v.",
+    "-log(sigmoid(x)) = log(1 + exp(-x)) = np.logaddexp(0, -x). It never overflows.",
+    "d/dx of -log(sigmoid(x)) is sigmoid(x) - 1, and d/dx of -log(sigmoid(-x)) is sigmoid(x). Chain these through the dot products.",
+    "A negative index can repeat, or equal the context. Accumulate output-vector gradients with np.add.at, not fancy-index assignment."
+  ],
+  "related": ["top-k-cosine-retrieval", "stable-softmax"]
+}

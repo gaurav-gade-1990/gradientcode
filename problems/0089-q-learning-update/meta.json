@@ -1,0 +1,19 @@
+{
+  "id": 89,
+  "slug": "q-learning-update",
+  "title": "Tabular Q-Learning Updates",
+  "difficulty": "Easy",
+  "category": "rl",
+  "tags": ["Reinforcement Learning", "TD Learning", "Q-Learning"],
+  "mode": "function",
+  "entry": "q_learning",
+  "signature": "def q_learning(Q: np.ndarray, transitions: list, alpha: float, gamma: float) -> np.ndarray",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Copy Q first so you don't modify the input.",
+    "For each transition, the TD target is r if done, otherwise r + gamma * max(Q[s_next]).",
+    "Apply the transitions one at a time, in order. A later transition must see the Q values written by earlier ones."
+  ],
+  "related": ["value-iteration", "epsilon-greedy-bandit"]
+}

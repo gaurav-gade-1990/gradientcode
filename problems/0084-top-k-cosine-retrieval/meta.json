@@ -1,0 +1,19 @@
+{
+  "id": 84,
+  "slug": "top-k-cosine-retrieval",
+  "title": "Top-k Cosine Retrieval",
+  "difficulty": "Easy",
+  "category": "retrieval",
+  "tags": ["Retrieval", "Embeddings", "Vector Search"],
+  "mode": "function",
+  "entry": "top_k_cosine",
+  "signature": "def top_k_cosine(queries: np.ndarray, docs: np.ndarray, k: int) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Normalize every row of queries and docs to unit length; then one matrix product gives all cosine similarities.",
+    "Zero rows have norm 0. Divide by 1 instead for those rows, so their similarity comes out as 0, not nan.",
+    "np.argsort(-S, axis=1, kind='stable') sorts by score descending and keeps the lower index first on ties."
+  ],
+  "related": ["cosine-similarity-matrix", "top-k-per-row", "maximal-marginal-relevance"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": 85,
+  "slug": "maximal-marginal-relevance",
+  "title": "Maximal Marginal Relevance",
+  "difficulty": "Medium",
+  "category": "retrieval",
+  "tags": ["Retrieval", "RAG", "Diversity", "Greedy"],
+  "mode": "function",
+  "entry": "mmr",
+  "signature": "def mmr(query: np.ndarray, docs: np.ndarray, k: int, lam: float = 0.5) -> np.ndarray",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Precompute the cosine similarity of every doc to the query, and the doc-doc cosine similarity matrix.",
+    "Keep a running array max_sim[j] = max similarity of doc j to anything already selected. It starts at 0 and only needs a np.maximum update after each pick.",
+    "Score = lam * rel - (1 - lam) * max_sim. Mask already-selected docs with -inf before np.argmax, which picks the lowest index on ties."
+  ],
+  "related": ["top-k-cosine-retrieval", "cosine-similarity-matrix"]
+}

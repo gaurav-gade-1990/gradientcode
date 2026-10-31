@@ -1,0 +1,19 @@
+{
+  "id": 88,
+  "slug": "value-iteration",
+  "title": "Value Iteration",
+  "difficulty": "Medium",
+  "category": "rl",
+  "tags": ["Reinforcement Learning", "Dynamic Programming", "MDP"],
+  "mode": "function",
+  "entry": "value_iteration",
+  "signature": "def value_iteration(P: np.ndarray, R: np.ndarray, gamma: float, tol: float = 1e-8) -> tuple",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "The Bellman backup for every state and action at once is Q = R + gamma * P @ V, because P has shape (S, A, S) and V has shape (S,).",
+    "Update all states from the previous V (synchronous). Writing V[s] in place while sweeping states is Gauss-Seidel, which stops at a different iteration.",
+    "Stop as soon as max |V_new - V| < tol, and return V_new. Then compute Q from that V_new and take argmax over actions for the policy."
+  ],
+  "related": ["q-learning-update", "gae-advantages"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 91,
+  "slug": "reinforce-loss-gradient",
+  "title": "REINFORCE Loss and Gradient",
+  "difficulty": "Medium",
+  "category": "rl",
+  "tags": ["Reinforcement Learning", "Policy Gradient", "Gradients"],
+  "mode": "function",
+  "entry": "reinforce",
+  "signature": "def reinforce(logits: np.ndarray, actions: np.ndarray, rewards: np.ndarray, gamma: float = 0.99, eps: float = 1e-8) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Compute the discounted returns with a backward loop: G_t = r_t + gamma * G_{t+1}.",
+    "Normalize: (G - G.mean()) / (G.std() + eps). np.std defaults to the population std (ddof=0), which is what you want.",
+    "Use a stable log-softmax: subtract the row max, then log-sum-exp. Pick log pi(a_t) with fancy indexing.",
+    "The normalized returns are constants. d loss / d logits = (softmax(logits) - one_hot(actions)) * G_hat[:, None] / T."
+  ],
+  "related": ["gae-advantages", "stable-softmax"]
+}
