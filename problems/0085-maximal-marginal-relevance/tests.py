@@ -9,7 +9,7 @@ def cases():
         {"name": "Example 1", "hidden": False,
          "args": {"query": np.array([1.0, 0.0]),
                   "docs": np.array([[1.0, 0.1], [1.0, 0.12], [0.6, 0.8], [0.0, 1.0]]), "k": 3, "lam": 0.5},
-         "explanation": "Doc 0 is the most relevant. Doc 1 is almost a copy of doc 0, so its redundancy penalty is large and doc 2 is picked next."},
+         "explanation": "Doc 0 is the most relevant. Doc 1 is almost a copy of doc 0, but at lam = 0.5 its high relevance still outweighs the redundancy penalty: it scores -0.0035 against doc 2's -0.0383, so doc 1 is picked second and doc 2 third."},
         {"name": "Example 2", "hidden": False,
          "args": {"query": np.array([1.0, 0.0]),
                   "docs": np.array([[1.0, 0.1], [1.0, 0.12], [0.6, 0.8], [0.0, 1.0]]), "k": 3, "lam": 1.0},

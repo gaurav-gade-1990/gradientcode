@@ -86,6 +86,7 @@ def build_design(path, meta):
         "description": read(path, "problem.md"),
         "rubric": json.loads(read(path, "rubric.json")),
         "solution": read(path, "solution.md"),
+        "walkthrough": read(path, "walkthrough.md"),
     }
     return public, {}
 

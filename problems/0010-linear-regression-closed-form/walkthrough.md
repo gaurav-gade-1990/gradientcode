@@ -78,7 +78,7 @@ theta                               # [1.5, 0.5, 0.5]                       (3,)
 # w = theta[:-1] = [1.5, 0.5],  b = theta[-1] = 0.5
 ```
 
-Check the residuals: $1.5 \cdot 0 + 0.5 \cdot 1 + 0.5 = 1$, $1.5 + 0.5 = 2$, $1.5 + 0.5 + 0.5 = 2.5$, $3 + 0.5 + 0.5 = 4$. All four points sit exactly on the plane (the residuals are about $10^{-16}$). The test's explanation calls this fit "not exact", but four points and three unknowns don't force a nonzero error; these happen to be coplanar.
+Check the residuals: $1.5 \cdot 0 + 0.5 \cdot 1 + 0.5 = 1$, $1.5 + 0.5 = 2$, $1.5 + 0.5 + 0.5 = 2.5$, $3 + 0.5 + 0.5 = 4$. All four points sit exactly on the plane (the residuals are about $10^{-16}$). Four points and three unknowns don't force a nonzero error; these happen to be coplanar.
 
 **"duplicated column"**: column 3 equals column 1, and `y` was built as $1 \cdot x_1 - 2x_2 + 1 \cdot x_3 + 0.5$ plus noise. Only $w_1 + w_3$ is identifiable; the data says it's about `1.9954`. The minimum-norm rule splits it equally: `w = [0.9977, -2.0092, 0.9977]`, `b = 0.5000`. `inv(A.T @ A)` raises "Singular matrix" here.
 

@@ -14,7 +14,7 @@ def cases():
          "explanation": "The points lie exactly on y = 2x + 1, so w = [2] and b = 1."},
         {"name": "Example 2", "hidden": False,
          "args": {"X": np.array([[0.0, 1.0], [1.0, 0.0], [1.0, 1.0], [2.0, 1.0]]), "y": np.array([1.0, 2.0, 2.5, 4.0])},
-         "explanation": "Four points and three unknowns (two weights and a bias), so the fit is not exact."},
+         "explanation": "Four points and three unknowns (two weights and a bias). These four happen to lie on one plane, y = 1.5*x1 + 0.5*x2 + 0.5, so the least-squares fit is exact."},
         {"name": "single feature noisy", "args": {"X": rng.normal(size=(30, 1)), "y": rng.normal(size=30)}},
         {"name": "many samples", "args": {"X": X_big, "y": y_big}},
         {"name": "duplicated column", "args": {"X": X_dup, "y": y_dup}},

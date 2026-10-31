@@ -186,13 +186,19 @@ test("design problem: write, reveal, self-score, mark complete, solved in the li
   await expect(row.getByLabel("Solved")).toBeVisible();
 });
 
-test("Detailed Explanation tab shows only for problems with a walkthrough", async ({ page }) => {
+test("Detailed Explanation tab renders the walkthrough with math", async ({ page }) => {
   await openProblem(page, "react-tool-loop");
   await page.getByTestId("tab-explanation").click();
   await expect(page.getByRole("heading", { name: "Detailed Explanation" })).toBeVisible();
   await expect(page.getByText("What the problem is really asking")).toBeVisible();
 
   await openProblem(page, "stable-softmax");
-  await expect(page.getByTestId("tab-submissions")).toBeVisible();
-  await expect(page.getByTestId("tab-explanation")).toHaveCount(0);
+  await page.getByTestId("tab-explanation").click();
+  await expect(page.locator(".katex").first()).toBeVisible();
+
+  await page.goto("/problems/returns-refunds-agent");
+  await expect(page.getByTestId("problem-title")).toBeVisible();
+  await page.getByTestId("tab-explanation").click();
+  await expect(page.getByRole("heading", { name: "Detailed Explanation" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Build Order" })).toBeVisible();
 });

@@ -72,7 +72,7 @@ Relevance `r = [0.995, 0.9929, 0.6, 0]`. The relevant rows of `M`:
 | 2 | `M[0] = [1, 0.9998, 0.6766, 0.0995]` | `[-inf, -0.0035, -0.0383, -0.0498]` | 1 |
 | 3 | `max(M[0], M[1]) = [1, 1, 0.691, 0.1191]` | `[-inf, -inf, -0.0455, -0.0596]` | 2 |
 
-The answer is `[0, 1, 2]`. Doc 1 is nearly a duplicate of doc 0, but at `lam = 0.5` its relevance edge over doc 2 (`0.9929` against `0.6`) is still bigger than its extra redundancy (`0.9998` against `0.6766`). The site's explanation for this example says doc 2 is picked second; the expected output and the arithmetic above both say doc 1. Trust the numbers. Lower `lam` to `0.4` and the second pick becomes doc 3, the document least like doc 0.
+The answer is `[0, 1, 2]`. Doc 1 is nearly a duplicate of doc 0, but at `lam = 0.5` its relevance edge over doc 2 (`0.9929` against `0.6`) is still bigger than its extra redundancy (`0.9998` against `0.6766`). It's easy to assume the near-duplicate always loses; at this `lam` it doesn't. Lower `lam` to `0.4` and the second pick becomes doc 3, the document least like doc 0.
 
 **The hidden case "negative similarities"** (`lam = 0.3`) shows why the first update is a copy, not a max. Doc 0 (`[1, 0]`) is picked first. Docs 1 and 2 point the other way, with `M[0, 1] = M[0, 2] = -0.9806`.
 

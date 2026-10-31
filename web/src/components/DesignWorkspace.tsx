@@ -4,7 +4,7 @@ import { Panel, PanelGroup } from "react-resizable-panels";
 import { useProgress } from "../lib/hooks";
 import { completeDesign, getDesignDraft, setDesignDraft, type DesignDraft } from "../lib/storage";
 import type { DesignProblem, Pillar, ProblemIndex, RubricSection } from "../lib/types";
-import { IconBook, IconCheck, IconChevronDown, IconDoc, IconList, IconPlay } from "./Icons";
+import { IconBook, IconBulb, IconCheck, IconChevronDown, IconDoc, IconList, IconPlay } from "./Icons";
 import { Markdown } from "./Markdown";
 import { DifficultyPill, Pill, diffText } from "./ui";
 import { Gutter, PanelTabs, TopBar } from "./WorkspaceChrome";
@@ -80,7 +80,7 @@ export function DesignWorkspace({ problem, index }: { problem: DesignProblem; in
   const { solved } = useProgress();
   const [draft, setDraft] = useState<DesignDraft>(() => getDesignDraft(slug));
   const [running, setRunning] = useState<Running>({ total: false, pillar: null });
-  const [leftTab, setLeftTab] = useState<"prompt" | "answer" | "related">("prompt");
+  const [leftTab, setLeftTab] = useState<"prompt" | "answer" | "related" | "explanation">("prompt");
   const [confirming, setConfirming] = useState(false);
   const [open, setOpen] = useState<Set<number>>(() => new Set(sections.filter((s) => s.pillar === "A").map((s) => s.n)));
   const [preview, setPreview] = useState<Set<number>>(new Set());
@@ -185,6 +185,9 @@ export function DesignWorkspace({ problem, index }: { problem: DesignProblem; in
           { key: "prompt", label: "Prompt", icon: <IconDoc size={15} className="text-gc-blue" /> },
           { key: "answer", label: "Model Answer", icon: <IconBook size={15} className="text-accent" /> },
           { key: "related", label: "Related", icon: <IconList size={15} className="text-gc-blue" /> },
+          ...(problem.walkthrough
+            ? [{ key: "explanation" as const, label: "Detailed Explanation", icon: <IconBulb size={15} className="text-accent" /> }]
+            : []),
         ]}
       />
       <div className="min-h-0 flex-1 overflow-y-auto" ref={solutionRef}>
@@ -288,6 +291,12 @@ export function DesignWorkspace({ problem, index }: { problem: DesignProblem; in
               )}
             </div>
           ))}
+        {leftTab === "explanation" && problem.walkthrough && (
+          <div className="px-5 pb-8 pt-4">
+            <h2 className="mb-4 text-[20px] font-semibold text-strong">Detailed Explanation</h2>
+            <Markdown prose>{problem.walkthrough}</Markdown>
+          </div>
+        )}
         {leftTab === "related" && (
           <div className="px-5 pb-8 pt-4">
             <h2 className="mb-1 text-[16px] font-semibold text-strong">Related coding problems</h2>

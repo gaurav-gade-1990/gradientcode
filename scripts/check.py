@@ -9,7 +9,7 @@ round trip, exactly like the browser does):
   * starter.py fails,
   * every wrong_*.py (a common mistake, written on purpose) fails,
   * the build is deterministic and each case runs well under the time limit.
-A walkthrough.md, when present, is checked too (see check_walkthrough).
+Every problem also needs a walkthrough.md, checked by check_walkthrough.
 """
 
 import ast
@@ -84,6 +84,7 @@ def check_walkthrough(path, meta, errors, problem=None):
     """Structure checks, plus: the Full solution block is Accepted, and test-table rows name real cases."""
     text = read(path, "walkthrough.md")
     if text is None:
+        errors.append("missing walkthrough.md (see WALKTHROUGH.md)")
         return None
     heads = re.findall(r"^## (\d+)\. (.+)$", text, re.M)
     if [int(n) for n, _ in heads] != list(range(1, len(heads) + 1)) or not heads:

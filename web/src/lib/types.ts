@@ -134,6 +134,8 @@ export interface DesignProblem {
   description: string;
   rubric: { sections: RubricSection[] };
   solution: string;
+  /** How to reason to the model answer (walkthrough.md). */
+  walkthrough: string | null;
 }
 
 export function isDesign(p: Problem | DesignProblem): p is DesignProblem {

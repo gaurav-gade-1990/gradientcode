@@ -17,7 +17,7 @@ def cases():
         {"name": "Example 1", "hidden": False,
          "args": {"x": np.array([[[1.0], [0.0], [-1.0]]]), "h0": np.array([[0.0]]),
                   "W_xh": np.array([[0.5]]), "W_hh": np.array([[1.0]]), "b": np.array([0.0])},
-         "explanation": "h1 = tanh(0.5) = 0.4621, h2 = tanh(0.4621) = 0.4319, h3 = tanh(-0.5 + 0.4319) = -0.0680."},
+         "explanation": "h1 = tanh(0.5) = 0.4621, h2 = tanh(0.4621) = 0.4318, h3 = tanh(-0.5 + 0.4318) = -0.0681."},
         {"name": "Example 2", "hidden": False,
          "args": {"x": np.array([[[1.0, 0.0], [0.0, 1.0]]]), "h0": np.array([[0.1, -0.2]]),
                   "W_xh": np.array([[1.0, 0.0], [0.0, 1.0]]), "W_hh": np.array([[0.0, 1.0], [-0.5, 0.0]]),
