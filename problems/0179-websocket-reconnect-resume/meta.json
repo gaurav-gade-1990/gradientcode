@@ -1,0 +1,20 @@
+{
+  "id": 179,
+  "slug": "websocket-reconnect-resume",
+  "title": "Resume a Chat Stream After Reconnect",
+  "difficulty": "Medium",
+  "category": "fullstack",
+  "tags": ["Streaming", "WebSocket", "Reliability", "Backoff"],
+  "mode": "driver",
+  "entry": "stream_chat",
+  "signature": "def stream_chat(connect, backfill, on_event, clock, rand, max_failures=5, base=0.5, cap=8.0)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Keep one number, last_id: the id of the last event you delivered. Reconnect with connect(last_id), never with 0.",
+    "The server's replay can overlap what you already have. Skip any event with id <= last_id.",
+    "If an event jumps past last_id + 1, call backfill(last_id, ev['id']) and deliver those first, so the transcript has no holes.",
+    "Count consecutive failures, reset the count whenever a new event is delivered, and sleep rand() * min(cap, base * 2**(failures - 1)) before reconnecting."
+  ],
+  "related": ["sse-stream-parser", "retry-with-backoff", "streaming-tool-call-assembly"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 173,
+  "slug": "saga-compensation",
+  "title": "Crash-Safe Saga with Compensations",
+  "difficulty": "Hard",
+  "category": "fullstack",
+  "tags": ["Sagas", "Crash Recovery", "Idempotency", "Workflows"],
+  "mode": "driver",
+  "entry": "run_saga",
+  "signature": "def run_saga(saga_id, steps, services, journal, clock, max_comp_attempts=3) / def resume_saga(saga_id, steps, services, journal, clock, max_comp_attempts=3)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 4000,
+  "hints": [
+    "run_saga is resume_saga on an empty journal. Write one function that rebuilds the state from journal.records() and continues from there.",
+    "The idempotency key must be the same on every run: saga_id + ':' + step. A key that changes after a crash charges the card twice.",
+    "Compensate only steps that have a step_done record, newest first. The step that failed never happened, so there is nothing to undo.",
+    "A comp_started without comp_done or comp_failed means the process died mid-undo. Undo again (cancel is idempotent), with a fresh attempt budget."
+  ],
+  "related": ["transactional-outbox", "durable-workflow-replay", "idempotent-tool-execution"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 176,
+  "slug": "lww-conversation-merge",
+  "title": "Merge Conversation Edits Across Devices (LWW + Lamport)",
+  "difficulty": "Medium",
+  "category": "fullstack",
+  "tags": ["CRDT", "Sync", "Lamport Clocks"],
+  "mode": "driver",
+  "entry": "Replica",
+  "signature": "class Replica: __init__(self, device), clock, put(msg_id, text), delete(msg_id), merge(state), state(), view()",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 3000,
+  "hints": [
+    "A stamp is (lamport, device). Compare stamps as tuples: the higher lamport wins, and on equal lamport the larger device id wins.",
+    "Delete must leave a tombstone. If you drop the entry, the next merge from a device that still has it brings the message back.",
+    "On merge, raise your clock to the largest lamport you received. Otherwise your next edit can carry a smaller stamp than an edit you have already seen, and it loses.",
+    "Merge per message: keep the entry with the larger ts, and keep the smaller created stamp."
+  ],
+  "related": ["websocket-reconnect-resume", "transactional-outbox", "durable-workflow-replay"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 172,
+  "slug": "transactional-outbox",
+  "title": "Transactional Outbox That Survives Crashes",
+  "difficulty": "Medium",
+  "category": "fullstack",
+  "tags": ["Event-Driven", "Outbox", "Exactly-Once", "Crash Recovery"],
+  "mode": "driver",
+  "entry": "place_order",
+  "signature": "def place_order(db, order) -> str; def relay(db, broker) -> int; class RevenueConsumer: __init__(store), handle(message) -> str",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 4000,
+  "hints": [
+    "The order row and its outbox row go in one transaction with one commit. Two commits leave a crash window where the order exists and its event never will.",
+    "The relay publishes first and marks the row published afterwards. A crash in between republishes the event (fine, the consumer dedupes); the other order loses it.",
+    "Retries happen: the client resends after a lost response, and the broker redelivers after a lost ack. Make place_order a no-op for an existing order_id.",
+    "The consumer's dedupe marker and its revenue update must commit in the same transaction in the consumer's store. A Python set dies with the process."
+  ],
+  "related": ["saga-compensation", "idempotent-tool-execution", "durable-workflow-replay"]
+}

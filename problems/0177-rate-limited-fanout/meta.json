@@ -1,0 +1,20 @@
+{
+  "id": 177,
+  "slug": "rate-limited-fanout",
+  "title": "Rate-Limited Notification Fan-Out",
+  "difficulty": "Medium",
+  "category": "fullstack",
+  "tags": ["Concurrency", "Rate Limits", "Retries", "Event Loop"],
+  "mode": "driver",
+  "entry": "fanout",
+  "signature": "def fanout(loop, subscribers, channels, send)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Spawn one worker task per channel. Each worker owns its channel's queue and its own last-start time, so channels never wait on each other.",
+    "Pick the queued item with the smallest (ready_time, seq), then start at max(now, ready_time, last_start + interval). Retries are attempts too, so they count against the interval.",
+    "On a ToolError, do not sleep in place: push the subscriber back with ready_time = finish + retry_delay * 2**(attempt - 1) so others on the channel go first.",
+    "BadRequestError is permanent. Record it as rejected and never retry it."
+  ],
+  "related": ["retry-with-backoff", "token-bucket-rate-limiter", "bounded-queue-backpressure"]
+}

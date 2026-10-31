@@ -1,0 +1,20 @@
+{
+  "id": 175,
+  "slug": "consistent-hashing-sessions",
+  "title": "Consistent Hashing for Sticky Agent Sessions",
+  "difficulty": "Medium",
+  "category": "fullstack",
+  "tags": ["Consistent Hashing", "Sessions", "Load Balancing"],
+  "mode": "driver",
+  "entry": "HashRing",
+  "signature": "class HashRing: __init__(self, vnodes), add_node(name), remove_node(name), get_node(key), get_nodes(key, n)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Each physical node owns vnodes points on a 2**32 ring at stable_hash(f\"{node}#{i}\") % 2**32. Keep all points in one sorted list of (position, node).",
+    "A key belongs to the first point at or after its own position. bisect_left on the positions finds it; an index equal to the length wraps to 0.",
+    "Never use Python's hash(): it is salted per process, so two gateway replicas would route the same session to different workers.",
+    "get_nodes walks clockwise from the owner's point and skips nodes it has already collected."
+  ],
+  "related": ["feature-flag-rollout", "load-balancer-p2c", "request-coalescing"]
+}

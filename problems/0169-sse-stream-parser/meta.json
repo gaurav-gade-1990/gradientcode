@@ -1,0 +1,20 @@
+{
+  "id": 169,
+  "slug": "sse-stream-parser",
+  "title": "Parse a Server-Sent Events Stream",
+  "difficulty": "Easy",
+  "category": "fullstack",
+  "tags": ["Streaming", "SSE", "Chat UI", "Parsing"],
+  "mode": "driver",
+  "entry": "SSEParser",
+  "signature": "class SSEParser: last_event_id, retry, done, feed(chunk) -> list[dict]",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "A chunk can end anywhere: in the middle of a field name, a JSON payload, or between the CR and LF of a CRLF. Keep the unfinished line in a buffer between feed() calls.",
+    "A line ends at CR, LF or CRLF. When a CR ends a line, remember it, so that an LF arriving first in the next chunk is swallowed instead of read as an empty line.",
+    "Only a blank line dispatches. Join the data lines with \\n, strip one leading space from each value (not all whitespace), and keep last_event_id across events.",
+    "[DONE] is a sentinel, not a message: set done and ignore everything after it."
+  ],
+  "related": ["streaming-tool-call-assembly", "websocket-reconnect-resume"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 174,
+  "slug": "bounded-queue-backpressure",
+  "title": "Bounded Queue with Backpressure Policies",
+  "difficulty": "Medium",
+  "category": "fullstack",
+  "tags": ["Backpressure", "Queues", "Concurrency"],
+  "mode": "driver",
+  "entry": "BoundedQueue",
+  "signature": "class BoundedQueue: __init__(self, loop, capacity, policy), put(item) [generator], get() [generator], dropped, rejected, max_depth, __len__",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Keep three FIFOs: the items, the consumers waiting for an item (futures), and the producers blocked on a full queue (future, item) pairs.",
+    "put first checks for a waiting consumer and hands the item straight to it with loop.resolve(fut, item). Only then does capacity matter.",
+    "get pops the oldest item, and if a producer is blocked, moves that producer's item into the freed slot and resolves its future. Forgetting this wakeup deadlocks the producers.",
+    "Both methods must be generators (contain a yield) but must not yield on the fast path; only yield a future when you really wait."
+  ],
+  "related": ["rate-limited-fanout", "request-coalescing", "token-bucket-rate-limiter"]
+}

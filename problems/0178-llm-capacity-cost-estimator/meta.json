@@ -1,0 +1,20 @@
+{
+  "id": 178,
+  "slug": "llm-capacity-cost-estimator",
+  "title": "LLM Capacity and Cost Estimator",
+  "difficulty": "Medium",
+  "category": "fullstack",
+  "tags": ["Capacity Planning", "Cost", "Prompt Caching", "System Design"],
+  "mode": "function",
+  "entry": "estimate",
+  "signature": "def estimate(design)",
+  "compare": {"rtol": 1e-9, "atol": 1e-6},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Chat resends the history. Turn k of a session sends the system prompt, all k-1 earlier exchanges, and the new user message. Sum that over k = 1..T.",
+    "Only the prefix (system prompt plus history) can be cached. The new user message is always uncached, and output tokens are never discounted.",
+    "Size GPUs for the peak, not the average: peak_qps = avg_qps * peak_to_avg, and each GPU only runs at target_utilization.",
+    "Round GPUs up with math.ceil(x - 1e-9), and never go below one GPU."
+  ],
+  "related": ["gpu-capacity-planner", "prompt-caching-cost", "tenant-cost-attribution"]
+}

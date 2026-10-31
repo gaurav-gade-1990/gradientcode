@@ -1,0 +1,20 @@
+{
+  "id": 170,
+  "slug": "cursor-pagination",
+  "title": "Keyset Pagination with Opaque Cursors",
+  "difficulty": "Easy",
+  "category": "fullstack",
+  "tags": ["API Design", "Pagination", "Databases"],
+  "mode": "driver",
+  "entry": "paginate",
+  "signature": "def paginate(rows, limit, after=None, before=None) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Sort by the pair (created_at, id), newest first. The pair is unique even when two conversations share a timestamp; created_at alone is not.",
+    "The cursor stores the boundary row's (created_at, id), not an offset. 'after' means strictly smaller keys, 'before' means strictly larger keys.",
+    "For a before-page, take the limit rows closest to the cursor (the oldest of the newer rows), and still return them newest first.",
+    "next_cursor exists only if some row is older than the last item. A full page does not mean there is more."
+  ],
+  "related": ["api-idempotent-create", "incremental-index-sync"]
+}

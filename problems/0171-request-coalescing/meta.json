@@ -1,0 +1,20 @@
+{
+  "id": 171,
+  "slug": "request-coalescing",
+  "title": "Coalesce Identical In-Flight LLM Requests",
+  "difficulty": "Medium",
+  "category": "fullstack",
+  "tags": ["Concurrency", "Single Flight", "LLM Gateway", "Multi-Tenancy"],
+  "mode": "driver",
+  "entry": "Coalescer",
+  "signature": "class Coalescer: __init__(loop, upstream), call(request) -> generator returning the response",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Keep a dict from key to the Task running the one upstream call. The first caller spawns it; everyone, including the first caller, waits with `yield task`.",
+    "The key must include the tenant. Two customers sending the same prompt must never share a response. Use json.dumps(..., sort_keys=True) so dict key order doesn't matter.",
+    "Remove the key when the upstream call settles, on success and on failure, inside the spawned task (try/finally). Otherwise a later request reuses a stale answer or a cached error.",
+    "Requests with temperature > 0 bypass the coalescer completely."
+  ],
+  "related": ["semantic-cache", "oauth-single-flight-refresh", "api-idempotent-create"]
+}

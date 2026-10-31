@@ -1,0 +1,20 @@
+{
+  "id": 180,
+  "slug": "api-idempotent-create",
+  "title": "Idempotent POST /runs",
+  "difficulty": "Easy",
+  "category": "fullstack",
+  "tags": ["Idempotency", "API Design", "Concurrency"],
+  "mode": "driver",
+  "entry": "handle_create_run",
+  "signature": "def handle_create_run(db, user_id, headers, body)  # a generator; return the response dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Scope the key to the caller: store it under (user_id, key). Two users can pick the same key.",
+    "Claim the key atomically with db.claim before you create anything. A get() followed by a later put() lets two concurrent requests both see an empty slot.",
+    "Fingerprint the body with json.dumps(body, sort_keys=True, separators=(',', ':')) so key order does not matter.",
+    "If create_run raises, release the claim so the client's retry can go through, and so waiting duplicates do not poll forever."
+  ],
+  "related": ["idempotent-tool-execution", "request-coalescing", "transactional-outbox"]
+}
