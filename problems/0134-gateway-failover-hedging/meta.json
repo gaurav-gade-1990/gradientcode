@@ -1,0 +1,20 @@
+{
+  "id": 134,
+  "slug": "gateway-failover-hedging",
+  "title": "Hedged Requests with Failover in an LLM Gateway",
+  "difficulty": "Hard",
+  "category": "serving",
+  "tags": ["Reliability", "Hedging", "Tail Latency", "LLM Gateway", "Concurrency"],
+  "mode": "driver",
+  "entry": "handle_request",
+  "signature": "def handle_request(client, request, providers, hedge_delay, deadline)  # a generator",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Keep a queue of providers still to try and a list of attempts in flight (at most two). Every loop iteration either sends, or waits with the right timeout.",
+    "The timeout is the earlier of the deadline and, when exactly one attempt is in flight and providers remain, that attempt's start + hedge_delay. Measure the hedge timer from the attempt in flight, not from the start of the request.",
+    "When wait_any returns an error, drop that attempt. If nothing is left in flight, fail over right away. Don't wait for the hedge timer.",
+    "On the first success, cancel every other attempt still in flight. On the deadline, cancel everything. A loser you forget keeps running and gets billed."
+  ],
+  "related": ["circuit-breaker", "retry-with-backoff", "model-router"]
+}

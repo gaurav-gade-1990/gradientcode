@@ -1,0 +1,20 @@
+{
+  "id": 129,
+  "slug": "continuous-batching-scheduler",
+  "title": "Continuous Batching Scheduler (vLLM-style)",
+  "difficulty": "Hard",
+  "category": "serving",
+  "tags": ["LLM Serving", "vLLM", "KV Cache", "Scheduling", "Simulation"],
+  "mode": "function",
+  "entry": "simulate_server",
+  "signature": "def simulate_server(requests, config) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Track per sequence: generated tokens, blocks held, preemptions, and the first-token and finish times. The KV length is prompt_tokens + generated, and it holds ceil(length / block_size) blocks.",
+    "Each step has three phases in a fixed order: reserve one more slot for every running sequence (preempting the newest while out of blocks), then admit prefills from the head of the waiting queue, then advance time and emit one token per scheduled sequence.",
+    "A preempted request loses its KV cache but not its generated tokens. On resume its prefill recomputes prompt_tokens + generated tokens, and its TTFT doesn't change.",
+    "The waiting queue is strict FCFS: if the head doesn't fit, stop admitting for this step. A preempted sequence goes back to the head of the queue, so it is the next to resume."
+  ],
+  "related": ["gpu-capacity-planner", "autoscaler-policy", "load-balancer-p2c"]
+}

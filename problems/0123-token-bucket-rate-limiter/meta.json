@@ -1,0 +1,20 @@
+{
+  "id": 123,
+  "slug": "token-bucket-rate-limiter",
+  "title": "Per-Tenant RPM and TPM Rate Limiter",
+  "difficulty": "Medium",
+  "category": "serving",
+  "tags": ["Rate Limits", "Token Bucket", "LLM Gateway", "Multi-Tenant"],
+  "mode": "driver",
+  "entry": "TenantRateLimiter",
+  "signature": "class TenantRateLimiter: __init__(self, limits, clock, max_wait=0.0), acquire(self, tenant, tokens) -> float, settle(self, tenant, reserved, actual)",
+  "compare": {"rtol": 1e-6, "atol": 1e-6},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Keep two buckets per tenant: requests (capacity rpm, refill rpm/60 per second) and tokens (capacity tpm, refill tpm/60 per second). Refill lazily from the time you last touched them, and never above capacity.",
+    "The wait is the larger of the two waits: max(0, (need - level) / rate) for each bucket.",
+    "Decide before you deduct. A rejected request must leave both buckets exactly as they were, or a client hammering you with retries locks itself out for good.",
+    "An admitted request with a wait > 0 is a reservation: deduct now and let the level go negative. The refill pays the debt back, so the next caller queues behind it."
+  ],
+  "related": ["retry-with-backoff", "tenant-cost-attribution", "model-router"]
+}

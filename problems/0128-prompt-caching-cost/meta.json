@@ -1,0 +1,19 @@
+{
+  "id": 128,
+  "slug": "prompt-caching-cost",
+  "title": "Prompt Caching Cost Model",
+  "difficulty": "Easy",
+  "category": "serving",
+  "tags": ["Cost", "Prompt Caching", "Pricing"],
+  "mode": "function",
+  "entry": "prompt_cache_cost",
+  "signature": "def prompt_cache_cost(calls, pricing) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 1000,
+  "hints": [
+    "Track one expiry time per prefix_id. A call at time t hits only if t < expires_at.",
+    "Both a write and a read set expires_at = t + ttl_s. A hit refreshes the cache.",
+    "A prefix shorter than min_cacheable_tokens is billed as plain input and doesn't touch the cache at all."
+  ],
+  "related": ["semantic-cache", "tenant-cost-attribution", "model-router"]
+}

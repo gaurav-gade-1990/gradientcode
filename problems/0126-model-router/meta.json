@@ -1,0 +1,20 @@
+{
+  "id": 126,
+  "slug": "model-router",
+  "title": "Cost-Aware Model Router with Fallback",
+  "difficulty": "Medium",
+  "category": "serving",
+  "tags": ["Model Routing", "Cost", "Fallback", "LLM Gateway"],
+  "mode": "driver",
+  "entry": "route_requests",
+  "signature": "def route_requests(requests, models, tiers, call) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Filter first: quality, p95 latency and context window all come from the request's tier and size. Fallbacks are drawn only from this eligible list.",
+    "Rank by the estimated cost of this request, input_tokens * input price + max_output_tokens * output price, not by either price alone.",
+    "A 400 means the request itself is bad: stop. A 429, 5xx or timeout means try the next model. A model that answered 429 is skipped for the rest of the batch.",
+    "Bill the successful call with the output tokens it actually used, and bill failed attempts nothing."
+  ],
+  "related": ["gateway-failover-hedging", "circuit-breaker", "tenant-cost-attribution"]
+}

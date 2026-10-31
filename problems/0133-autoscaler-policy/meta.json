@@ -1,0 +1,20 @@
+{
+  "id": 133,
+  "slug": "autoscaler-policy",
+  "title": "Autoscaler with Stabilization Windows",
+  "difficulty": "Medium",
+  "category": "serving",
+  "tags": ["Autoscaling", "Kubernetes HPA", "Capacity", "LLM Serving"],
+  "mode": "function",
+  "entry": "autoscale",
+  "signature": "def autoscale(samples, config) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 1000,
+  "hints": [
+    "Compute the raw recommendation in integers: ceil(load * 100 / (capacity * target_pct)), or keep the current count if you're within tolerance. Then clamp to [min, max].",
+    "Keep the history of clamped recommendations. Scale up to the MIN over the up window and scale down to the MAX over the down window. Both windows include the current sample.",
+    "Cooldowns are per direction: a recent scale-up must not block a scale-down's clock, or the reverse.",
+    "Scale-ups are capped at max_scale_up_step replicas per decision, because GPU nodes take minutes to come up."
+  ],
+  "related": ["gpu-capacity-planner", "load-balancer-p2c", "continuous-batching-scheduler"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 132,
+  "slug": "load-balancer-p2c",
+  "title": "Power-of-Two-Choices Load Balancer",
+  "difficulty": "Medium",
+  "category": "serving",
+  "tags": ["Load Balancing", "Simulation", "Tail Latency", "LLM Serving"],
+  "mode": "driver",
+  "entry": "simulate_lb",
+  "signature": "def simulate_lb(requests, replicas, policy, pick2) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Simulate events in time order with a heap. At equal times, process completions before arrivals: a slot that frees at t is free for a request arriving at t.",
+    "Outstanding = requests in service + requests queued at that replica. Increment it on assignment and decrement it on completion.",
+    "Call pick2() once per request, and only under the p2c policy. Prefer the first index on a tie.",
+    "Nearest-rank percentile: sort the latencies and take index ceil(q * n) - 1."
+  ],
+  "related": ["autoscaler-policy", "continuous-batching-scheduler", "gateway-failover-hedging"]
+}

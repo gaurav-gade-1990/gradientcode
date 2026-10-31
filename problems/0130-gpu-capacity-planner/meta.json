@@ -1,0 +1,20 @@
+{
+  "id": 130,
+  "slug": "gpu-capacity-planner",
+  "title": "GPU Capacity Planner for a 70B Model",
+  "difficulty": "Medium",
+  "category": "serving",
+  "tags": ["Capacity Planning", "KV Cache", "GPU", "LLM Serving"],
+  "mode": "function",
+  "entry": "plan_capacity",
+  "signature": "def plan_capacity(model, gpu, workload) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 1000,
+  "hints": [
+    "KV bytes per token = 2 (K and V) x layers x KV heads x head_dim x bytes per element. Use the KV heads, not the attention heads: that is the whole point of GQA.",
+    "Do the memory math in integers: usable = memory_bytes * pct // 100 - reserve per GPU, kv_budget = tp * usable - weight_bytes, num_blocks = kv_budget // (kv_bytes_per_token * block_size).",
+    "Concurrency comes from blocks and is capped by max_num_seqs. Little's law turns it into throughput: qps = concurrency / request latency.",
+    "Evaluate every allowed TP degree and pick the one with the fewest total GPUs. More TP is not always better, and less TP is not always cheaper."
+  ],
+  "related": ["continuous-batching-scheduler", "autoscaler-policy", "model-router"]
+}

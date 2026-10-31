@@ -1,0 +1,19 @@
+{
+  "id": 131,
+  "slug": "tenant-cost-attribution",
+  "title": "Tenant Cost Attribution and Budget Alerts",
+  "difficulty": "Easy",
+  "category": "serving",
+  "tags": ["Cost", "FinOps", "Multi-Tenant", "Billing"],
+  "mode": "function",
+  "entry": "attribute_costs",
+  "signature": "def attribute_costs(events, prices, shared_costs, budgets) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 1000,
+  "hints": [
+    "Price each event with the entry whose effective date is the latest one on or before the event's date. ISO dates compare correctly as strings.",
+    "input_tokens already includes the cached tokens. Bill (input - cached) at the input price and cached at the cached price.",
+    "Keep a set of the (tenant, threshold) alerts already fired. Check the thresholds in increasing order after adding each event's cost."
+  ],
+  "related": ["prompt-caching-cost", "model-router", "token-bucket-rate-limiter"]
+}

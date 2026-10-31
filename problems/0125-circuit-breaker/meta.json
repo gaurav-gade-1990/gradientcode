@@ -1,0 +1,20 @@
+{
+  "id": 125,
+  "slug": "circuit-breaker",
+  "title": "Circuit Breaker for a Model Provider",
+  "difficulty": "Medium",
+  "category": "serving",
+  "tags": ["Reliability", "Circuit Breaker", "State Machine", "LLM Gateway"],
+  "mode": "driver",
+  "entry": "CircuitBreaker",
+  "signature": "class CircuitBreaker: __init__(self, clock, window_s=60.0, failure_rate=0.5, min_calls=5, open_timeout_s=30.0, half_open_probes=2), state, allow() -> permit or None, record(permit, ok)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Keep a list of (time, ok) outcomes and drop anything at or before now - window_s each time you record. Only trip once at least min_calls outcomes are in the window.",
+    "OPEN to HALF_OPEN happens lazily, inside allow(), once open_timeout_s has passed since the trip.",
+    "In HALF_OPEN, count the permits you hand out. Probes beyond half_open_probes are rejected even though the breaker isn't open.",
+    "Give every state change a new generation number and put it in the permit. A result from an older generation is stale: a slow call admitted before the trip must not close the breaker."
+  ],
+  "related": ["retry-with-backoff", "gateway-failover-hedging", "model-router"]
+}

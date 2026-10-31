@@ -1,0 +1,20 @@
+{
+  "id": 127,
+  "slug": "semantic-cache",
+  "title": "Tenant-Safe Semantic Cache",
+  "difficulty": "Medium",
+  "category": "serving",
+  "tags": ["Caching", "Embeddings", "Multi-Tenant", "LRU", "Cost"],
+  "mode": "driver",
+  "entry": "SemanticCache",
+  "signature": "class SemanticCache: __init__(self, clock, log, capacity=100, threshold=0.9, ttl_s=3600.0), get(tenant, model, system_prompt, query) -> str or None, put(tenant, model, system_prompt, query, answer)",
+  "compare": {"rtol": 1e-6, "atol": 1e-6},
+  "time_limit_ms": 3000,
+  "hints": [
+    "The exact part of the key is (tenant, model, sha256(system_prompt)). Similarity is only ever compared inside one partition, so another tenant's entry can't be a candidate.",
+    "Purge expired entries at the start of every get and put. TTL counts from when the entry was stored, not from its last hit.",
+    "Keep a use counter that ticks on every store and every hit. The LRU victim has the smallest counter value, across the whole cache.",
+    "Log the events in the order the statement gives: expirations first, then the eviction, then the store or the hit/miss."
+  ],
+  "related": ["prompt-caching-cost", "tenant-cost-attribution", "token-bucket-rate-limiter"]
+}
