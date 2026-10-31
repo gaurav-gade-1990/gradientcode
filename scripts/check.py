@@ -50,6 +50,36 @@ WALK_REQUIRED_DESIGN = ("really asking", "follow-up")
 WALK_MIN_WORDS = 900
 
 
+def uncommented_lines(code):
+    """Statements in `code` with no comment on their own line(s) or on a comment-only line directly above."""
+    import io
+    import tokenize
+    comments, starts, rows = set(), [], []
+    toks = list(tokenize.generate_tokens(io.StringIO(code).readline))
+    for t in toks:
+        if t.type == tokenize.COMMENT:
+            comments.add(t.start[0])
+    first = None
+    for t in toks:
+        if t.type in (tokenize.NL, tokenize.COMMENT, tokenize.INDENT, tokenize.DEDENT, tokenize.ENCODING, tokenize.ENDMARKER):
+            continue
+        if first is None:
+            first = t.start[0]
+        if t.type == tokenize.NEWLINE:
+            starts.append((first, t.start[0]))
+            first = None
+    lines = code.splitlines()
+    bad = []
+    for a, b in starts:
+        if any(r in comments for r in range(a, b + 1)):
+            continue
+        prev = a - 1
+        if prev >= 1 and lines[prev - 1].strip().startswith("#"):
+            continue
+        bad.append(lines[a - 1].strip())
+    return bad
+
+
 def check_walkthrough(path, meta, errors, problem=None):
     """Structure checks, plus: the Full solution block is Accepted, and test-table rows name real cases."""
     text = read(path, "walkthrough.md")
@@ -85,6 +115,9 @@ def check_walkthrough(path, meta, errors, problem=None):
             r = harness.judge(problem, m.group(1), "submit")
             if r["status"] != "Accepted":
                 errors.append("walkthrough.md: Full solution code is %s" % r["status"])
+            bad = uncommented_lines(m.group(1))
+            if bad:
+                errors.append("walkthrough.md: every Full solution line needs a comment; missing on %d, e.g. %r" % (len(bad), bad[:3]))
     j = next((k for k, t in enumerate(titles) if "test case" in t), None)
     if j is not None and problem is not None:
         body = re.split(r"^## \d+\. .+$", text, flags=re.M)[j + 1]

@@ -149,29 +149,43 @@ The `len(h) >= n` guard matters. Without it, `h[-3:]` on a 1-item list is that o
 
 ## 9. Full solution
 
+Every line carries a comment saying what it does and why.
+
 ```python
+# json.dumps gives us one canonical string per call.
 import json
 
 
+# One guard per agent run; it remembers every call it has seen.
 class LoopGuard:
+    # n_repeat: how many identical calls in a row count as stuck; max_cycle: longest block to look for.
     def __init__(self, n_repeat=3, max_cycle=3):
-        self.n_repeat = n_repeat
-        self.max_cycle = max_cycle
-        self.history = []
+        self.n_repeat = n_repeat  # keep the setting; the tests change it
+        self.max_cycle = max_cycle  # largest cycle length L to try
+        self.history = []  # signatures of every call checked so far, oldest first
 
+    # A pure helper, so it doesn't need self.
     @staticmethod
+    # Turn (name, arguments) into one comparable string.
     def signature(name, arguments):
+        # sort_keys makes key order irrelevant at every depth; the name keeps different tools apart.
         return name + " " + json.dumps(arguments, sort_keys=True, separators=(",", ":"))
 
+    # Called before each tool call runs; None means "let it run".
     def check(self, name, arguments):
-        h = self.history
+        h = self.history  # short alias, the slices below get long
+        # Add the new call FIRST, so the call that completes a loop is the one we block.
         h.append(self.signature(name, arguments))
-        n = self.n_repeat
+        n = self.n_repeat  # short alias for the repeat threshold
+        # Repeat rule: enough history, and the last n signatures collapse to one distinct value.
         if len(h) >= n and len(set(h[-n:])) == 1:
-            return {"reason": "repeat", "block": [h[-1]]}
+            return {"reason": "repeat", "block": [h[-1]]}  # report the repeated signature
+        # Cycle rule: try the shortest block first, so the smallest L wins.
         for L in range(2, self.max_cycle + 1):
+            # Two equal back-to-back blocks of length L, not all identical (that's the repeat rule's job).
             if len(h) >= 2 * L and h[-2 * L:-L] == h[-L:] and len(set(h[-L:])) >= 2:
-                return {"reason": "cycle", "block": h[-L:]}
+                return {"reason": "cycle", "block": h[-L:]}  # report the block that repeated
+        # Neither rule fired: the call may run.
         return None
 ```
 

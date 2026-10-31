@@ -119,31 +119,49 @@ Check the unknown-tool case *before* the `try`, rather than catching `KeyError`.
 
 ## 6. Full solution
 
+Every line carries a comment saying what it does and why.
+
 ```python
+# The one exception type tools raise on purpose; anything else is a real bug and should surface.
 from gc_runtime import ToolError
 
+# The exact string the problem asks for when the step budget runs out.
 SENTINEL = "STOPPED: max_steps reached"
 
 
+# llm: scripted fake model; tools: name -> function; max_steps: max number of model calls.
 def run_agent(llm, tools, user_msg, max_steps):
+    # The transcript starts with just the customer's message. It only ever grows.
     messages = [{"role": "user", "content": user_msg}]
+    # One iteration per model call, so the loop bound is exactly max_steps calls.
     for step in range(max_steps):
-        resp = llm.complete(messages, tools=list(tools))
+        # Send the WHOLE transcript every time: the model has no memory between calls.
+        resp = llm.complete(messages, tools=list(tools))  # list(dict) = the tool names
+        # The model answered instead of asking for tools.
         if resp.stop_reason == "end_turn":
-            return resp.content
+            return resp.content  # that answer is the result of the run
+        # This was the last allowed call: no one would read these tool results, so don't run them.
         if step == max_steps - 1:
-            break
+            break  # fall through to the sentinel
+        # Record the model's request first; a tool result must follow the call that asked for it.
         messages.append({"role": "assistant", "content": resp.content,
                          "tool_calls": [tc.to_dict() for tc in resp.tool_calls]})
+        # Answer every tool call in the response, in the order the model made them.
         for tc in resp.tool_calls:
+            # The model asked for a tool we don't have; check before calling so we never KeyError.
             if tc.name not in tools:
-                result = "error: unknown tool " + tc.name
+                result = "error: unknown tool " + tc.name  # tell the model, don't crash
+            # The tool exists, so try to run it.
             else:
+                # Guard the call: a failing backend must not end the conversation.
                 try:
-                    result = tools[tc.name](**tc.arguments)
+                    result = tools[tc.name](**tc.arguments)  # spread the dict as keyword arguments
+                # The tool reported a failure (e.g. "order not found").
                 except ToolError as e:
-                    result = "error: " + str(e)
+                    result = "error: " + str(e)  # errors become data the model can react to
+            # Reply to this specific call, echoing its id so the model matches result to request.
             messages.append({"role": "tool", "tool_call_id": tc.id, "content": result})
+    # Only reached via the break: the budget ran out while the model still wanted tools.
     return SENTINEL
 ```
 
