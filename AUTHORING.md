@@ -41,3 +41,19 @@ python3 scripts/check.py                    # everything
 ```
 
 A problem ships only when it prints `ok`. Run `python3 scripts/build.py` to refresh `web/public/problems/`.
+
+---
+
+# Applied AI Engineering problems (Track 1, ids 101–180)
+
+Everything above still applies. In addition:
+
+- **Seed:** `problems/0124-retry-with-backoff`. Read it first. It shows driver mode against `gc_runtime`, a judge that grades behavior (call count, sleeps, virtual time, what was raised), and four `wrong_*` files that are real production bugs.
+- **Simulate, never touch the world.** Use `harness/gc_runtime.py`: `Clock` (virtual time), `FakeLLM` (scripted turns, tool calls, injected 429/5xx/timeouts, records every call), `EventLoop` (deterministic concurrency where tasks are generators yielding a sleep or a Task), `EventLog`, `count_tokens`/`message_tokens`, `embed`, `stable_hash`, and the error classes. User code may import it. Don't edit it. If you need a fake it lacks (an MCP client, a fake DB, a webhook receiver), build it in your problem's `driver.py`.
+- **No `time`, `random`, `uuid`, threads or asyncio.** Time comes from `Clock`, randomness is passed in as draws, and concurrency runs on `EventLoop`.
+- **Grade the behavior that matters in production.** The output dict should expose the observable trace: the messages sent to the model, tool calls made, sleeps, state transitions, events emitted, and cost. A solution that returns the right final answer through the wrong path (an extra LLM call, a leaked tenant, a skipped approval) must fail.
+- **Each `wrong_*.py` is a real incident:** a retry storm, a cache key without the tenant, tool output trusted as instructions, a lease that never expires, a non-idempotent retry, a cross-tenant memory read, `hash()` instead of a stable hash, an off-by-one window. Name the file after the bug.
+- **Statements read like a ticket from a real team.** Give one sentence of context ("Your support agent…"), then the exact contract: signature, input shapes, and a table of rules when there are several. Spell out every tie-break and ordering. Use realistic names and payloads (orders, tickets, tenants), not foo/bar.
+- **Editorial sections:** `## Approach`, `## Common mistakes`, `## Production notes`. The production notes say what real systems do (Anthropic/OpenAI SDKs, MCP, LangGraph, Temporal, vLLM, Envoy, Kafka, Redis, OPA, Stripe webhooks, and so on), what you'd add at scale, and which related problem pairs with this one. Complexity is optional here.
+- Allowed imports add `json`, `hashlib`, `hmac`, `base64`, `enum`, `statistics`, `datetime`, `operator`, `textwrap`, `fnmatch`, `abc` and `gc_runtime`.
+- Inputs must stay JSON-encodable (dicts, lists, strings, numbers). The driver turns them into fakes. Outputs must be plain data, not `ToolCall` objects; convert them with `.to_dict()`.

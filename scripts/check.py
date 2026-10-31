@@ -21,11 +21,59 @@ import warnings
 
 import numpy as np
 
-from lib import CATEGORIES, DIFFICULTIES, REQUIRED, build_problem, harness, problem_dirs, read
+from lib import CATEGORIES, DESIGN_REQUIRED, DIFFICULTIES, REQUIRED, build_problem, harness, load_meta, problem_dirs, read
 
-ALLOWED_IMPORTS = {"numpy", "math", "collections", "heapq", "itertools", "functools", "re", "typing", "dataclasses", "copy", "random", "string", "bisect"}
+ALLOWED_IMPORTS = {
+    "numpy", "math", "collections", "heapq", "itertools", "functools", "re", "typing", "dataclasses", "copy",
+    "random", "string", "bisect",
+    # Applied AI problems also get these (stdlib that runs unchanged in Pyodide) plus the simulation runtime.
+    "json", "hashlib", "hmac", "base64", "enum", "statistics", "datetime", "operator", "textwrap", "fnmatch",
+    "abc", "gc_runtime",
+}
 MAX_JSON_BYTES = 400_000
-CATEGORY_KEYS = {k for k, _ in CATEGORIES}
+CATEGORY_KEYS = {k for k, _, _ in CATEGORIES}
+ID_RANGES = {"ml": (1, 99), "applied": (101, 199), "design": (201, 299)}
+
+# The Styx Unified framework: fifteen sections under four pillars.
+DESIGN_SECTIONS = [
+    ("A", "Scenario"), ("A", "Single View"),
+    ("B", "Data Sources"), ("B", "Processing"), ("B", "Agents"), ("B", "Memory"), ("B", "MCP Tool Servers"),
+    ("C", "Endpoints"), ("C", "Caching"), ("C", "Data Stores"), ("C", "Output"),
+    ("D", "Guardrails"), ("D", "Key Impact"), ("D", "Failure Modes"), ("D", "Build Order"),
+]
+PILLAR_WORD_CAP = 1000
+
+
+def check_design(path, meta, errors):
+    for f in DESIGN_REQUIRED:
+        if not os.path.exists(os.path.join(path, f)):
+            errors.append("missing " + f)
+    if errors:
+        return {}
+    if not meta.get("time_minutes"):
+        errors.append("meta.time_minutes missing")
+    rubric = json.loads(read(path, "rubric.json"))
+    secs = rubric.get("sections", [])
+    if [(x.get("pillar"), x.get("title")) for x in secs] != DESIGN_SECTIONS:
+        errors.append("rubric.json sections must be the 15 framework sections in order: %s" % [t for _, t in DESIGN_SECTIONS])
+    for x in secs:
+        if not x.get("prompt") or len(x.get("criteria", [])) < 2:
+            errors.append("rubric section %r needs a prompt and >= 2 criteria" % x.get("title"))
+    sol = read(path, "solution.md")
+    heads = re.findall(r"^## (\d+)\. (.+?)\s*$", sol, re.M)
+    if [(int(n), t) for n, t in heads] != [(i + 1, t) for i, (_, t) in enumerate(DESIGN_SECTIONS)]:
+        errors.append("solution.md needs '## 1. Scenario' ... '## 15. Build Order' in order, got %s" % heads)
+        return {}
+    bodies = re.split(r"^## \d+\. .+$", sol, flags=re.M)[1:]
+    words = {}
+    for (pillar, title), body in zip(DESIGN_SECTIONS, bodies):
+        if title != "Single View" and ("**Decision.**" not in body or "**Trap.**" not in body):
+            errors.append("solution.md section %r needs a **Decision.** and a **Trap.**" % title)
+        words[pillar] = words.get(pillar, 0) + len(body.split())
+    for pillar, n in words.items():
+        if n > PILLAR_WORD_CAP:
+            errors.append("pillar %s is %d words (cap %d); a pillar is ~5 minutes of reading" % (pillar, n, PILLAR_WORD_CAP))
+    return {"words": words}
 
 
 def imports_ok(src, label, errors):
@@ -57,12 +105,23 @@ def has_nan(v):
 def check_problem(path):
     errors = []
     folder = os.path.basename(path)
+    meta = load_meta(path)
+    lo, hi = ID_RANGES.get(meta.get("track"), (0, 9999))
+    if not lo <= int(folder[:4]) <= hi:
+        errors.append("id %s is outside the %s track range %d-%d" % (folder[:4], meta.get("track"), lo, hi))
+    if meta["type"] == "design":
+        for key, ok in (("id", meta.get("id") == int(folder[:4])), ("slug", meta.get("slug") == folder[5:]),
+                        ("difficulty", meta.get("difficulty") in DIFFICULTIES), ("category", meta.get("category") in CATEGORY_KEYS),
+                        ("title", bool(meta.get("title"))), ("tags", bool(meta.get("tags")))):
+            if not ok:
+                errors.append("bad or missing meta.%s" % key)
+        stats = check_design(path, meta, errors)
+        return errors, stats
     for f in REQUIRED:
         if not os.path.exists(os.path.join(path, f)):
             errors.append("missing " + f)
     if errors:
         return errors, {}
-    meta = json.loads(read(path, "meta.json"))
     if meta.get("id") != int(folder[:4]):
         errors.append("meta.id %r != folder number %s" % (meta.get("id"), folder[:4]))
     if meta.get("slug") != folder[5:]:
@@ -82,7 +141,11 @@ def check_problem(path):
     desc = read(path, "problem.md")
     if re.search(r"^#+\s*Example", desc, re.M):
         errors.append("problem.md must not hand-write examples; visible cases are rendered as examples")
-    if "complexity" not in read(path, "editorial.md").lower():
+    editorial = read(path, "editorial.md").lower()
+    if meta["track"] == "applied":
+        if "## production notes" not in editorial:
+            errors.append("applied editorial.md needs a '## Production notes' section")
+    elif "complexity" not in editorial:
         errors.append("editorial.md must discuss complexity")
     wrongs = sorted(f for f in os.listdir(path) if f.startswith("wrong_") and f.endswith(".py"))
     if not wrongs:

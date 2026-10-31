@@ -12,20 +12,41 @@ sys.path.insert(0, os.path.join(ROOT, "harness"))
 
 import harness  # noqa: E402
 
-CATEGORIES = [
-    ("numpy", "NumPy & Linear Algebra"),
-    ("classic-ml", "Classic ML"),
-    ("metrics", "Metrics & Evaluation"),
-    ("nn", "Neural Network Blocks"),
-    ("optim", "Optimizers & Training"),
-    ("autograd", "Autograd"),
-    ("transformers", "Sequence Models & Transformers"),
-    ("llm", "LLM Internals"),
-    ("retrieval", "Retrieval & NLP"),
-    ("rl", "Reinforcement Learning"),
+TRACKS = [
+    ("applied", "Applied AI Engineering"),
+    ("ml", "ML Foundations"),
+    ("design", "System Design"),
 ]
+CATEGORIES = [
+    # Track 1: Applied AI Engineering (ids 101-199)
+    ("agents", "Agents & Orchestration", "applied"),
+    ("tools-mcp", "Tools & MCP", "applied"),
+    ("serving", "Serving, Cost & Infra", "applied"),
+    ("monitoring", "Data & Model Monitoring", "applied"),
+    ("prod-ml", "Production ML & Evals", "applied"),
+    ("rag", "RAG & Knowledge Systems", "applied"),
+    ("enterprise", "Enterprise Agent Platforms", "applied"),
+    ("fullstack", "Full Stack & Architecture", "applied"),
+    # Track 2: ML Foundations (ids 1-99)
+    ("numpy", "NumPy & Linear Algebra", "ml"),
+    ("classic-ml", "Classic ML", "ml"),
+    ("metrics", "Metrics & Evaluation", "ml"),
+    ("nn", "Neural Network Blocks", "ml"),
+    ("optim", "Optimizers & Training", "ml"),
+    ("autograd", "Autograd", "ml"),
+    ("transformers", "Sequence Models & Transformers", "ml"),
+    ("llm", "LLM Internals", "ml"),
+    ("retrieval", "Retrieval & NLP", "ml"),
+    ("rl", "Reinforcement Learning", "ml"),
+    # System Design (ids 201-299): no judge, a rubric and a model answer
+    ("design-easy", "Design: Foundations", "design"),
+    ("design-medium", "Design: Platforms at Scale", "design"),
+    ("design-complex", "Design: Enterprise & Regulated", "design"),
+]
+CATEGORY_TRACK = {k: t for k, _, t in CATEGORIES}
 DIFFICULTIES = ("Easy", "Medium", "Hard")
 REQUIRED = ("problem.md", "meta.json", "starter.py", "solution.py", "tests.py", "editorial.md")
+DESIGN_REQUIRED = ("problem.md", "meta.json", "rubric.json", "solution.md")
 
 
 def problem_dirs(only=None):
@@ -51,9 +72,29 @@ def load_module(path, name):
     return mod
 
 
+def load_meta(path):
+    meta = json.loads(read(path, "meta.json"))
+    meta.setdefault("type", "code")
+    meta["track"] = CATEGORY_TRACK.get(meta.get("category"), meta.get("track"))
+    return meta
+
+
+def build_design(path, meta):
+    """A design problem ships its prompt, rubric and model answer; the UI hides the answer until asked."""
+    public = {
+        "meta": meta,
+        "description": read(path, "problem.md"),
+        "rubric": json.loads(read(path, "rubric.json")),
+        "solution": read(path, "solution.md"),
+    }
+    return public, {}
+
+
 def build_problem(path):
     """Return (public_json, private) where private holds the solution source for checks."""
-    meta = json.loads(read(path, "meta.json"))
+    meta = load_meta(path)
+    if meta["type"] == "design":
+        return build_design(path, meta)
     solution = read(path, "solution.py")
     driver = read(path, "driver.py")
     checker = read(path, "checker.py")
@@ -83,5 +124,5 @@ def build_problem(path):
 
 
 def summary(meta):
-    keys = ("id", "slug", "title", "difficulty", "category", "tags")
+    keys = ("id", "slug", "title", "difficulty", "category", "tags", "track", "type")
     return {k: meta[k] for k in keys}

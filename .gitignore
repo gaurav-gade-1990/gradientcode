@@ -7,3 +7,4 @@ web/public/problems/
 web/public/harness.py
 test-results/
 playwright-report/
+web/public/gc_runtime.py

@@ -1,0 +1,19 @@
+{
+  "id": 124,
+  "slug": "retry-with-backoff",
+  "title": "Retry LLM Calls with Backoff and Jitter",
+  "difficulty": "Easy",
+  "category": "serving",
+  "tags": ["Reliability", "Rate Limits", "LLM Gateway"],
+  "mode": "driver",
+  "entry": "call_with_retry",
+  "signature": "def call_with_retry(fn, clock, rand, max_attempts=5, base=0.5, cap=8.0)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Only some errors deserve a retry: rate limits, 5xx and timeouts. A 400 will fail the same way every time.",
+    "Full jitter: sleep a uniform amount in [0, min(cap, base * 2**attempt)]. Call rand() exactly once per backoff.",
+    "If the server sent Retry-After, wait at least that long. Never sleep less than the server asked."
+  ],
+  "related": ["circuit-breaker", "token-bucket-rate-limiter", "gateway-failover-hedging"]
+}
