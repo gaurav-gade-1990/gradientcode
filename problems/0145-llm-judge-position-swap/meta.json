@@ -1,0 +1,20 @@
+{
+  "id": 145,
+  "slug": "llm-judge-position-swap",
+  "title": "Position-Swapped LLM Judge with Human Agreement",
+  "difficulty": "Medium",
+  "category": "prod-ml",
+  "tags": ["LLM-as-Judge", "Evals", "Release Gate"],
+  "mode": "driver",
+  "entry": "evaluate_with_judge",
+  "signature": "def evaluate_with_judge(judge, pairs, human, policy)",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Two judge calls per pair, in order: candidate in slot 1 first, then baseline in slot 1. Build both prompts from the same TEMPLATE.",
+    "Map each raw answer back to a model before comparing. In the swapped call, '1' means the baseline won.",
+    "Disagreeing orders become a tie, and they stay in every denominator. Position bias is the same slot winning both times.",
+    "Cohen's kappa = (p_o - p_e) / (1 - p_e), with p_e the sum over labels of judge share times human share, computed only on human-labeled pairs."
+  ],
+  "related": ["prompt-regression-gate", "pass-at-k", "ab-test-significance"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 151,
+  "slug": "model-registry-stages",
+  "title": "Model Registry Stages, Approvals and Rollback",
+  "difficulty": "Medium",
+  "category": "prod-ml",
+  "tags": ["Model Registry", "MLOps", "Rollback"],
+  "mode": "driver",
+  "entry": "ModelRegistry",
+  "signature": "class ModelRegistry: register(model, data_version, code_version, metrics) -> int; transition(model, version, to_stage, actor, approved_by=None) -> dict; rollback(model, actor) -> dict; production(model); stage(model, version); lineage(model, version); models_using_data(data_version); events",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Versions count per model: churn-model v1, v2 and fraud-model v1 are independent.",
+    "Check errors in the stated order and change nothing when one fires. A failed transition emits no event.",
+    "Promoting to Production first archives the current Production version (reason superseded), then promotes. Remember who was superseded: that's the rollback history.",
+    "Rollback targets the most recently superseded version that is still Archived. It is not just the latest archived version, which could be a rejected candidate or the bad build you're rolling back from."
+  ],
+  "related": ["canary-analysis", "point-in-time-feature-join", "feature-flag-rollout"]
+}

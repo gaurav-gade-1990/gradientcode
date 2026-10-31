@@ -1,0 +1,20 @@
+{
+  "id": 152,
+  "slug": "thompson-prompt-variants",
+  "title": "Thompson Sampling over Prompt Variants",
+  "difficulty": "Medium",
+  "category": "prod-ml",
+  "tags": ["Bandits", "Experimentation", "Prompt Engineering"],
+  "mode": "driver",
+  "entry": "run_thompson",
+  "signature": "def run_thompson(variants, requests, sample_beta, warm_weight)",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 6000,
+  "hints": [
+    "Per request: activate any variant whose launch_at equals this index, then call sample_beta(alpha, beta) once for every active variant in list order, and serve the argmax (ties go to the earlier variant).",
+    "Only the served variant learns from the request. In production you never see what the other prompts would have done.",
+    "Warm start with integer math: s = (warm_weight * a_p) // (a_p + b_p), prior = (1 + s, 1 + warm_weight - s), using the parent's posterior at the moment of launch.",
+    "The leader is the highest posterior mean a / (a + b) among variants that actually served traffic. Compare by cross-multiplying so ties are exact, and break ties by list order."
+  ],
+  "related": ["ab-test-significance", "epsilon-greedy-bandit", "feature-flag-rollout"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 148,
+  "slug": "shadow-deployment-diff",
+  "title": "Shadow Deployment Diff Report",
+  "difficulty": "Easy",
+  "category": "prod-ml",
+  "tags": ["Shadow Traffic", "Model Rollout", "Release Gate"],
+  "mode": "function",
+  "entry": "shadow_diff",
+  "signature": "def shadow_diff(records, policy)",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Classify each request with the first rule that matches: shadow_error, exact, normalized, numeric, mismatch.",
+    "Exact means the canonical JSON is identical. In Python, 1 == 1.0 and True == 1 are both True, so == is not that test.",
+    "bool is a subclass of int. Exclude it explicitly before treating a value as a number.",
+    "Shadow errors are not disagreements. Leave them out of the agreement denominator and gate them with their own error-rate limit."
+  ],
+  "related": ["canary-analysis", "train-serve-skew", "prompt-regression-gate"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 147,
+  "slug": "canary-analysis",
+  "title": "Canary Analysis: Promote, Roll Back or Extend",
+  "difficulty": "Medium",
+  "category": "prod-ml",
+  "tags": ["Canary", "Progressive Delivery", "SLOs"],
+  "mode": "function",
+  "entry": "analyze_canary",
+  "signature": "def analyze_canary(windows, policy)",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Judge each window on its own counts. Pooling every window so far dilutes a regression that starts late in the rollout.",
+    "Check the rules in order: abort, then minimum samples, then the two comparisons. An insufficient window leaves both streaks untouched.",
+    "Streaks are consecutive. A healthy window resets the failure streak, and a failing window resets the pass streak.",
+    "Stop at the first promote or rollback. Every window after that is never analyzed, so it does not appear in the timeline."
+  ],
+  "related": ["ab-test-significance", "shadow-deployment-diff", "model-registry-stages"]
+}

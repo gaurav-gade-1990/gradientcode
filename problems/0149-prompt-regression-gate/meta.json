@@ -1,0 +1,20 @@
+{
+  "id": 149,
+  "slug": "prompt-regression-gate",
+  "title": "Golden-Set Gate for a Prompt Change",
+  "difficulty": "Easy",
+  "category": "prod-ml",
+  "tags": ["Evals", "CI Gate", "Prompt Engineering"],
+  "mode": "driver",
+  "entry": "gate_prompt_change",
+  "signature": "def gate_prompt_change(llm, new_prompt, golden, baseline, policy)",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Call the model exactly once per golden case, in list order, with [system = new_prompt, user = case input]. A model error is a failed case, not a crashed CI job.",
+    "A must-pass case regresses when it passed on the baseline and fails now. Averages can hide it, so check it on its own.",
+    "Compare drops in integers: block when 100 * (baseline_passes - new_passes) > max_drop_pp * n. Subtracting two float rates puts 0.8 - 0.7 just above 0.1.",
+    "Only slices with at least min_slice cases can block. Report the small ones anyway, with gated set to False."
+  ],
+  "related": ["pass-at-k", "llm-judge-position-swap", "shadow-deployment-diff"]
+}

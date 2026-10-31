@@ -1,0 +1,20 @@
+{
+  "id": 146,
+  "slug": "ab-test-significance",
+  "title": "A/B Test Ship Decision with SRM Guard",
+  "difficulty": "Medium",
+  "category": "prod-ml",
+  "tags": ["Experimentation", "Statistics", "Release Gate"],
+  "mode": "function",
+  "entry": "ab_test",
+  "signature": "def ab_test(control, treatment, plan)",
+  "compare": {"rtol": 1e-7, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Build norm_cdf from math.erf, then invert it by bisection exactly as the statement says. Every quantile (the CI multiplier and both sample-size quantiles) comes from that one function.",
+    "The z-test uses the pooled rate for its standard error (under the null both arms share one rate). The confidence interval uses the unpooled standard error.",
+    "Two-sided means z_(1 - alpha/2) and a p-value of erfc(|z| / sqrt(2)), which equals 2 * (1 - Phi(|z|)) without the cancellation.",
+    "Check the decision rules in order. A sample ratio mismatch invalidates everything, and a significant harm rolls back even before the test is fully powered."
+  ],
+  "related": ["canary-analysis", "thompson-prompt-variants", "pass-at-k"]
+}

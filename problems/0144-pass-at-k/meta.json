@@ -1,0 +1,20 @@
+{
+  "id": 144,
+  "slug": "pass-at-k",
+  "title": "Unbiased pass@k Release Gate",
+  "difficulty": "Easy",
+  "category": "prod-ml",
+  "tags": ["Evals", "Code Generation", "Release Gate"],
+  "mode": "function",
+  "entry": "pass_at_k",
+  "signature": "def pass_at_k(samples, ks, gate)",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "pass@k is the probability that at least one of k samples drawn without replacement from the n you generated passes: 1 - C(n-c, k) / C(n, k).",
+    "Average per problem (macro average). Pooling every sample into one n and c answers a different question.",
+    "C(n, k) overflows a float once n is in the low thousands. Rewrite the ratio as the product of (1 - k/i) for i from n-c+1 to n.",
+    "A problem with fewer than k samples cannot estimate pass@k. Report it as None, list it as skipped, and leave it out of the mean."
+  ],
+  "related": ["prompt-regression-gate", "llm-judge-position-swap", "ab-test-significance"]
+}

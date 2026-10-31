@@ -1,0 +1,20 @@
+{
+  "id": 150,
+  "slug": "train-serve-skew",
+  "title": "Train/Serve Skew Detector",
+  "difficulty": "Medium",
+  "category": "prod-ml",
+  "tags": ["Feature Store", "Data Quality", "Release Gate"],
+  "mode": "function",
+  "entry": "train_serve_skew",
+  "signature": "def train_serve_skew(train_rows, serve_rows, features, policy)",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Deduplicate serving rows first: per entity keep the greatest ts, and on a tie the later row. Then join on entity_id, never on position.",
+    "A missing value is an absent key or None. It is not 0. Missing vs present is a mismatch, and both missing is a match.",
+    "bool is a subclass of int in Python. A feature is numeric only if every non-missing value on both sides is an int or float and not a bool.",
+    "Distances use every row on each side, not just the joined ones: the population std of the training values for numeric features, total variation distance for categorical ones."
+  ],
+  "related": ["point-in-time-feature-join", "shadow-deployment-diff", "population-stability-index"]
+}

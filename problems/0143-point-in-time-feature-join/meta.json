@@ -1,0 +1,20 @@
+{
+  "id": 143,
+  "slug": "point-in-time-feature-join",
+  "title": "Point-in-Time Correct Feature Join",
+  "difficulty": "Hard",
+  "category": "prod-ml",
+  "tags": ["Feature Store", "Data Leakage", "Training Data"],
+  "mode": "function",
+  "entry": "point_in_time_join",
+  "signature": "def point_in_time_join(labels, snapshots, feature_specs)",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Each feature has its own cutoff: as_of = event_ts - lag. A snapshot is visible only if both its ts and its created_at are <= as_of.",
+    "Among the visible rows for (entity, feature), take the greatest ts, then the greatest version. Don't scan every snapshot for every label: group them by (entity, feature) first.",
+    "TTL is measured from as_of, not from event_ts: age = as_of - ts. A stale latest row is expired. Don't fall back to an older row, which would be even staler.",
+    "created_at is what keeps a backfill from leaking. A row computed today for last month's ts was not in the store when last month's prediction was made."
+  ],
+  "related": ["train-serve-skew", "data-quality-validator", "model-registry-stages"]
+}
