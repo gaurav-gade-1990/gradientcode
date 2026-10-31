@@ -1,0 +1,19 @@
+{
+  "id": 41,
+  "slug": "layernorm-forward-backward",
+  "title": "Layer Normalization Forward and Backward",
+  "difficulty": "Medium",
+  "category": "nn",
+  "tags": ["Normalization", "Backpropagation", "Transformers"],
+  "mode": "function",
+  "entry": "layernorm",
+  "signature": "def layernorm(x, gamma, beta, dout, eps=1e-5) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Layer norm is batch norm turned sideways: the statistics are over the last axis, one mean and variance per row.",
+    "gamma and beta are shared by every row, so dgamma and dbeta sum over all leading axes.",
+    "With g = dout * gamma: dx = (g - mean(g) - x_hat * mean(g * x_hat)) / sqrt(var + eps), means over the last axis."
+  ],
+  "related": ["batchnorm-backward", "rmsnorm", "transformer-block-forward"]
+}

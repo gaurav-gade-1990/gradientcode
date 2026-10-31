@@ -1,0 +1,20 @@
+{
+  "id": 46,
+  "slug": "numerical-gradient-check",
+  "title": "Numerical Gradient Check",
+  "difficulty": "Easy",
+  "category": "nn",
+  "tags": ["Backpropagation", "Debugging", "Numerical Methods"],
+  "mode": "driver",
+  "entry": "grad_check",
+  "signature": "def grad_check(f, x: np.ndarray, analytic_grad: np.ndarray, h: float = 1e-5) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-7},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Use central differences, (f(x + h) - f(x - h)) / (2h). Its error is O(h^2), compared with O(h) for the one-sided version.",
+    "Perturb one element at a time. np.ndindex(x.shape) visits every index of an array of any shape.",
+    "Save the old value and put it back after both evaluations, so x is unchanged when you return.",
+    "rel_error = norm(a - n) / max(norm(a) + norm(n), 1e-12)."
+  ],
+  "related": ["scalar-autograd-value", "batchnorm-backward", "dense-layer-forward-backward"]
+}

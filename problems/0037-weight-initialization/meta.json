@@ -1,0 +1,19 @@
+{
+  "id": 37,
+  "slug": "weight-initialization",
+  "title": "Xavier and He Initialization",
+  "difficulty": "Easy",
+  "category": "nn",
+  "tags": ["Initialization", "Deep Learning"],
+  "mode": "function",
+  "entry": "init_weights",
+  "signature": "def init_weights(fan_in: int, fan_out: int, u: np.ndarray, z: np.ndarray) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "A uniform distribution on [-a, a] has variance a^2 / 3.",
+    "Xavier wants variance 2 / (fan_in + fan_out), so a = sqrt(6 / (fan_in + fan_out)).",
+    "Map u in [0, 1) to [-a, a) with (2u - 1) * a. He normal is just z * sqrt(2 / fan_in)."
+  ],
+  "related": ["dense-layer-forward-backward", "train-mlp-on-xor"]
+}

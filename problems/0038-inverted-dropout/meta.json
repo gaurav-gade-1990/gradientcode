@@ -1,0 +1,19 @@
+{
+  "id": 38,
+  "slug": "inverted-dropout",
+  "title": "Inverted Dropout",
+  "difficulty": "Easy",
+  "category": "nn",
+  "tags": ["Regularization", "Deep Learning"],
+  "mode": "function",
+  "entry": "dropout",
+  "signature": "def dropout(x: np.ndarray, keep_prob: float, u: np.ndarray, train: bool = True) -> np.ndarray",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "The mask is u < keep_prob. Use strict less-than.",
+    "Divide the kept values by keep_prob during training so the expected output equals x.",
+    "Because training already rescales, evaluation does nothing: return x unchanged."
+  ],
+  "related": ["batchnorm-forward", "dense-layer-forward-backward"]
+}

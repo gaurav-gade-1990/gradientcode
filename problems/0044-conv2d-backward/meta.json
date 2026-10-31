@@ -1,0 +1,20 @@
+{
+  "id": 44,
+  "slug": "conv2d-backward",
+  "title": "2-D Convolution Backward",
+  "difficulty": "Hard",
+  "category": "nn",
+  "tags": ["Convolution", "Backpropagation", "Deep Learning"],
+  "mode": "function",
+  "entry": "conv2d_backward",
+  "signature": "def conv2d_backward(dout, x, w, stride=1, pad=0) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "db is the easy one: sum dout over every axis except the filter axis.",
+    "In the forward pass, offset (i, j) contributed einsum('nchw,fc->nfhw', win_ij, w[:, :, i, j]). Differentiate that one term.",
+    "dw[:, :, i, j] = einsum('nfhw,nchw->fc', dout, win_ij). The gradient for win_ij is einsum('nfhw,fc->nchw', dout, w[:, :, i, j]).",
+    "Windows overlap when stride < kernel size, so ADD each slice's gradient into a padded dx buffer, then crop the padding off. Careful: xp[pad:-pad] is empty when pad = 0."
+  ],
+  "related": ["conv2d-forward", "im2col", "max-pool-forward-backward"]
+}

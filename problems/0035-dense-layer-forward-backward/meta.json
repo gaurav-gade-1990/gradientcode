@@ -1,0 +1,19 @@
+{
+  "id": 35,
+  "slug": "dense-layer-forward-backward",
+  "title": "Dense Layer Forward and Backward",
+  "difficulty": "Medium",
+  "category": "nn",
+  "tags": ["Backpropagation", "Linear Algebra", "Deep Learning"],
+  "mode": "function",
+  "entry": "dense_forward_backward",
+  "signature": "def dense_forward_backward(x, W, b, dout) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Each gradient has the same shape as the thing it is a gradient of. Use shapes to decide where the transposes go.",
+    "For 2-D x: dx = dout @ W.T, dW = x.T @ dout, db = dout.sum(axis=0).",
+    "With extra leading dimensions, every leading position is just another row. Reshape x to (-1, D) and dout to (-1, M), then reshape dx back."
+  ],
+  "related": ["softmax-cross-entropy-gradient", "unbroadcast-gradient", "tensor-autograd-matmul"]
+}

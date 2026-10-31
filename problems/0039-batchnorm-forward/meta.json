@@ -1,0 +1,20 @@
+{
+  "id": 39,
+  "slug": "batchnorm-forward",
+  "title": "Batch Normalization Forward",
+  "difficulty": "Medium",
+  "category": "nn",
+  "tags": ["Normalization", "Deep Learning"],
+  "mode": "function",
+  "entry": "batchnorm_forward",
+  "signature": "def batchnorm_forward(x, gamma, beta, running_mean, running_var, momentum=0.9, eps=1e-5, train=True) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "In training mode, the statistics come from the batch: mean and variance over axis 0 for each feature.",
+    "Use the biased variance (divide by N) both to normalize and to update the running variance.",
+    "momentum weights the OLD running value: new = momentum * old + (1 - momentum) * batch.",
+    "In eval mode, normalize with the running statistics and return them unchanged."
+  ],
+  "related": ["batchnorm-backward", "layernorm-forward-backward", "standardize-features"]
+}

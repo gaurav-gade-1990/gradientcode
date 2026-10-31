@@ -1,0 +1,19 @@
+{
+  "id": 34,
+  "slug": "activation-functions",
+  "title": "Activation Functions and Their Derivatives",
+  "difficulty": "Easy",
+  "category": "nn",
+  "tags": ["Activations", "Backpropagation", "Numerical Stability"],
+  "mode": "function",
+  "entry": "activations",
+  "signature": "def activations(x: np.ndarray, alpha: float = 0.01) -> dict",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Write each derivative in terms of the forward value where you can: sigmoid' = s(1 - s), tanh' = 1 - t^2.",
+    "At exactly x = 0, ReLU's derivative is 0 and Leaky ReLU's derivative is alpha. Use x > 0, not x >= 0.",
+    "GELU is a product 0.5 * x * (1 + tanh(u)). Its derivative needs the product rule, plus the chain rule through u = c (x + 0.044715 x^3)."
+  ],
+  "related": ["stable-softmax", "dense-layer-forward-backward", "swiglu-ffn"]
+}

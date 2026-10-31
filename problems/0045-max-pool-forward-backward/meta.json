@@ -1,0 +1,19 @@
+{
+  "id": 45,
+  "slug": "max-pool-forward-backward",
+  "title": "Max Pooling Forward and Backward",
+  "difficulty": "Medium",
+  "category": "nn",
+  "tags": ["Convolution", "Pooling", "Backpropagation"],
+  "mode": "function",
+  "entry": "maxpool",
+  "signature": "def maxpool(x, dout, pool_h, pool_w, stride) -> tuple",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Max is a router: in the backward pass, the whole upstream gradient of a window goes to the single position that won.",
+    "np.argmax returns the FIRST maximum in row-major order, which is exactly the tie rule you need. Flatten each window to length pool_h * pool_w first.",
+    "Windows overlap when stride < pool size, so one pixel can win several windows. Add (+=) its gradients rather than assigning them."
+  ],
+  "related": ["conv2d-forward", "conv2d-backward", "im2col"]
+}

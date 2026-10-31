@@ -1,0 +1,20 @@
+{
+  "id": 40,
+  "slug": "batchnorm-backward",
+  "title": "Batch Normalization Backward",
+  "difficulty": "Hard",
+  "category": "nn",
+  "tags": ["Normalization", "Backpropagation", "Deep Learning"],
+  "mode": "function",
+  "entry": "batchnorm_backward",
+  "signature": "def batchnorm_backward(dout, x, gamma, eps=1e-5) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "dbeta and dgamma are easy: sum dout and dout * x_hat over every axis except the channel axis.",
+    "The mean and the variance both depend on every x in the group. Treating them as constants gives the wrong dx.",
+    "With g = dout * gamma and M elements per group: dx = (g - mean(g) - x_hat * mean(g * x_hat)) / sqrt(var + eps).",
+    "For 4-D input, the group for channel c is everything in x[:, c, :, :]. Reduce over axes (0, 2, 3) with keepdims=True."
+  ],
+  "related": ["batchnorm-forward", "layernorm-forward-backward", "numerical-gradient-check"]
+}

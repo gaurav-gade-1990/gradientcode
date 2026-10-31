@@ -1,0 +1,19 @@
+{
+  "id": 43,
+  "slug": "conv2d-forward",
+  "title": "2-D Convolution Forward",
+  "difficulty": "Medium",
+  "category": "nn",
+  "tags": ["Convolution", "Deep Learning", "NumPy"],
+  "mode": "function",
+  "entry": "conv2d_forward",
+  "signature": "def conv2d_forward(x, w, b, stride=1, pad=0) -> np.ndarray",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Deep-learning 'convolution' is cross-correlation: the kernel is NOT flipped.",
+    "Pad H and W on both sides, then out_h = (H + 2*pad - kh) // stride + 1.",
+    "Loop over the kh * kw kernel offsets. For each one, take a strided slice of shape (N, C, out_h, out_w) and contract it with w[:, :, i, j] over C using np.einsum or tensordot."
+  ],
+  "related": ["im2col", "conv2d-backward", "max-pool-forward-backward"]
+}

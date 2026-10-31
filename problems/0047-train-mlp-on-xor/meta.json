@@ -1,0 +1,20 @@
+{
+  "id": 47,
+  "slug": "train-mlp-on-xor",
+  "title": "Train a 2-Layer MLP on XOR",
+  "difficulty": "Medium",
+  "category": "nn",
+  "tags": ["Backpropagation", "Training Loop", "Deep Learning"],
+  "mode": "function",
+  "entry": "train_mlp",
+  "signature": "def train_mlp(X, y, W1, b1, W2, b2, lr, epochs) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Sigmoid plus binary cross-entropy cancel nicely: the gradient of the mean loss with respect to the output logit is (p - y) / N.",
+    "Backprop through tanh multiplies by (1 - h^2), where h is the tanh output.",
+    "Compute all four gradients from the current parameters before you update any of them.",
+    "Record the loss of the current parameters at the start of each epoch, then update."
+  ],
+  "related": ["dense-layer-forward-backward", "logistic-regression-gd", "weight-initialization"]
+}

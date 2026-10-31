@@ -1,0 +1,19 @@
+{
+  "id": 36,
+  "slug": "softmax-cross-entropy-gradient",
+  "title": "Softmax Cross-Entropy Loss and Gradient",
+  "difficulty": "Medium",
+  "category": "nn",
+  "tags": ["Loss Functions", "Backpropagation", "Numerical Stability"],
+  "mode": "function",
+  "entry": "softmax_cross_entropy",
+  "signature": "def softmax_cross_entropy(logits: np.ndarray, labels: np.ndarray) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Work with log-probabilities: log p = z - logsumexp(z). Never take the log of a softmax that may have underflowed to 0.",
+    "Shift each row by its max before exponentiating.",
+    "The gradient of the mean loss is (softmax(z) - onehot(y)) / N."
+  ],
+  "related": ["stable-softmax", "log-sum-exp", "one-hot-encoding", "binary-log-loss"]
+}
