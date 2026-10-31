@@ -117,7 +117,7 @@ sigma = X_train.std(axis=0)    # (n, d) -> (d,), population std (ddof=0)
 sigma = np.where(sigma == 0, 1.0, sigma)    # (d,)
 ```
 
-`np.where` returns a new array, so the original statistics aren't mutated. An exact `== 0` works on these tests because their constant columns hold values like `3.0`, whose std comes out exactly `0.0`. Be aware that a constant column of `0.1` can give a std of about `1e-17` instead, because `0.1` isn't exactly representable. scikit-learn guards with a small relative threshold for that reason.
+`np.where` returns a new array, so the original statistics aren't mutated. An exact `== 0` works on these tests because their constant columns hold values like `3.0`, whose std comes out exactly `0.0`. Be aware that a constant column of `0.1` can give a std of about `1e-17` instead, because `0.1` isn't exactly representable. scikit-learn guards with a small relative threshold for that reason. Don't swap in a fixed absolute cutoff like `sigma < 1e-8`, though: the statement replaces $\sigma_j$ only when it is exactly 0, and the hidden case "tiny but nonzero spread" has a column `[0, 2e-9]` with a real std of `1e-9`. It must scale to `[-1, 1]`, with test values `[1e-9, 4e-9]` mapping to `[0, 3]`.
 
 **Step 3: transform both sets with the same statistics.**
 
@@ -155,6 +155,7 @@ def standardize(X_train: np.ndarray, X_test: np.ndarray) -> tuple:
 | Example 2 | `Z_test = [[2.2361]]` | population std $\sqrt{5}$; the test row uses training stats |
 | different scales and shifts | `Z_test` column 3 around `100`, e.g. `103.4904` | per-column stats on very different scales; drift stays visible |
 | constant column in train | `Z_test` column 2 is `[0, 1, -1, 0, 7]` | guard: test values are only centered |
+| tiny but nonzero spread | `Z_train = [[-1, -1], [1, 1]]`, `Z_test = [[0, 0], [3, 3]]` | only an exact zero std is replaced; std `1e-9` still divides |
 | single training row | `Z_train = [[0, 0, 0]]`, `Z_test = [[-1, 2, -3], [0, 0, 1]]` | `n = 1`: every std is 0, so everything is only centered |
 | empty test set | `Z_test` has shape `(0, 3)` | `m = 0` through broadcasting |
 | test equals train | `Z_test` equals `Z_train` | same stats applied twice give identical outputs |
@@ -174,6 +175,7 @@ In production the fit happens once, offline, and $\mu$ and $\sigma$ are saved **
 - **The test output is wrong in the first element but training is fine; Example 2 gives `0` instead of `2.2361`.** You standardized the test set with its own statistics (`wrong_fit_on_test.py`). It passes "test equals train" and "empty test set", where the two are indistinguishable.
 - **Every training value is a bit too small in magnitude; Example 1 gives `-0.7071` instead of `-1`.** You used `ddof=1` (`wrong_ddof1.py`). It passes "single training row" only because that version special-cases `n = 1`.
 - **A huge value like `2e+12` in the test output.** You added a tiny epsilon to `sigma` instead of guarding (`wrong_no_constant_guard.py`). Training values of a constant column are `0 / 1e-12 = 0`, so training looks fine, but any test value that differs from the constant explodes. It fails Example 1, "constant column in train" and "single training row".
+- **Column 2 of "tiny but nonzero spread" comes out as `[-0, 0]` and `[0, 0]`.** You guarded with a threshold such as `sigma < 1e-8` (`wrong_threshold_guard.py`), so a column with std `1e-9` was only centered. Replace sigma only where it is exactly `0`.
 - **Every training value is off, Example 1 gives `-1.1832`.** You fit on train and test stacked together.
 - **`nan` in training output.** No guard at all: a constant column gives `0 / 0`.
 

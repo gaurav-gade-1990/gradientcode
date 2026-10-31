@@ -186,7 +186,7 @@ def pca(X: np.ndarray, k: int) -> tuple:
 | correlated 5d top 2 | `Z` is `(60, 2)` | `k < d`; the ratio's denominator uses all five eigenvalues |
 | full rank k = d | `Z` is `(40, 3)` | every component, every sign |
 | single component | first row of `Z` is `[5.6792]` | `k = 1`, same data as the full-rank case |
-| negative pivot | component 1 is `[-0.4472, 0.894, -0.0268]` | the pivot is the largest entry, not the first |
+| pivot is not the first entry | component 1 is `[-0.4472, 0.894, -0.0268]` | the pivot is the largest entry, not the first; a first-entry rule flips it to `[0.4472, -0.894, 0.0268]` whatever sign `eigh` returns |
 | off-center 8d | `Z` is `(100, 4)` | data shifted by 50: centering is essential |
 | two samples | component `[-0.4472, 0, 0.8944]`, ratio `[1]` | `n = 2`, a rank-1 covariance with repeated zero eigenvalues below the top one |
 
@@ -203,8 +203,8 @@ When $d$ is small (here at most 10), the covariance route is the fastest. When $
 
 - **Every case fails, and the ratios are tiny (Example 1 gives `[0]`).** You took the first `k` columns of `eigh`'s output without reversing (`wrong_ascending_order.py`). Those are the *least*-variance directions.
 - **Every case fails, and `Z` isn't centered (Example 1 gives `[1.4142, 2.8284, ...]`).** You skipped centering (`wrong_no_centering.py`). On "off-center 8d", the top uncentered direction points at the mean `(50, 50, ...)`, not along the spread.
-- **Example 2's values are all negated.** You skipped the sign fix (`wrong_no_sign_fix.py`). On this platform that also fails "correlated 5d top 2" and "off-center 8d". Which cases it fails depends on the LAPACK build, which is exactly why the spec fixes the sign.
-- **Example 2's second component is `[0.0603, -0.9982]`.** You made the first entry positive instead of the largest-magnitude one.
+- **Example 2's values are all negated.** You skipped the sign fix (`wrong_no_sign_fix.py`). On this platform that also fails "correlated 5d top 2" and "off-center 8d". Which cases it fails depends on the LAPACK build, which is exactly why the spec fixes the sign. No test can force `eigh` to return a negative pivot, so this bug is caught only where the build happens to return one.
+- **Example 2's second component is `[0.0603, -0.9982]`.** You made the first entry positive instead of the largest-magnitude one (`wrong_first_entry_sign.py`). It fails all six hidden cases too. "pivot is not the first entry" catches it on any LAPACK build, because the right answer there starts with a negative entry.
 - **The components look scrambled.** You indexed rows instead of columns: `vecs[:k]` instead of `vecs[:, :k].T`. Eigenvectors from `eigh` are columns.
 - **The ratios sum to 1 when `k < d`.** Divide by the sum of all eigenvalues, not `vals[:k].sum()`.
 

@@ -13,7 +13,7 @@ def cases():
         {"name": "window equals length", "args": {"x": np.array([3, 1, 4, 1, 5]), "window": 5, "stride": 2}},
         {"name": "exact fit", "args": {"x": np.arange(12) * 10, "window": 4, "stride": 4}},
         {"name": "stride larger than window", "args": {"x": np.arange(20), "window": 2, "stride": 5}},
-        {"name": "one leftover sample", "args": {"x": np.arange(11), "window": 3, "stride": 4}},
+        {"name": "one leftover sample", "args": {"x": np.arange(12), "window": 3, "stride": 4}},
         {"name": "window 1", "args": {"x": np.array([7, 8, 9, 10]), "window": 1, "stride": 2}},
         {"name": "empty signal", "args": {"x": np.zeros(0), "window": 2, "stride": 1}},
         {"name": "float signal", "args": {"x": rng.normal(size=50), "window": 8, "stride": 6}},

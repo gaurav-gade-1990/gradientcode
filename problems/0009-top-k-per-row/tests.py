@@ -14,5 +14,6 @@ def cases():
         {"name": "many ties", "args": {"x": rng.integers(0, 3, size=(6, 10)).astype(float), "k": 4}},
         {"name": "negatives", "args": {"x": -rng.random((5, 8)) * 10, "k": 3}},
         {"name": "single column", "args": {"x": np.array([[4.0], [-1.0]]), "k": 1}},
+        {"name": "tied block in a long row", "args": {"x": np.array([[1.0] * 10 + [2.0] * 10 + [1.0] * 10]), "k": 12}},
         {"name": "wide rows", "args": {"x": np.round(rng.normal(size=(20, 200)), 1), "k": 10}},
     ]

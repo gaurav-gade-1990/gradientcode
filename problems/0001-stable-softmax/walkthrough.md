@@ -93,7 +93,7 @@ e / S                              # [[0.1192, 0.0474],
 
 Each column sums to 1. Each row does not.
 
-**The trickiest hidden case, "rows with different scales":** `[[0, 1, 2], [500, 501, 502]]` with `axis=-1`. Both rows have the same gaps, so both give `[0.09, 0.2447, 0.6652]`. A per-row max shifts row 0 by 2 and row 1 by 502. A single global max of 502 would shift row 0 to `[-502, -501, -500]`. That still works here (`exp(-500)` is tiny but not zero), but if row 0 sat around `-2000` its exponentials would all be exactly `0.0` and the row would become `0 / 0 = nan`. That's why the max must be taken **per slice**.
+**The trickiest hidden case, "rows with different scales":** `[[0, 1, 2], [500, 501, 502]]` with `axis=-1`. Both rows have the same gaps, so both give `[0.09, 0.2447, 0.6652]`. A per-row max shifts row 0 by 2 and row 1 by 502. A single global max of 502 would shift row 0 to `[-502, -501, -500]`. That still works here (`exp(-500)` is tiny but not zero). The hidden case "rows far apart" moves row 0 to `[-2000, -1999, -1998]`: with a global max of 2, its exponentials are all exactly `0.0` and the row becomes `0 / 0 = nan`, while the per-row max still gives `[0.09, 0.2447, 0.6652]`. That's why the max must be taken **per slice**.
 
 ## 5. Key idea: `keepdims=True` is what makes any axis work
 
@@ -122,7 +122,7 @@ return e / S                                   # broadcast back to x.shape
 | choice | result |
 |---|---|
 | no shift | `inf / inf = nan` on Example 2 and "large negatives" |
-| shift by the global `np.max(x)` | correct on these tests, but a slice far below the global max can become `0 / 0` |
+| shift by the global `np.max(x)` | a slice far below the global max becomes `0 / 0 = nan` ("rows far apart") |
 | shift by the per-slice min | overflows when a slice's range exceeds about 709 |
 | shift by the per-slice max | always safe |
 
@@ -180,6 +180,7 @@ def softmax(x: np.ndarray, axis: int = -1) -> np.ndarray:
 | batch of rows | shape `(8, 10)`, each row sums to 1 | the default `axis=-1` on 2-D; this is where missing `keepdims` crashes |
 | 3d axis 1 | shape `(3, 4, 5)`, normalized over axis 1 | a middle axis, which only `keepdims` handles |
 | rows with different scales | both rows `[0.09, 0.2447, 0.6652]` | shift invariance, per row |
+| rows far apart | both rows `[0.09, 0.2447, 0.6652]` | the max is per slice; a global max turns row 0 into `nan` |
 | single element | `[1.]` | `n = 1`: `exp(0) / exp(0)` |
 | negative axis | shape `(4, 6)`, each column sums to 1 | `axis=-2` passed straight to the reductions |
 
@@ -192,7 +193,8 @@ At scale, softmax is memory-bound, not compute-bound: it reads the array several
 ## 11. If you got Wrong Answer
 
 - **`nan` in Example 2 or "large negatives".** You exponentiated without shifting (`wrong_naive.py`). `exp(1000)` is `inf`; `exp(-1000)` is `0`.
-- **Runtime Error: "operands could not be broadcast together with shapes (8,10) (8,)".** You dropped `keepdims=True` on the sum (`wrong_no_keepdims.py`). It passes Example 3 and "negative axis" by luck and fails "batch of rows", "3d axis 1" and "rows with different scales".
+- **Runtime Error: "operands could not be broadcast together with shapes (8,10) (8,)".** You dropped `keepdims=True` on the sum (`wrong_no_keepdims.py`). It passes Example 3 and "negative axis" by luck and fails "batch of rows", "3d axis 1", "rows with different scales" and "rows far apart".
+- **`nan` in row 0 of "rows far apart".** You shifted by the global `np.max(x)` instead of each slice's max (`wrong_global_max.py`). Row 0 sits 2000 below the global max, so every `exp` underflows to `0.0`.
 - **Example 3, "3d axis 1" and "negative axis" are wrong but the 1-D cases pass.** You hard-coded `axis=-1` instead of passing `axis` through.
 - **Rows sum to something other than 1.** You divided by `np.sum(e)` over the whole array instead of along `axis`.
 - **Your output is the right values but the wrong shape.** You flattened or squeezed somewhere; the result must have `x.shape`.

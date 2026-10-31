@@ -18,6 +18,8 @@ def cases():
          "explanation": "Mean 3, population std sqrt(5). The test value uses the training statistics: (8 - 3) / sqrt(5)."},
         {"name": "different scales and shifts", "args": {"X_train": Xtr, "X_test": Xte}},
         {"name": "constant column in train", "args": {"X_train": const_tr, "X_test": const_te}},
+        {"name": "tiny but nonzero spread",
+         "args": {"X_train": np.array([[1.0, 0.0], [3.0, 2e-9]]), "X_test": np.array([[2.0, 1e-9], [5.0, 4e-9]])}},
         {"name": "single training row", "args": {"X_train": np.array([[1.0, -2.0, 3.0]]), "X_test": np.array([[0.0, 0.0, 0.0], [1.0, -2.0, 4.0]])}},
         {"name": "empty test set", "args": {"X_train": rng.normal(size=(6, 3)), "X_test": np.zeros((0, 3))}},
         {"name": "test equals train", "args": {"X_train": Xtr[:12], "X_test": Xtr[:12].copy()}},

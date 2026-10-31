@@ -15,4 +15,5 @@ def cases():
         {"name": "more features than samples", "args": {"X": rng.normal(size=(5, 8))}},
         {"name": "square", "args": {"X": rng.normal(size=(6, 6)) + 2.0}},
         {"name": "larger", "args": {"X": rng.normal(size=(300, 12)) * np.arange(1, 13)}},
+        {"name": "huge means, unit spread", "args": {"X": rng.normal(size=(50, 3)) + 1e8}},
     ]

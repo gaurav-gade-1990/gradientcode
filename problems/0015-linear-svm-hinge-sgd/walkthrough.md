@@ -129,6 +129,8 @@ active = margins < 1         # (n,) booleans, strict
 ya = y * active              # (n,): y_i where active, 0 elsewhere (True/False act as 1/0)
 ```
 
+The strictness is tested. In the hidden case "margin exactly 1" (`X = [[1], [-1]]`, `y = [1, -1]`, `lam = 1`, 2 steps), step 1 lands on `w = [1]`, `b = 0`, where both margins are exactly `1`. With `< 1` neither sample is active at step 2, so only the regularizer acts and `w = 1 - (1/2) * 1 = 0.5`. With `<= 1` the hinge pull cancels the regularizer and `w` stays at `1`.
+
 **Step 2: the subgradients.**
 
 ```python
@@ -196,6 +198,7 @@ def linear_svm(X: np.ndarray, y: np.ndarray, lam: float, n_iters: int) -> tuple:
 | separable | `([1.4057, 1.383], -1.0609)` | `w` points close to the generating direction `[1, 1]` |
 | noisy with offset | `b = 1.4961` | the unregularized bias can grow to fit the `+0.8` offset |
 | imbalanced labels | `b = 1.0371` | 16 vs 4 labels: penalizing `b` would distort it |
+| margin exactly 1 | `([0.5], 0)` | the strict `< 1`: samples exactly on the margin are inactive |
 | strong regularization | `([0.0944, 0.1426], -0.2054)` | large $\lambda$ keeps `w` small; `b` is free |
 
 ## 10. Complexity
@@ -210,6 +213,7 @@ Pegasos was designed for the **stochastic** setting: each step uses one sample (
 - **Example 1 gives `w = 1.75` instead of `3.5`; everything else is slightly off.** Your step size is $1/(\lambda(t + 1))$ (`wrong_step_from_zero.py`): you started the counter at 0 and shifted to avoid dividing by zero.
 - **Example 1 passes, Example 2 gives `w[0] = 2.24`.** You divided the hinge sum by the number of active samples (`wrong_mean_over_active.py`). It also passes "strong regularization", where every sample stays active.
 - **Example 1 passes, "strong regularization" has `b = -0.048` instead of `-0.2054`.** You added `lam * b` to the bias gradient (`wrong_regularize_bias.py`). Its effect grows with $\lambda$.
+- **Only "margin exactly 1" fails, with `w = 1` instead of `0.5`.** Your active test was `margins <= 1` (`wrong_active_le_one.py`). The statement makes it strict, so a sample sitting exactly on the margin contributes nothing.
 - **Weights grow much too large; Example 2 gives `w[0] = 4.31`.** You dropped the `lam * w` term from `g_w`.
 - **Weights oscillate or change sign; Example 2 gives `w[0] = -1`.** You used a constant $\eta = 1/\lambda$. Every step then resets $w$ to $h_t/\lambda$ instead of averaging.
 

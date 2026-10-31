@@ -29,7 +29,7 @@ Recall only jumps where a positive enters, so without ties this reduces to the f
 ## Common mistakes
 
 - **No tie grouping.** Precision at each positive's own rank depends on how the sort happened to order tied items.
-- **Trapezoidal area.** Linear interpolation between PR points is optimistic, and it is a different metric. scikit-learn deliberately uses the step-wise sum.
+- **Trapezoidal area.** Linear interpolation between PR points is a different metric, and it is not reliably higher or lower: it gives `0.791667` instead of `0.833333` on Example 1, and `0.916667` instead of `0.833333` on Example 2. scikit-learn deliberately uses the step-wise sum.
 - **Interpolated precision.** Replacing precision with its running maximum to the right is the old PASCAL VOC 11-point style. It is not this metric either.
 
 ## Complexity

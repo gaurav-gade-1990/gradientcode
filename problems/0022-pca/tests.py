@@ -19,7 +19,7 @@ def cases():
         {"name": "correlated 5d top 2", "args": {"X": X5, "k": 2}},
         {"name": "full rank k = d", "args": {"X": X3r, "k": 3}},
         {"name": "single component", "args": {"X": X3r, "k": 1}},
-        {"name": "negative pivot", "args": {"X": np.array([[3.0, -6.0, 0.1], [-3.0, 6.0, -0.2], [1.0, -2.0, 0.3], [-1.0, 2.0, 0.0], [0.5, 0.2, -0.1]]), "k": 2}},
+        {"name": "pivot is not the first entry", "args": {"X": np.array([[3.0, -6.0, 0.1], [-3.0, 6.0, -0.2], [1.0, -2.0, 0.3], [-1.0, 2.0, 0.0], [0.5, 0.2, -0.1]]), "k": 2}},
         {"name": "off-center 8d", "args": {"X": X8 + 50.0, "k": 4}},
         {"name": "two samples", "args": {"X": np.array([[0.0, 1.0, 2.0], [2.0, 1.0, -2.0]]), "k": 1}},
     ]

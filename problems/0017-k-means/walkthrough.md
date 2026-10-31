@@ -207,7 +207,7 @@ At scale (millions of points), two changes matter. Replace the broadcast with th
 
 - **Runtime Error on "zero iterations".** You return `labels` from inside the loop, and with `max_iter = 0` it was never assigned. Always assign after the loop.
 - **"stops at max_iter" fails but everything else passes.** Your labels are stale: they were computed before the last update (`wrong_stale_labels.py`). When the loop converges, stale and fresh labels agree, which is why only this case catches it.
-- **Example 2 shows `[nan, nan]` or `[0, 0]` for the second centroid.** You computed the mean of an empty set, or replaced it with zeros (`wrong_empty_cluster_nan.py` uses zeros). With `nan`, every label becomes `1`, because `argmin` treats `nan` as smallest. With zeros, the centroid jumps to the origin and steals points 0 and 1. Start `new` from `C.copy()` and skip empty clusters. "empty cluster persists" fails for the same reason.
+- **Example 2 shows `[nan, nan]` or `[0, 0]` for the second centroid.** You computed the mean of an empty set (`wrong_empty_cluster_nan.py`), or replaced it with zeros. With `nan`, every label becomes `1`, because `argmin` treats `nan` as smallest. With zeros, the centroid jumps to the origin and steals points 0 and 1. Start `new` from `C.copy()` and skip empty clusters. "empty cluster persists" fails for the same reason.
 - **"stops at max_iter" and "many clusters 4d" fail.** You're using L1 distance (`np.abs(...).sum(-1)`, `wrong_manhattan.py`). The mean minimizes squared L2 distance; L1 pairs with the median.
 - **Centroids drift by tiny amounts.** Check you didn't cast `C` to an integer type, or compare with a tolerance that stops one iteration early.
 

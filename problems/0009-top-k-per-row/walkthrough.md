@@ -70,7 +70,7 @@ Both tie rules show up: the 7s keep index order `1, 2, 4`, and at the cutoff ind
 
 ## 5. Key idea: stability is a contract, not a default
 
-`np.argsort` without `kind` uses an introsort-style quicksort, which is **not** guaranteed stable. On short rows it often looks stable anyway, because the implementation switches to insertion sort for small partitions, and insertion sort is stable. So code without `kind="stable"` passes every test here except "wide rows" (`m = 200`, values rounded to one decimal, so ties are everywhere). There the default sort puts index 65 where 15 belongs.
+`np.argsort` without `kind` uses an introsort-style quicksort, which is **not** guaranteed stable. On short rows it often looks stable anyway, because the implementation switches to insertion sort for small partitions, and insertion sort is stable. So code without `kind="stable"` passes every short-row test here and fails the two long ones. On "tied block in a long row" (`m = 30`: ten 1s, ten 2s, ten 1s, `k = 12`) the default sort returns the 2s as `14, 15, 18, 13, ...` instead of `10, 11, ..., 19`. On "wide rows" (`m = 200`, values rounded to one decimal, so ties are everywhere) it puts index 65 where 15 belongs.
 
 That's the general lesson: if correctness depends on tie order, ask for it explicitly. `kind="stable"` (a radix sort for small ints, timsort otherwise) costs about the same.
 
@@ -86,7 +86,7 @@ return (vals, idx)
 | approach | ties inside the top k | ties at the cutoff | result here |
 |---|---|---|---|
 | `argsort(-x, kind="stable")[:, :k]` | index order | lower index kept | Accepted |
-| `argsort(-x)[:, :k]` (default kind) | usually index order | usually right | fails "wide rows" |
+| `argsort(-x)[:, :k]` (default kind) | index order only on short rows | usually right | fails "tied block in a long row" and "wide rows" |
 | `argsort(x, kind="stable")[:, ::-1][:, :k]` | reversed | higher index kept | fails all tie cases |
 | `argpartition` alone | arbitrary order | arbitrary | fails nearly everything |
 
@@ -142,6 +142,7 @@ def top_k(x: np.ndarray, k: int) -> tuple:
 | all equal | every row `[0, 1, 2]` | everything ties: pure index order |
 | k is 1 | indices `[[0], [0]]` | a tied maximum goes to the lower index |
 | many ties | row 2 is `[2, 7, 8, 0]` | many ties at the cutoff |
+| tied block in a long row | indices `[[10, 11, ..., 19, 0, 1]]` | `m = 30`: ties beyond the short-row insertion sort, in a block and at the cutoff |
 | wide rows | row 0 starts `7, 9, 92` | `m = 200`: only a guaranteed-stable sort passes |
 | k equals m | row 0 is `[4, 3, 1, 0, 2]` | the full descending sort |
 | negatives | row 0 values `[-0.746, -1.6939, -2.1958]` | "largest" means closest to zero for negatives |
@@ -157,7 +158,7 @@ When $m$ is large and $k$ small (a 128k-token vocabulary, top 50), sorting every
 ## 11. If you got Wrong Answer
 
 - **Values are right but `indices[0, 0]` is `4` instead of `1` on Example 2.** You reversed an ascending sort (`wrong_reverse_ascending.py`). It passes every case without ties (Example 1, "k equals m", "negatives", "single column") and fails all the tie cases.
-- **Only "wide rows" fails, at a position like `output[1][0, 5]`.** You left out `kind="stable"`. Short rows happened to sort stably.
+- **Only "tied block in a long row" and "wide rows" fail, at `output[1][0, 0]: expected 10, got 14` and `output[1][0, 5]: expected 15, got 65`.** You left out `kind="stable"` (`wrong_default_sort.py`). Short rows happened to sort stably.
 - **Values in the wrong order, like `expected 5, got 4` on Example 1.** You used `np.argpartition` without sorting the result (`wrong_argpartition_unsorted.py`). It returns the right set in arbitrary order.
 - **Runtime Error "shape mismatch: indexing arrays could not be broadcast", or a `(5, 1)` result.** You sorted along `axis=0`, ranking columns instead of rows (`wrong_flat_sort.py`).
 - **"shape mismatch, expected (2, 2), got (2, 2, 2)".** You gathered with `x[:, idx]`. Use `take_along_axis`.

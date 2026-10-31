@@ -76,7 +76,7 @@ x[idx]                                           # same values here, since x[i] 
 
 Samples 3 and 6 each appear in two windows: that's the overlap.
 
-**"one leftover sample":** `n = 11`, `w = 3`, `s = 4`. `num = 8 // 4 + 1 = 3`, starts 0, 4, 8. The last window is `[8, 9, 10]`, which ends exactly at `n`. Nothing is left over in the sense of a partial window; the samples 3 and 7 are simply skipped because `stride > window`.
+**"one leftover sample":** `n = 12`, `w = 3`, `s = 4`. `num = 9 // 4 + 1 = 3`, starts 0, 4, 8. The last full window is `[8, 9, 10]`. A fourth window would start at 12, past the end, so sample 11 is the one leftover and is dropped with no padding. Samples 3 and 7 are skipped too, because `stride > window`.
 
 **Example 3:** `n = 3`, `w = 5`. `n < w`, so the answer is an empty `(0, 5)` array. Note that the formula alone would give `(3 - 5) // 1 + 1 = -1`. Python's `//` floors toward minus infinity, so for any `n < w` the count is 0 or negative, and `np.arange` of a negative number is empty. The reference guards explicitly anyway, which is clearer than relying on that.
 
@@ -164,7 +164,7 @@ def sliding_windows(x: np.ndarray, window: int, stride: int) -> np.ndarray:
 | window equals length | `[[3, 1, 4, 1, 5]]` | exactly one window, ending at `n` |
 | exact fit | `[[0, 10, 20, 30], [40, ...], [80, 90, 100, 110]]` | `stride == window`; the last window ends at `n` |
 | stride larger than window | `[[0, 1], [5, 6], [10, 11], [15, 16]]` | gaps between windows |
-| one leftover sample | `[[0, 1, 2], [4, 5, 6], [8, 9, 10]]` | `stride > window` with a window ending at `n` |
+| one leftover sample | `[[0, 1, 2], [4, 5, 6], [8, 9, 10]]` | `stride > window`, and the trailing sample 11 is dropped rather than padded |
 | window 1 | `[[7], [9]]` | `w = 1`: picks every other sample |
 | float signal, long signal | shapes `(8, 8)` and `(92, 64)` | floats, and a larger count |
 

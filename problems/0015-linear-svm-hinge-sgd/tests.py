@@ -19,5 +19,6 @@ def cases():
         {"name": "noisy with offset", "args": {"X": Xn, "y": yn, "lam": 0.01, "n_iters": 400}},
         {"name": "imbalanced labels", "args": {"X": rng.normal(size=(20, 3)), "y": np.array([1.0] * 16 + [-1.0] * 4), "lam": 0.2, "n_iters": 60}},
         {"name": "strong regularization", "args": {"X": Xs, "y": ys, "lam": 5.0, "n_iters": 40}},
+        {"name": "margin exactly 1", "args": {"X": np.array([[1.0], [-1.0]]), "y": np.array([1.0, -1.0]), "lam": 1.0, "n_iters": 2}},
         {"name": "few steps", "args": {"X": Xn[:30], "y": yn[:30], "lam": 0.3, "n_iters": 3}},
     ]

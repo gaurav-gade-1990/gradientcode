@@ -106,7 +106,7 @@ Two shape requirements pull in opposite directions:
 - `x - c` needs `c` to broadcast against `x`. For `x` of shape `(3, 4, 5)` and `axis=1`, a plain `np.max(x, axis=1)` has shape `(3, 5)`. Broadcasting right-aligns `(3, 4, 5)` against `(3, 5)` and fails on `4` vs `3`. With `keepdims=True`, `c` has shape `(3, 1, 5)` and the `1` stretches across axis 1.
 - The answer must have shape `(3, 5)`.
 
-So compute everything with `keepdims=True` and call `np.squeeze(s, axis=axis)` once at the end. Pass `axis` to `squeeze`. A bare `np.squeeze(s)` removes **every** size-1 axis, so an input of shape `(1, 3)` reduced over `axis=1` would come back as `()` instead of `(1,)`.
+So compute everything with `keepdims=True` and call `np.squeeze(s, axis=axis)` once at the end. Pass `axis` to `squeeze`. A bare `np.squeeze(s)` removes **every** size-1 axis, so an input of shape `(1, 3)` reduced over `axis=1` would come back as `()` instead of `(1,)`. The hidden case "one row keeps its axis" is exactly that input, `[[1, 2, 3]]` with `axis=1`: the answer is `[3.4076]`, shape `(1,)`.
 
 ## 6. Plan before you code
 
@@ -181,6 +181,7 @@ def logsumexp(x: np.ndarray, axis: int = -1) -> np.ndarray:
 | 3d middle axis | shape `(3, 5)` | `keepdims` for a middle axis, then squeezing it |
 | negative axis | `[261.1129, 688.9694, 9.8386, 438.906, 105.7023, 299.0622]` | `axis=-2`; with entries hundreds apart, each LSE equals its column max |
 | batch of rows | shape `(8,)` | the default axis on 2-D |
+| one row keeps its axis | `[3.4076]`, shape `(1,)` | only the reduced axis is squeezed, not every size-1 axis |
 | single element | `-7.5` | `n = 1`: $\log e^{x} = x$ |
 
 ## 10. Complexity
@@ -194,6 +195,7 @@ In production, LSE runs over the vocabulary dimension for every token of every s
 - **`inf` on Example 2 or `-inf` on "large negatives".** No shift (`wrong_naive.py`).
 - **`-inf` on the second row of "rows far apart" and "one dominant term".** You shifted by the global `np.max(x)` (`wrong_global_max.py`). It protects only the slice containing the global max.
 - **"shape mismatch, expected (), got (1,)" on Example 1.** You kept `keepdims=True` on the output and never squeezed (`wrong_keepdims.py`). Every case fails this way.
+- **"shape mismatch, expected (1,), got ()" on "one row keeps its axis".** You called `np.squeeze(s)` without `axis` (`wrong_squeeze_all.py`), which also drops the leading size-1 axis.
 - **Runtime Error "could not be broadcast together with shapes (8,10) (8,)".** You took the max without `keepdims`, so `x - c` misaligns. It passes the 1-D cases, Example 3 and "negative axis" (where the reduced axis is the leading one) and crashes elsewhere.
 - **Values off by exactly the max.** You forgot `+ c` after the log.
 

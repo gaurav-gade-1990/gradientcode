@@ -15,6 +15,7 @@ def cases():
         {"name": "batch of rows", "args": {"x": rng.normal(size=(8, 10)) * 50}},
         {"name": "3d middle axis", "args": {"x": rng.normal(size=(3, 4, 5)) * 3, "axis": 1}},
         {"name": "negative axis", "args": {"x": rng.normal(size=(4, 6)) * 400, "axis": -2}},
+        {"name": "one row keeps its axis", "args": {"x": np.array([[1.0, 2.0, 3.0]]), "axis": 1}},
         {"name": "single element", "args": {"x": np.array([-7.5])}},
         {"name": "one dominant term", "args": {"x": np.array([[9000.0, 0.0, -9000.0], [5.0, 5.0, 5.0]])}},
     ]

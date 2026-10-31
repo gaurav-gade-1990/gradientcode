@@ -54,7 +54,7 @@ $$
 
 Dividing by $n - 1$ gives an unbiased estimate; dividing by $n$ is too small by a factor $\frac{n-1}{n}$. The sample mean is fit to the same data, so deviations from it are a little smaller than deviations from the true mean. The same argument works for covariances. (Dividing by $n$ gives the maximum-likelihood estimate, which is what problem 24's EM uses.)
 
-**Numerical stability: why center first.** Algebraically $X_c^\top X_c = X^\top X - n\,\bar x \bar x^\top$, a tempting one-pass formula. It subtracts two huge, nearly equal numbers when the means are large relative to the spread. On data with unit variance and means around $10^8$, it returns a **negative** variance (`-28.7` where the truth is about `1.0`). Centering first keeps every number small, so it's both clearer and safer.
+**Numerical stability: why center first.** Algebraically $X_c^\top X_c = X^\top X - n\,\bar x \bar x^\top$, a tempting one-pass formula. It subtracts two huge, nearly equal numbers when the means are large relative to the spread. On the hidden case "huge means, unit spread" (unit variance, means of $10^8$), it returns a **negative** variance (`-5.2245` where the reference gives `1.3432`). Centering first keeps every number small, so it's both clearer and safer.
 
 ## 4. Trace an example by hand
 
@@ -147,6 +147,7 @@ def covariance(X: np.ndarray) -> np.ndarray:
 | more features than samples | shape `(8, 8)` | `n < d`: columns are still the variables |
 | square | shape `(6, 6)` | the wrong product gives the same shape, so only values catch it |
 | larger | shape `(12, 12)`, diagonal up to `158.0672` | general case with very different scales |
+| huge means, unit spread | diagonal `[1.3432, 0.6888, 0.6666]` | centering before the product; the one-pass $X^\top X - n\bar x\bar x^\top$ gives `-5.2245` for `Σ[0, 0]` |
 
 ## 10. Complexity
 
@@ -161,7 +162,7 @@ At scale, $d$ is the problem. With $d = 4096$ (an embedding dimension), the matr
 - **Values far too big; Example 1 gives `17.5`, "nonzero means" gives `25.94`.** You skipped centering (`wrong_no_centering.py`). On zero-mean random data ("larger") it's only slightly off, so don't trust a lucky pass.
 - **"shape mismatch, expected (2, 2), got (3, 3)".** You treated rows as variables (`wrong_rows_as_features.py`), or computed `Xc @ Xc.T`. `np.cov(X)` without `rowvar=False` does this too.
 - **"shape mismatch, expected (1, 1), got ()" on "single feature".** You used `np.cov(X, rowvar=False)`, which the problem forbids, and which returns a 0-d value when `d = 1`.
-- **Negative values on the diagonal.** You used $X^\top X - n\bar x\bar x^\top$ on data with large means. It passes these tests but is unstable; center first.
+- **Negative values on the diagonal of "huge means, unit spread".** You used $X^\top X - n\bar x\bar x^\top$ (`wrong_one_pass.py`). With means of $10^8$ the two terms agree in nearly every digit and the difference is noise; center first.
 
 ## 12. Follow-ups an interviewer might ask
 

@@ -13,6 +13,7 @@ def cases():
         {"name": "batch of rows", "args": {"x": rng.normal(size=(8, 10)) * 5}},
         {"name": "3d axis 1", "args": {"x": rng.normal(size=(3, 4, 5)), "axis": 1}},
         {"name": "rows with different scales", "args": {"x": np.array([[0.0, 1.0, 2.0], [500.0, 501.0, 502.0]])}},
+        {"name": "rows far apart", "args": {"x": np.array([[-2000.0, -1999.0, -1998.0], [0.0, 1.0, 2.0]])}},
         {"name": "single element", "args": {"x": np.array([42.0])}},
         {"name": "negative axis", "args": {"x": rng.normal(size=(4, 6)) * 100, "axis": -2}},
     ]

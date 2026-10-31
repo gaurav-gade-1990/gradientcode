@@ -66,16 +66,27 @@ Cauchy–Schwarz gives $k\gamma \le u^\top w \le \lVert w\rVert \le \sqrt{k}R$, 
 
 Result `([2, 1], 1)`. The very first update only happens because zero counts as a mistake.
 
-**"xor never converges":** `X = [[0, 0], [0, 1], [1, 0], [1, 1]]`, `y = [-1, 1, 1, -1]`, 7 epochs.
+**"xor never converges":** `X = [[0, 0], [1, 1], [0, 1], [1, 0]]`, `y = [-1, -1, 1, 1]`, 7 epochs. These are the four XOR points, in an order where the first epoch doesn't cancel.
 
-| i | score | w after | b after |
-|---|---|---|---|
-| 0 | `0` (mistake) | `[0, 0]` | `-1` |
-| 1 | `1 * (0 + -1) = -1` (mistake) | `[0, 1]` | `0` |
-| 2 | `1 * (0 + 0) = 0` (mistake) | `[1, 1]` | `1` |
-| 3 | `-1 * (1 + 1 + 1) = -3` (mistake) | `[0, 0]` | `0` |
+Epoch 0:
 
-Every sample is a mistake, and the four updates sum to zero: $-[0,0] + [0,1] + [1,0] - [1,1] = 0$ and $-1 + 1 + 1 - 1 = 0$. Each epoch ends exactly where it started, so after 7 epochs the answer is `([0, 0], 0)`. That's a cycle, not convergence.
+| i | score | mistake? | w after | b after |
+|---|---|---|---|---|
+| 0 | `-1 * (0 + 0) = 0` | yes | `[0, 0]` | `-1` |
+| 1 | `-1 * (0 + 0 - 1) = 1` | no | `[0, 0]` | `-1` |
+| 2 | `1 * (0 - 1) = -1` | yes | `[0, 1]` | `0` |
+| 3 | `1 * (0 + 0) = 0` | yes | `[1, 1]` | `1` |
+
+Epoch 1 starts from `([1, 1], 1)`:
+
+| i | score | mistake? | w after | b after |
+|---|---|---|---|---|
+| 0 | `-1 * (0 + 1) = -1` | yes | `[1, 1]` | `0` |
+| 1 | `-1 * (1 + 1 + 0) = -2` | yes | `[0, 0]` | `-1` |
+| 2 | `1 * (0 - 1) = -1` | yes | `[0, 1]` | `0` |
+| 3 | `1 * (0 + 0) = 0` | yes | `[1, 1]` | `1` |
+
+From epoch 1 on, every sample is a mistake and the four updates sum to zero: $-[0,0] - [1,1] + [0,1] + [1,0] = 0$ and $-1 - 1 + 1 + 1 = 0$. Each epoch ends exactly where it started, so after 7 epochs the answer is `([1, 1], 1)`, and the model still misclassifies sample 1. That's a cycle, not convergence. Two of the epoch-0 mistakes have a score of exactly `0`, so a strict `< 0` test never makes them and returns `([0, 0], 0)`.
 
 **"order matters":** five samples, 5 epochs. In the given order, epoch 0 makes three mistakes (at samples 0, 1 and 2) and lands at `w = [2, 0]`, `b = -1`, which separates everything; epochs 1–4 change nothing. Visiting the same samples in reverse order lands at `w = [3, -1]`, `b = -1` instead. Both separate the data; they're just different separators.
 
@@ -172,7 +183,7 @@ def perceptron(X: np.ndarray, y: np.ndarray, n_epochs: int, lr: float = 1.0) -> 
 | separable many epochs | `([0.6624, -1.4913], 0)` | two mistakes, all in epoch 0, then stable |
 | noisy data | `([0.1477, 0.1807, -0.2272], 0)` | non-separable: 6 to 10 mistakes every epoch |
 | order matters | `([2, 0], -1)` | sequential order; reversed order gives `([3, -1], -1)` |
-| xor never converges | `([0, 0], 0)` | the four updates cancel every epoch |
+| xor never converges | `([1, 1], 1)` | after epoch 0 the four updates cancel every epoch; zero scores still count as mistakes |
 
 ## 10. Complexity
 
@@ -183,7 +194,7 @@ The perceptron is cheap and streams naturally: it never needs more than one samp
 
 ## 11. If you got Wrong Answer
 
-- **`w` stays at zeros on every case.** You tested `< 0` instead of `<= 0` (`wrong_strict_mistake.py`). From $w = 0$ every score is 0, so nothing ever fires. It passes only "zero epochs" and "xor never converges", whose answers are zeros anyway.
+- **`w` stays at zeros on every case.** You tested `< 0` instead of `<= 0` (`wrong_strict_mistake.py`). From $w = 0$ every score is 0, so nothing ever fires. It passes only "zero epochs", whose answer is zeros anyway.
 - **Weights are too large; Example 1 gives `w[0] = 4`, "separable many epochs" gives `20.45`.** You batched the updates per epoch (`wrong_batch_update.py`). It also passes "single sample", where batch and online are the same thing.
 - **Close to the answer on separable data but different elsewhere.** You shuffled the samples or visited them in another order. The order is fixed by the problem.
 - **Weights never move with some labels.** Your labels were `{0, 1}`; a 0 label contributes nothing. They must be $\pm 1$.
