@@ -1,0 +1,19 @@
+{
+  "id": 1,
+  "slug": "stable-softmax",
+  "title": "Stable Softmax",
+  "difficulty": "Easy",
+  "category": "numpy",
+  "tags": ["NumPy", "Numerical Stability", "Activations"],
+  "mode": "function",
+  "entry": "softmax",
+  "signature": "def softmax(x: np.ndarray, axis: int = -1) -> np.ndarray",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "softmax(x) equals softmax(x - c) for any constant c along the axis.",
+    "Pick c so that the largest exponent is exp(0) = 1. Then nothing overflows.",
+    "Use keepdims=True so the max and the sum broadcast back against x."
+  ],
+  "related": ["log-sum-exp", "softmax-cross-entropy-gradient"]
+}

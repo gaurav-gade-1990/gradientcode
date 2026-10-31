@@ -1,0 +1,21 @@
+def cases():
+    return [
+        {"name": "Example 1", "hidden": False, "args": {"expr": "a * b + c", "inputs": {"a": 2.0, "b": -3.0, "c": 10.0}},
+         "explanation": "out = 2*(-3) + 10 = 4. d/da = b = -3, d/db = a = 2, d/dc = 1."},
+        {"name": "Example 2", "hidden": False, "args": {"expr": "a * a + a", "inputs": {"a": 3.0}},
+         "explanation": "a is used three times. d/da = 2a + 1 = 7."},
+        {"name": "Example 3", "hidden": False, "args": {"expr": "(a * b).tanh()", "inputs": {"a": 0.5, "b": -1.5}}},
+        {"name": "division and power", "args": {"expr": "(a / b) ** 2 - 3 / a", "inputs": {"a": 1.7, "b": -0.4}}},
+        {"name": "relu dead and alive", "args": {"expr": "(a * -2).relu() + (b * 3).relu()", "inputs": {"a": 1.0, "b": 0.7}}},
+        {"name": "relu at zero", "args": {"expr": "(a - a).relu() * b", "inputs": {"a": 2.0, "b": 5.0}}},
+        {"name": "exp chain", "args": {"expr": "(a.exp() + b.exp()) ** -1 * a.exp()", "inputs": {"a": 0.3, "b": -1.2}}},
+        {"name": "neuron", "args": {"expr": "(x1 * w1 + x2 * w2 + bias).tanh()",
+                                     "inputs": {"x1": 2.0, "x2": 0.0, "w1": -3.0, "w2": 1.0, "bias": 6.8813735870195432}}},
+        {"name": "diamond reuse", "args": {"expr": "((a + b) * (a - b) + (a + b) ** 3).tanh() + a * b * c",
+                                            "inputs": {"a": 0.2, "b": -0.3, "c": 1.5}}},
+        {"name": "deep chain", "args": {"expr": " + ".join(["(a * %d - b).tanh()" % i for i in range(1, 30)]),
+                                         "inputs": {"a": 0.05, "b": 0.4}}},
+        {"name": "shared intermediate", "args": {"expr": "(c := a * b) * c.tanh() + (c + 1) ** 2 + c", "inputs": {"a": 0.8, "b": -1.1}}},
+        {"name": "shared at two depths", "args": {"expr": "((h := (a + b).tanh()) * 2).exp() * h + h", "inputs": {"a": 0.3, "b": 0.1}}},
+        {"name": "rsub rtruediv", "args": {"expr": "1 - 2 / (a + 1) + 3 * a", "inputs": {"a": 0.9}}},
+    ]

@@ -1,0 +1,19 @@
+{
+  "id": 52,
+  "slug": "adam",
+  "title": "Adam Optimizer Step",
+  "difficulty": "Medium",
+  "category": "optim",
+  "tags": ["Optimizers", "Deep Learning"],
+  "mode": "function",
+  "entry": "adam_step",
+  "signature": "def adam_step(param, grad, m, v, t, lr=1e-3, beta1=0.9, beta2=0.999, eps=1e-8) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Update the first moment m and the second moment v before using them.",
+    "Early on, m and v are biased toward zero because they start at zero. Divide by (1 - beta^t) to correct for it.",
+    "eps goes outside the square root: sqrt(v_hat) + eps."
+  ],
+  "related": ["rmsprop", "adamw", "sgd-momentum"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 56,
+  "slug": "scalar-autograd-value",
+  "title": "Scalar Autograd Engine",
+  "difficulty": "Hard",
+  "category": "autograd",
+  "tags": ["Autograd", "Backpropagation", "Graphs"],
+  "mode": "driver",
+  "entry": "Value",
+  "signature": "class Value: data, grad, __add__, __mul__, __pow__, __neg__, __sub__, __truediv__, __radd__, __rmul__, __rsub__, __rtruediv__, tanh(), relu(), exp(), backward()",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Each Value stores its data, its grad, the Values it came from, and a closure that pushes its grad back to them.",
+    "Gradients must ACCUMULATE (+=). A value used twice, like a * a, receives two contributions.",
+    "backward() has to visit nodes in reverse topological order. Build that order with a DFS from the output.",
+    "x / y can be written as x * y**-1, and x - y as x + (-y)."
+  ],
+  "related": ["topological-sort-backward", "tensor-autograd-matmul"]
+}
