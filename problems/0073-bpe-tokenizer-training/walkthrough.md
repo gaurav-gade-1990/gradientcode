@@ -213,7 +213,7 @@ def train_bpe(corpus: str, num_merges: int, test_words: list) -> tuple:
 | Example 2 | `(a, a), (aa, a), (a, b)`; `aaaa` → `[aa, aa]` | overlapping counts and left-to-right merging |
 | stops early | `(a, b), (c, d)` with `num_merges = 10` | the empty-counts break |
 | zero merges | `[]`; `hello` → five characters | the loop never runs |
-| boundary trap | `(a, b), (x, ab), (x, a)` | merges after an earlier merge has changed the symbols |
+| boundary trap | `(x, a), (a, b)`; `xab` → `[xa, b]` | `(a, b)` must not match inside the symbol `xa` |
 | frequency matters | `(a, b), (c, d)` | `ab` ×4 beats pairs that appear in more distinct words |
 | tuple vs concat ties | `(a, b), (a, z), (ab, c)` | `(a, z) < (ab, c)` as tuples |
 | case and punctuation | `(h, e), (t, he), (T, he), ...` | `The`, `the,` and `THE` are distinct words |
@@ -229,7 +229,7 @@ Each round recounts every pair, so training is $O(M \cdot L)$ for $M$ merges and
 
 - **Example 1's third merge is `(n, e)` instead of `(e, s)`.** You broke ties by first-seen order, as `Counter.most_common` does.
 - **Example 1's fourth merge is `(es, t)`.** You compared `a + b` strings instead of `(a, b)` tuples. "tuple vs concat ties" fails too.
-- **Example 2's `aaaa` encodes to `["aaaa"]`.** You merged with `str.replace` on space-joined symbols, which matches across a boundary. "unseen test words" also learns a different third merge, `(anan, a)`.
+- **Example 2's `aaaa` encodes to `["aaaa"]`.** You merged with `str.replace` on space-joined symbols, which matches across a boundary. "boundary trap" encodes `xab` as `["xab"]` instead of `["xa", "b"]`, and "unseen test words" learns a different third merge, `(anan, a)`.
 - **Example 2's second merge is `(a, b)`, or Example 1's merges look different.** You counted each distinct word once and ignored frequencies.
 - **Every merge list is right but encodings of new words are just characters.** You looked words up in the training segmentation instead of replaying merges.
 

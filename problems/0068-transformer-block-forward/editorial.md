@@ -34,7 +34,7 @@ In the original post-LN layout, $\operatorname{LN}(x + f(x))$, every gradient pa
 - **Post-LN wiring.** Normalizing after the residual add is the 2017 layout, not the one specified.
 - **Adding the residual to the normalized input.** `u = ln1(x); a = u + attn(u)` throws away the scale of the residual stream.
 - **No causal mask.** Every token can then see the future.
-- **Exact GELU.** $\tfrac{1}{2}z(1 + \operatorname{erf}(z/\sqrt 2))$ differs from the tanh form by up to about $10^{-3}$. Use the form you're given.
+- **Exact GELU.** $\tfrac{1}{2}z(1 + \operatorname{erf}(z/\sqrt 2))$ differs from the tanh form by up to about $5 \times 10^{-4}$ (near $z \approx 2.7$). Use the form you're given.
 - **Unbiased variance.** LayerNorm divides by $d$, not $d - 1$.
 
 ## Complexity

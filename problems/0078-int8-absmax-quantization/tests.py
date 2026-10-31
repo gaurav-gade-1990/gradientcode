@@ -20,4 +20,6 @@ def cases():
                                                          np.r_[rng.normal(size=15) * 0.1, 900.0][None, :]])}},
         {"name": "zero rows mixed", "args": {"W": np.array([[0.0, 0.0], [1.0, -1.0], [0.0, 0.0]])}},
         {"name": "large matrix", "args": {"W": big}},
+        {"name": "divide, not reciprocal", "args": {"W": np.array([[0.3, 0.15, -0.15], [2.3, 1.15, -1.15]])},
+         "explanation": "W / s gives exactly 63.5 in row 0 but 63.49999999999999 in row 1, so the codes are 64 and 63. Multiplying by 1 / s swaps them."},
     ]

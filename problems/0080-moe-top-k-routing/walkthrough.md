@@ -217,7 +217,7 @@ At scale the hard parts are elsewhere. Experts live on different devices, so rou
 - **`y` is smaller than expected and `gates` don't sum to 1 (Example 2 gives `0.880797` where `1` is expected).** You skipped the renormalisation (`wrong_no_renorm.py`).
 - **`expert_idx` picks the higher index on ties (Example 2 token 2 goes to expert 1).** You sorted ascending and reversed (`wrong_ties_high_index.py`).
 - **`nan` in "large router logits", everything else passes.** You exponentiated without subtracting the row max (`wrong_naive_softmax.py`).
-- **Only "large router logits" fails, on `expert_idx[0, 1]` (expected `0`, got `5`).** You ranked by logits rather than probabilities. They agree except where probabilities underflow to equal zeros.
+- **Only "large router logits" fails, on `expert_idx[0, 1]` (expected `0`, got `5`).** You ranked by logits rather than probabilities (`wrong_rank_by_logits.py`). They agree except where probabilities underflow to equal zeros, which the statement says must tie.
 
 ## 12. Follow-ups an interviewer might ask
 

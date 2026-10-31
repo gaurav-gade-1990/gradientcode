@@ -117,7 +117,7 @@ scales = np.where(absmax > 0, absmax / 127.0, 1.0)       # (n,)
 x = W / scales[:, None]       # (n, m) / (n, 1) -> (n, m)
 ```
 
-`scales[:, None]` turns `(n,)` into `(n, 1)`, so each row is divided by its own scale. `W / scales` would line `(n,)` up with the **last** axis `m`: a shape error when `n != m`, and silently wrong when `n == m`. The spec says to divide rather than multiply by `1 / scales`, so the ties land exactly where the reference puts them.
+`scales[:, None]` turns `(n,)` into `(n, 1)`, so each row is divided by its own scale. `W / scales` would line `(n,)` up with the **last** axis `m`: a shape error when `n != m`, and silently wrong when `n == m`. The spec says to divide rather than multiply by `1 / scales`, so the ties land exactly where the reference puts them. "divide, not reciprocal" checks this: `0.15 / (0.3 / 127)` is exactly `63.5`, but `0.15 * (1 / (0.3 / 127))` is `63.49999999999999`.
 
 **Step 3: round, clip, cast.**
 
@@ -175,6 +175,7 @@ def absmax_quantize(W: np.ndarray) -> tuple:
 | outlier row | row 2 `q` is fifteen `0`s and one `127` | one outlier doesn't wreck the other rows |
 | zero rows mixed | `scales = [1, 0.0079, 1]` | several zero rows |
 | large matrix | `(32, 64)` | the same rules at size |
+| divide, not reciprocal | `q = [[127, 64, -64], [127, 63, -63]]` | dividing by the scale, not multiplying by `1 / s` |
 
 ## 10. Complexity
 
@@ -188,6 +189,7 @@ The point at scale is storage: `q` takes $nm$ bytes against $4nm$ for float32 an
 - **Negative ties are one too high: `-63` instead of `-64` in Example 1.** You used `floor(x + 0.5)` (`wrong_floor_plus_half.py`), which rounds halves up, not away from zero.
 - **The zero row's scale is `0` instead of `1`.** You divided first and cleaned the `nan` afterwards (`wrong_zero_row_nan.py`). The codes come out right, but `scales` is wrong. It fails Example 2, "single element rows" and "zero rows mixed".
 - **Single-row cases pass, multi-row cases don't.** You used one scale for the whole tensor (`wrong_per_tensor.py`). In Example 2 row 0's absmax `2` maps to `64`, not `127`.
+- **Only "divide, not reciprocal" fails, with `63` and `64` swapped between its rows.** You multiplied by `1 / scales` instead of dividing (`wrong_reciprocal_scale.py`). The two differ in the last bit, which moves an exact `.5` tie to `63.49999999999999` or back.
 - **Codes like `-63` where `-63.9` was expected to round to `-64`.** You cast to int8 before rounding.
 
 ## 12. Follow-ups an interviewer might ask

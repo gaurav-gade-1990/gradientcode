@@ -54,7 +54,7 @@ $$
 
 so each head writes into the full $d_{model}$ space through its own slice of $W_o$, and the heads' contributions add. That is why the concatenation order matters: head $j$'s features must land in rows $j d_{head} .. (j+1)d_{head}$ of $W_o$'s input. The same identity gives the gradient: with $C = [O_0 \cdots O_{h-1}]$ flattened to $(BT, d_{model})$, $\partial L / \partial W_o = C^\top\, \partial L / \partial Y$.
 
-**Stability.** Each head's softmax uses the row-max shift. "sharp attention" scales the weights by 3, so its scaled scores reach `475` in magnitude. Without the shift, $e^{475} \approx 2 \times 10^{206}$ still fits in float64, so this case alone would not catch a missing shift, but scores above about `709` overflow to `inf` and turn the row into `nan`. With the shift every exponent is $\le 0$ whatever the scale.
+**Stability.** Each head's softmax uses the row-max shift. "sharp attention" scales the weights by 3, so its scaled scores reach `475` in magnitude. Without the shift, $e^{475} \approx 2 \times 10^{206}$ still fits in float64, so that case alone would not catch a missing shift. Scores above about `709` overflow to `inf` and turn the row into `nan`, and "scores past exp overflow" scales the weights by 6 so kept scores reach `1597`. With the shift every exponent is $\le 0$ whatever the scale.
 
 ## 4. Trace Example 2 by hand
 
@@ -197,6 +197,7 @@ def multi_head_attention(x, W_q, W_k, W_v, W_o, num_heads, mask=None):
 | sharp attention | `(2, 8, 12)`, first element `203.28` | weight scale 3, scores up to `475`, the max shift |
 | single token | `(4, 1, 8)` | `T = 1`: each token attends only to itself |
 | larger | `(2, 12, 16)`, first element `0.5879` | everything together at a larger size |
+| scores past exp overflow | `(2, 8, 12)`, first element `47.358` | weight scale 6, kept scores up to `1597`: only the max shift keeps `exp` finite |
 
 ## 10. Complexity
 
@@ -210,6 +211,7 @@ The four projections cost $O(B T d_{model}^2)$. Attention costs $O(B h T^2 d_{he
 - **Example 2 has `0` at `[0, 0, 2]` instead of `2`.** You split with `reshape(B, h, T, d_head)` and no transpose, so heads got slices of tokens.
 - **Example 2 row 0 is `[1, 0, 0.3302, 0.6698]`.** You merged with `reshape(B, T, d_model)` and no transpose back.
 - **Example 2 row 0 is not `[1, 0, 2, 0]`, and every masked case fails.** You ignored the mask, so token 0 sees the future (`0.8022` instead of `1`).
+- **Only "scores past exp overflow" fails, with `nan` in the output.** You skipped the row-max shift, so `exp` overflowed to `inf` and `inf / inf` gave `nan`. Subtract each row's max before `exp`.
 
 ## 12. Follow-ups an interviewer might ask
 

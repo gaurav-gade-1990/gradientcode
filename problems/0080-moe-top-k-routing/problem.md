@@ -5,7 +5,7 @@ You get `T` tokens `x` of shape `(T, d)`, a router weight `W_router` of shape `(
 **Routing.** For each token $t$:
 
 1. $p_t = \operatorname{softmax}(x_t W_{router})$ over all $E$ experts, computed stably.
-2. Choose the $k$ experts with the largest $p_{t,e}$, in **descending order of probability**. Ties go to the **lower expert index**.
+2. Choose the $k$ experts with the largest $p_{t,e}$, in **descending order of probability**. Ties go to the **lower expert index**. Rank by the computed float64 probabilities, not the logits: probabilities that underflow to exactly `0.0` tie with each other.
 3. Renormalize the chosen probabilities into gates: $g_{t,i} = p_{t,e_i} / \sum_{i'=1}^{k} p_{t,e_{i'}}$.
 4. $y_t = \sum_{i=1}^{k} g_{t,i}\; x_t\,\texttt{experts}[e_i]$.
 

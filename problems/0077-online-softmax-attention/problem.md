@@ -34,4 +34,4 @@ Return a tuple `(O, m_hist, l_hist)`:
 - `Q` has shape `(T_q, d)`, `K` has shape `(T_k, d)`, `V` has shape `(T_k, d_v)`
 - `1 <= T_q, T_k <= 64`, `1 <= d, d_v <= 32`
 - `1 <= block_size <= T_k`
-- Scores can be large (`|s| <= 1e3`), so nothing may be exponentiated without subtracting the running max
+- Scores can be large (`|s| <= 3e3`), so nothing may be exponentiated without subtracting the running max

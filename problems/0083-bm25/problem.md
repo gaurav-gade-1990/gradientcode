@@ -21,4 +21,5 @@ Return a float array of shape `(N,)`, one score per document, in input order.
 - `1 <= N <= 200`
 - At least one document has a token, so `avgdl > 0`
 - `k1 > 0`, `0 <= b <= 1`
+- If `b = 1`, no document is empty (otherwise its term would be `0 / 0`)
 - The query may be empty, in which case every score is `0`

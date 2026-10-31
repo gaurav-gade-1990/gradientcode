@@ -136,7 +136,7 @@ idf = np.log(1 + (N - df + 0.5) / (df + 0.5))
 scores += idf * f * (k1 + 1) / (f + norm)           # (N,)
 ```
 
-Can `f + norm` be 0? Only when `b = 1` and the document is empty: then `norm = 0` and `f = 0`, and the term is `0 / 0 = nan`. The constraints allow that combination, but no test uses it, and the reference behaves the same way, so the spec doesn't ask you to special-case it. Every other document has `norm > 0`.
+Can `f + norm` be 0? Only when `b = 1` and the document is empty: then `norm = 0` and `f = 0`, and the term is `0 / 0 = nan`. The constraints rule that combination out, so you don't need to special-case it. Every other document has `norm > 0`.
 
 **Step 4: loop with repeats.**
 

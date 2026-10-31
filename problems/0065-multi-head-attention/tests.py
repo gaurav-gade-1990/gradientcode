@@ -34,4 +34,6 @@ def cases():
         {"name": "sharp attention", "args": case(rng, 2, 8, 12, 2, causal=True, scale=3.0)},
         {"name": "single token", "args": case(rng, 4, 1, 8, 2)},
         {"name": "larger", "args": case(rng, 2, 12, 16, 4, causal=True)},
+        {"name": "scores past exp overflow", "args": case(rng, 2, 8, 12, 2, causal=True, scale=6.0),
+         "explanation": "Weight scale 6 pushes kept scores past 709, where exp overflows without the row-max shift."},
     ]
