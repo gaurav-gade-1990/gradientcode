@@ -1,0 +1,19 @@
+{
+  "id": 5,
+  "slug": "one-hot-encoding",
+  "title": "One-Hot Encoding",
+  "difficulty": "Easy",
+  "category": "numpy",
+  "tags": ["NumPy", "Indexing", "Preprocessing"],
+  "mode": "function",
+  "entry": "one_hot",
+  "signature": "def one_hot(labels: np.ndarray, num_classes: int) -> np.ndarray",
+  "compare": {"rtol": 0, "atol": 0},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Start from an (n, num_classes) array of zeros.",
+    "Row i needs a 1 in column labels[i]. Index with two arrays at once: out[rows, labels] = 1.",
+    "Use num_classes for the width, not labels.max() + 1. The largest class may not appear in this batch."
+  ],
+  "related": ["confusion-matrix", "softmax-cross-entropy-gradient"]
+}

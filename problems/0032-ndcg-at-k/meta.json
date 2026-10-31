@@ -1,0 +1,19 @@
+{
+  "id": 32,
+  "slug": "ndcg-at-k",
+  "title": "NDCG@k",
+  "difficulty": "Medium",
+  "category": "metrics",
+  "tags": ["Metrics", "Ranking", "Information Retrieval", "Sorting"],
+  "mode": "function",
+  "entry": "ndcg_at_k",
+  "signature": "def ndcg_at_k(scores: np.ndarray, relevance: np.ndarray, k: int) -> np.ndarray",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Rank each query's items by score, descending, with a stable sort so ties keep the lower index first. Keep the first min(k, m).",
+    "DCG adds (2^rel - 1) / log2(position + 1) over 1-based positions. With 0-based positions that is log2(j + 2).",
+    "IDCG is the DCG of the best possible ranking: sort the query's relevance labels descending over ALL items, not just the retrieved ones. When IDCG is 0, return 0."
+  ],
+  "related": ["average-precision", "top-k-per-row", "bm25"]
+}

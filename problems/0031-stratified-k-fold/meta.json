@@ -1,0 +1,19 @@
+{
+  "id": 31,
+  "slug": "stratified-k-fold",
+  "title": "Stratified K-Fold Assignment",
+  "difficulty": "Medium",
+  "category": "metrics",
+  "tags": ["Metrics", "Cross-Validation", "NumPy"],
+  "mode": "function",
+  "entry": "stratified_k_fold",
+  "signature": "def stratified_k_fold(y: np.ndarray, k: int) -> np.ndarray",
+  "compare": {"rtol": 0, "atol": 0},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Process the classes in ascending label order (np.unique sorts them), and each class's samples in ascending index order.",
+    "Keep one dealer position that carries over between classes. The first sample of the next class gets the fold after the one the previous class ended on.",
+    "For a class with idx = np.flatnonzero(y == c), its folds are (pos + np.arange(len(idx))) % k. Then advance pos by len(idx)."
+  ],
+  "related": ["confusion-matrix", "precision-recall-f1"]
+}

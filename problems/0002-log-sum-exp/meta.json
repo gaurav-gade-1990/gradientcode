@@ -1,0 +1,19 @@
+{
+  "id": 2,
+  "slug": "log-sum-exp",
+  "title": "Log-Sum-Exp",
+  "difficulty": "Easy",
+  "category": "numpy",
+  "tags": ["NumPy", "Numerical Stability"],
+  "mode": "function",
+  "entry": "logsumexp",
+  "signature": "def logsumexp(x: np.ndarray, axis: int = -1) -> np.ndarray",
+  "compare": {"rtol": 1e-7, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "log(sum(exp(x))) equals c + log(sum(exp(x - c))) for any constant c.",
+    "Pick c = max(x) along the axis. The largest term becomes exp(0) = 1, so the sum is at least 1 and its log is finite.",
+    "Take the max with keepdims=True so it broadcasts against x, then drop that axis from the result."
+  ],
+  "related": ["stable-softmax", "softmax-cross-entropy-gradient", "binary-log-loss"]
+}

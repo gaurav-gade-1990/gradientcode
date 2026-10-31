@@ -1,0 +1,19 @@
+{
+  "id": 6,
+  "slug": "covariance-matrix",
+  "title": "Covariance Matrix",
+  "difficulty": "Easy",
+  "category": "numpy",
+  "tags": ["NumPy", "Linear Algebra", "Statistics"],
+  "mode": "function",
+  "entry": "covariance",
+  "signature": "def covariance(X: np.ndarray) -> np.ndarray",
+  "compare": {"rtol": 1e-7, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Subtract each column's mean first.",
+    "With centered data Xc, every pairwise covariance at once is Xc.T @ Xc.",
+    "The sample covariance divides by n - 1, not n."
+  ],
+  "related": ["pca", "standardize-features", "gaussian-naive-bayes"]
+}

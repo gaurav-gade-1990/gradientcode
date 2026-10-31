@@ -1,0 +1,19 @@
+{
+  "id": 8,
+  "slug": "sliding-window-view",
+  "title": "Sliding Windows with Stride",
+  "difficulty": "Medium",
+  "category": "numpy",
+  "tags": ["NumPy", "Indexing", "Vectorization", "Signal Processing"],
+  "mode": "function",
+  "entry": "sliding_windows",
+  "signature": "def sliding_windows(x: np.ndarray, window: int, stride: int) -> np.ndarray",
+  "compare": {"rtol": 0, "atol": 0},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Count the windows first: a window starting at s fits when s + window <= n.",
+    "The starts are 0, stride, 2*stride, ... and there are (n - window) // stride + 1 of them when n >= window.",
+    "Build an index matrix: starts[:, None] + np.arange(window)[None, :]. Then x[idx] gathers every window at once."
+  ],
+  "related": ["im2col", "conv2d-forward"]
+}

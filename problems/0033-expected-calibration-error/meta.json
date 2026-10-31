@@ -1,0 +1,19 @@
+{
+  "id": 33,
+  "slug": "expected-calibration-error",
+  "title": "Expected Calibration Error",
+  "difficulty": "Medium",
+  "category": "metrics",
+  "tags": ["Metrics", "Calibration", "Classification", "NumPy"],
+  "mode": "function",
+  "entry": "expected_calibration_error",
+  "signature": "def expected_calibration_error(probs: np.ndarray, labels: np.ndarray, n_bins: int = 10) -> float",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Confidence is the max probability in each row, and the prediction is its argmax. A sample is correct when the prediction equals the label.",
+    "Bin b covers (b/B, (b+1)/B]: open on the left, closed on the right. np.searchsorted(edges[1:-1], conf, side=\"left\") gives exactly that bin index.",
+    "np.bincount with weights= gives each bin's count, confidence sum and correct-count sum in one call each. Weight each bin's |accuracy - confidence| by its share of the samples, and skip empty bins."
+  ],
+  "related": ["binary-log-loss", "roc-auc", "precision-recall-f1"]
+}

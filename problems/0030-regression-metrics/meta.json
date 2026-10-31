@@ -1,0 +1,19 @@
+{
+  "id": 30,
+  "slug": "regression-metrics",
+  "title": "Regression Metrics",
+  "difficulty": "Easy",
+  "category": "metrics",
+  "tags": ["Metrics", "Regression", "NumPy"],
+  "mode": "function",
+  "entry": "regression_metrics",
+  "signature": "def regression_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "MSE and MAE are means of the squared and absolute residuals. RMSE is the square root of MSE.",
+    "R^2 = 1 - SS_res / SS_tot, where SS_tot is measured around the mean of y_true.",
+    "When y_true is constant, SS_tot is 0. Return 1.0 if the predictions are perfect and 0.0 otherwise."
+  ],
+  "related": ["linear-regression-closed-form", "ridge-regression"]
+}

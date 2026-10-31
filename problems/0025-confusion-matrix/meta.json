@@ -1,0 +1,19 @@
+{
+  "id": 25,
+  "slug": "confusion-matrix",
+  "title": "Confusion Matrix",
+  "difficulty": "Easy",
+  "category": "metrics",
+  "tags": ["Metrics", "Classification", "NumPy"],
+  "mode": "function",
+  "entry": "confusion_matrix",
+  "signature": "def confusion_matrix(y_true: np.ndarray, y_pred: np.ndarray, num_classes: int) -> np.ndarray",
+  "compare": {"rtol": 0, "atol": 0},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Rows are the true class and columns are the predicted class: cm[t, p] counts samples with y_true = t and y_pred = p.",
+    "cm[y_true, y_pred] += 1 does NOT count repeated pairs. Buffered fancy assignment writes each index once.",
+    "Encode each pair as a single integer t * C + p, count with np.bincount(..., minlength=C*C), and reshape to (C, C). np.add.at also works."
+  ],
+  "related": ["precision-recall-f1", "one-hot-encoding"]
+}

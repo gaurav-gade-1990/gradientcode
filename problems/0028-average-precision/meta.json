@@ -1,0 +1,19 @@
+{
+  "id": 28,
+  "slug": "average-precision",
+  "title": "Average Precision",
+  "difficulty": "Medium",
+  "category": "metrics",
+  "tags": ["Metrics", "Ranking", "Classification", "Sorting"],
+  "mode": "function",
+  "entry": "average_precision",
+  "signature": "def average_precision(y_true: np.ndarray, scores: np.ndarray) -> float",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Sort by score, highest first. Lowering the threshold past each distinct score adds a group of samples to the predicted positives.",
+    "Cumulative sums of the sorted labels give TP at every cutoff. Precision = TP / (number predicted), recall = TP / (total positives).",
+    "Tied scores form one threshold: evaluate only at the last index of each run of equal scores. Then AP = sum of (recall jump) * precision."
+  ],
+  "related": ["roc-auc", "precision-recall-f1", "ndcg-at-k"]
+}

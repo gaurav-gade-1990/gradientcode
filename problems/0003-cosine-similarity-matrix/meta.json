@@ -1,0 +1,19 @@
+{
+  "id": 3,
+  "slug": "cosine-similarity-matrix",
+  "title": "Cosine Similarity Matrix",
+  "difficulty": "Easy",
+  "category": "numpy",
+  "tags": ["NumPy", "Linear Algebra", "Vectorization", "Similarity"],
+  "mode": "function",
+  "entry": "cosine_similarity",
+  "signature": "def cosine_similarity(A: np.ndarray, B: np.ndarray) -> np.ndarray",
+  "compare": {"rtol": 1e-7, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Cosine similarity is the dot product of the two unit vectors.",
+    "Normalize every row of A and every row of B first. Then one matrix product gives all n*m similarities.",
+    "A zero row has norm 0. Divide it by 1 instead, so it stays a zero vector and its dot products come out 0."
+  ],
+  "related": ["pairwise-euclidean-distances", "top-k-cosine-retrieval", "maximal-marginal-relevance"]
+}

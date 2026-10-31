@@ -1,0 +1,19 @@
+{
+  "id": 26,
+  "slug": "precision-recall-f1",
+  "title": "Macro Precision, Recall and F1",
+  "difficulty": "Easy",
+  "category": "metrics",
+  "tags": ["Metrics", "Classification", "NumPy"],
+  "mode": "function",
+  "entry": "precision_recall_f1",
+  "signature": "def precision_recall_f1(y_true: np.ndarray, y_pred: np.ndarray, num_classes: int) -> tuple",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Per class c: TP = predicted c and truly c, FP = predicted c but not c, FN = truly c but not predicted c.",
+    "Precision = TP / (TP + FP) and recall = TP / (TP + FN). Use 0 whenever a denominator is 0, and compute F1 per class too.",
+    "Macro F1 is the mean of the per-class F1 scores. It is not the harmonic mean of macro precision and macro recall."
+  ],
+  "related": ["confusion-matrix", "average-precision", "roc-auc"]
+}

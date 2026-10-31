@@ -1,0 +1,19 @@
+{
+  "id": 7,
+  "slug": "standardize-features",
+  "title": "Standardize Features",
+  "difficulty": "Easy",
+  "category": "numpy",
+  "tags": ["NumPy", "Preprocessing", "Statistics"],
+  "mode": "function",
+  "entry": "standardize",
+  "signature": "def standardize(X_train: np.ndarray, X_test: np.ndarray) -> tuple",
+  "compare": {"rtol": 1e-7, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Compute the mean and standard deviation of each column of X_train only.",
+    "Apply those same statistics to X_test. Fitting on the test set leaks information.",
+    "Use the population std (ddof=0). Where it is 0, divide by 1 instead."
+  ],
+  "related": ["covariance-matrix", "batchnorm-forward", "layernorm-forward-backward"]
+}

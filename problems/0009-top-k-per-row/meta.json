@@ -1,0 +1,19 @@
+{
+  "id": 9,
+  "slug": "top-k-per-row",
+  "title": "Top-k per Row",
+  "difficulty": "Medium",
+  "category": "numpy",
+  "tags": ["NumPy", "Sorting", "Indexing"],
+  "mode": "function",
+  "entry": "top_k",
+  "signature": "def top_k(x: np.ndarray, k: int) -> tuple",
+  "compare": {"rtol": 0, "atol": 0},
+  "time_limit_ms": 2000,
+  "hints": [
+    "np.argsort sorts ascending. Sorting -x sorts x descending.",
+    "Ties must go to the lower index. A stable sort keeps equal elements in their original order, so use kind=\"stable\".",
+    "np.take_along_axis(x, idx, axis=1) gathers the values for an index matrix."
+  ],
+  "related": ["top-k-cosine-retrieval", "k-nearest-neighbors", "top-k-top-p-sampling"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": 4,
+  "slug": "pairwise-euclidean-distances",
+  "title": "Pairwise Euclidean Distances",
+  "difficulty": "Medium",
+  "category": "numpy",
+  "tags": ["NumPy", "Linear Algebra", "Vectorization", "Numerical Stability"],
+  "mode": "driver",
+  "entry": "pairwise_distances",
+  "signature": "def pairwise_distances(A: np.ndarray, B: np.ndarray) -> np.ndarray",
+  "compare": {"rtol": 1e-6, "atol": 1e-5},
+  "time_limit_ms": 1500,
+  "hints": [
+    "Expand the square: ||a - b||^2 = ||a||^2 - 2 a.b + ||b||^2.",
+    "The a.b term for every pair is one matrix product, A @ B.T. The norms are a column vector plus a row vector, which broadcast to (n, m).",
+    "Rounding can make a squared distance slightly negative, like -1e-13, when two points are equal. Clip at 0 before the square root, or you get nan."
+  ],
+  "related": ["cosine-similarity-matrix", "k-nearest-neighbors", "k-means"]
+}
