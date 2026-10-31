@@ -9,6 +9,7 @@ round trip, exactly like the browser does):
   * starter.py fails,
   * every wrong_*.py (a common mistake, written on purpose) fails,
   * the build is deterministic and each case runs well under the time limit.
+A walkthrough.md, when present, is checked too (see check_walkthrough).
 """
 
 import ast
@@ -42,6 +43,57 @@ DESIGN_SECTIONS = [
     ("D", "Guardrails"), ("D", "Key Impact"), ("D", "Failure Modes"), ("D", "Build Order"),
 ]
 PILLAR_WORD_CAP = 1000
+
+# walkthrough.md (the Detailed Explanation tab): numbered "## N. Title" sections, some of them required.
+WALK_REQUIRED_CODE = ("really asking", "full solution", "test case", "complexity", "wrong answer", "follow-up")
+WALK_REQUIRED_DESIGN = ("really asking", "follow-up")
+WALK_MIN_WORDS = 900
+
+
+def check_walkthrough(path, meta, errors, problem=None):
+    """Structure checks, plus: the Full solution block is Accepted, and test-table rows name real cases."""
+    text = read(path, "walkthrough.md")
+    if text is None:
+        return None
+    heads = re.findall(r"^## (\d+)\. (.+)$", text, re.M)
+    if [int(n) for n, _ in heads] != list(range(1, len(heads) + 1)) or not heads:
+        errors.append("walkthrough.md: sections must be '## 1. ...', '## 2. ...' in order")
+    prose = re.sub(r"```.*?```", "", text, flags=re.S)
+    if re.search(r"^# ", prose, re.M):
+        errors.append("walkthrough.md: no '# ' title; the tab supplies it")
+    titles = [t.lower() for _, t in heads]
+    design = meta["type"] == "design"
+    for key in WALK_REQUIRED_DESIGN if design else WALK_REQUIRED_CODE:
+        if not any(key in t for t in titles):
+            errors.append("walkthrough.md: needs a section whose title contains %r" % key)
+    words = len(prose.split())
+    if words < WALK_MIN_WORDS:
+        errors.append("walkthrough.md: %d words of prose (< %d)" % (words, WALK_MIN_WORDS))
+    if design:
+        sub_heads = " ".join(re.findall(r"^#{2,4} .+$", text, re.M)).lower()
+        missing = [t for _, t in DESIGN_SECTIONS if t.lower() not in sub_heads]
+        if missing:
+            errors.append("walkthrough.md: no heading for section(s) %s" % ", ".join(missing))
+        return words
+    i = next((k for k, t in enumerate(titles) if "full solution" in t), None)
+    if i is not None:
+        body = re.split(r"^## \d+\. .+$", text, flags=re.M)[i + 1]
+        m = re.search(r"```python\n(.*?)```", body, re.S)
+        if not m:
+            errors.append("walkthrough.md: the Full solution section has no ```python block")
+        elif problem is not None:
+            r = harness.judge(problem, m.group(1), "submit")
+            if r["status"] != "Accepted":
+                errors.append("walkthrough.md: Full solution code is %s" % r["status"])
+    j = next((k for k, t in enumerate(titles) if "test case" in t), None)
+    if j is not None and problem is not None:
+        body = re.split(r"^## \d+\. .+$", text, flags=re.M)[j + 1]
+        names = [c["name"].lower() for c in problem["cases"]]
+        rows = [r.split("|")[1].strip() for r in re.findall(r"^\|.*\|$", body, re.M)[2:]]
+        for cell in rows:
+            if not any(n and n in cell.lower() for n in names):
+                errors.append("walkthrough.md: test table row %r names no test case" % cell)
+    return words
 
 
 def check_design(path, meta, errors):
@@ -128,6 +180,9 @@ def check_problem(path):
             if not ok:
                 errors.append("bad or missing meta.%s" % key)
         stats = check_design(path, meta, errors)
+        walk = check_walkthrough(path, meta, errors)
+        if walk:
+            stats["walkthrough_words"] = walk
         return errors, stats
     for f in REQUIRED:
         if not os.path.exists(os.path.join(path, f)):
@@ -215,6 +270,9 @@ def check_problem(path):
         if r["status"] == "Accepted":
             errors.append("%s is Accepted; the tests do not catch that mistake" % w)
     stats = {"cases": len(problem["cases"]), "bytes": len(blob), "build_s": round(build_s, 2), "wrongs": len(wrongs)}
+    walk = check_walkthrough(path, meta, errors, problem)
+    if walk:
+        stats["walkthrough_words"] = walk
     return errors, stats
 
 
