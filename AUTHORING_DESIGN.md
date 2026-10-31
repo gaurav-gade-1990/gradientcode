@@ -48,6 +48,11 @@ Each criterion is a concrete, checkable statement ("Puts the refund limit in cod
   - Then `**Decision.**` (the choice and the reason, against the alternative).
   - Then `**Trap.**` (the mistake most candidates make here).
 - **Section 2 (Single View)** is a three-column table: `| Layer | What runs here and what it hands over | Why we need it |`, followed by a line starting `**The one idea to hold:**`.
+- **Order inside a section:** the opener, then any table, then **How:**, then `**Decision.**`, then `**Trap.**` directly after it.
+- **Single View rows:** 6–8 for Easy and up to 10 for Medium and Hard, so admission control, the workflow engine and the event log can each have a row.
+- **Sections 5–7 may say "not an agent".** For a pipeline or infrastructure design, "this step is deterministic code, and here is why" is a full answer. Say what would make you add an agent later.
+- **Cost table:** list each cost lever in the order you apply it (model mix, caching, batching, retrieval trimming), with the dollar saving per month. Don't force a "with vs without cache" table when caching isn't the main lever. Prices are Anthropic list prices as of 2026-10 (Haiku 5.5 $0.10/$0.50, Sonnet 5.5 $2/$10 with $0.20 cache reads, Opus 5.5 $4/$20 per MTok). Label any non-model price as assumed.
+- **Pillar B holds five sections,** so keep each of them to about 180 words.
 - **Numbers everywhere.** Requests per second from the prompt's scale, token costs per month, latency budgets split by stage, and storage sizes. Section 13 (Key Impact) states the business metric and how it is measured.
 - **Limits that protect money, permissions or privacy live in code, never in a prompt.** Say so wherever it applies.
 - **Each pillar is at most 1000 words**, aiming for about 700–900. This is the most important style rule: tight bullets and tables, no walls of text, no filler, no emoji.
