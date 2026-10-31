@@ -67,6 +67,8 @@ export interface Problem {
   meta: ProblemMeta;
   description: string;
   editorial: string;
+  /** Long-form step-by-step explanation (walkthrough.md); null until one is written. */
+  walkthrough: string | null;
   starter: string;
   driver: string | null;
   checker: string | null;

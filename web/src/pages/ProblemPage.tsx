@@ -32,7 +32,7 @@ import { judgeClient, useEngineState } from "../lib/judge";
 import { addSubmission, clearDraft, getDraft, getSubs, setDraft } from "../lib/storage";
 import { isDesign, type DesignProblem, type Problem, type ProblemIndex, type Submission } from "../lib/types";
 
-type LeftTab = "description" | "editorial" | "hints" | "submissions";
+type LeftTab = "description" | "editorial" | "hints" | "submissions" | "explanation";
 
 export default function ProblemPage() {
   const { slug = "" } = useParams();
@@ -207,6 +207,9 @@ function Workspace({ problem, index }: { problem: Problem; index: ProblemIndex |
           { key: "editorial", label: "Editorial", icon: <IconBook size={15} className="text-accent" /> },
           { key: "hints", label: "Hints", icon: <IconBulb size={15} className="text-medium" /> },
           { key: "submissions", label: "Submissions", icon: <IconHistory size={15} className="text-gc-blue" /> },
+          ...(problem.walkthrough
+            ? [{ key: "explanation" as const, label: "Detailed Explanation", icon: <IconBulb size={15} className="text-accent" /> }]
+            : []),
         ]}
       />
       <div className="min-h-0 flex-1 overflow-y-auto">
@@ -254,6 +257,12 @@ function Workspace({ problem, index }: { problem: Problem; index: ProblemIndex |
           </div>
         )}
         {leftTab === "hints" && <Hints hints={meta.hints ?? []} />}
+        {leftTab === "explanation" && problem.walkthrough && (
+          <div className="px-5 pb-8 pt-4">
+            <h2 className="mb-4 text-[20px] font-semibold text-strong">Detailed Explanation</h2>
+            <Markdown>{problem.walkthrough}</Markdown>
+          </div>
+        )}
         {leftTab === "submissions" && (
           <SubmissionsList
             subs={subs}

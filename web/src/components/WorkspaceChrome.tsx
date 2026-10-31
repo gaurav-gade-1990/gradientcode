@@ -61,9 +61,9 @@ export function TopBar({ index, slug, center }: { index: ProblemIndex | null; sl
 
 export function PanelTabs<T extends string>({ tabs, value, onChange, right }: { tabs: { key: T; label: string; icon: ReactNode }[]; value: T; onChange: (t: T) => void; right?: ReactNode }) {
   return (
-    <div className="flex h-9 shrink-0 items-center gap-0.5 bg-header px-1.5">
+    <div className="flex h-9 shrink-0 items-center gap-0.5 overflow-x-auto whitespace-nowrap bg-header px-1.5">
       {tabs.map((t, i) => (
-        <div key={t.key} className="flex items-center">
+        <div key={t.key} className="flex shrink-0 items-center">
           {i > 0 && <span className="mx-0.5 h-4 w-px bg-divider" />}
           <button
             type="button"

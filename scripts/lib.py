@@ -115,6 +115,7 @@ def build_problem(path):
         "meta": meta,
         "description": read(path, "problem.md"),
         "editorial": read(path, "editorial.md"),
+        "walkthrough": read(path, "walkthrough.md"),
         "starter": read(path, "starter.py"),
         "driver": driver,
         "checker": checker,
