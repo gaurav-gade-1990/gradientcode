@@ -12,7 +12,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --port 5180",
     "typecheck": "tsc --noEmit",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "deploy": "pnpm build && npx -y wrangler@4.20.0 pages deploy dist --project-name gradientcode --branch main --commit-dirty=true"
   },
   "dependencies": {
     "@monaco-editor/react": "4.7.0",

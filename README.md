@@ -16,6 +16,10 @@ cd web && pnpm i && pnpm dev
 
 Open http://localhost:5180. You need Python 3.9 or newer on your PATH, because `pnpm dev` builds the problem JSON first.
 
+## Deploying
+
+The live site is https://gradient.appres.ai, a Cloudflare Pages project named `gradientcode`. To deploy, run `cd web && pnpm run deploy`. It builds the site and uploads `web/dist` with wrangler, and you need `npx wrangler login` once. Pages serves `index.html` for unknown paths, so deep links work. `web/public/_headers` sets the cache rules.
+
 ## How judging works
 
 1. `scripts/build.py` loads each problem folder and runs the reference solution on every test case to get the expected outputs. It writes everything to `web/public/problems/<slug>.json`, with values encoded by `harness.encode` so NumPy arrays, tuples, dicts, NaN and inf survive JSON.
