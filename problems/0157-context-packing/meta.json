@@ -1,0 +1,19 @@
+{
+  "id": 157,
+  "slug": "context-packing",
+  "title": "Pack Retrieved Chunks into a Token Budget",
+  "difficulty": "Medium",
+  "category": "rag",
+  "tags": ["RAG", "Context Window", "Deduplication", "Token Budget"],
+  "mode": "driver",
+  "entry": "pack_context",
+  "signature": "def pack_context(chunks, budget, max_per_doc, dedupe_threshold)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "A chunk's cost is the tokens of its whole rendered block, wrapper tags included. The model pays for the tags too.",
+    "Dedupe first, in (-score, chunk_id) order, comparing lowercase token sets with Jaccard against every chunk you have kept so far.",
+    "Select by score per token, and don't stop at the first chunk that doesn't fit: a smaller one later may still fit. Finally, group the chosen chunks by doc and put each doc's chunks back in reading order."
+  ],
+  "related": ["hybrid-search-rrf", "recursive-chunker", "memory-under-token-budget"]
+}

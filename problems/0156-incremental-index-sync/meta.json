@@ -1,0 +1,19 @@
+{
+  "id": 156,
+  "slug": "incremental-index-sync",
+  "title": "Incremental Vector Index Sync",
+  "difficulty": "Medium",
+  "category": "rag",
+  "tags": ["RAG", "Ingestion", "Vector Store", "Idempotency"],
+  "mode": "driver",
+  "entry": "sync_index",
+  "signature": "def sync_index(source_docs, manifest, store, embedder, max_delete_fraction=0.5)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Compare sha256 content hashes to sort each doc into added, changed, unchanged or deleted. An unchanged doc costs nothing: no embedding call and no store call.",
+    "Derive chunk ids from content: doc_id, the first 12 hex digits of the paragraph's sha256, and an occurrence number for repeated paragraphs. Then inserting a paragraph at the top doesn't rename every chunk below it.",
+    "For a changed doc, embed and upsert only the ids that are new, and only then delete the ids that disappeared. Check the mass-delete guard before you touch anything."
+  ],
+  "related": ["recursive-chunker", "idempotent-tool-execution", "transactional-outbox"]
+}

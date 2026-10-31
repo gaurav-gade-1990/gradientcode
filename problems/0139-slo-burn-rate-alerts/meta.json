@@ -1,0 +1,20 @@
+{
+  "id": 139,
+  "slug": "slo-burn-rate-alerts",
+  "title": "Multi-Window SLO Burn-Rate Alerts",
+  "difficulty": "Medium",
+  "category": "monitoring",
+  "tags": ["SLO", "Alerting", "Observability"],
+  "mode": "driver",
+  "entry": "BurnRateAlerter",
+  "signature": "class BurnRateAlerter: __init__(self, slo, rules), observe(self, minute, requests, errors) -> list, active(self) -> list",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Burn rate is the error ratio divided by the error budget: (sum of errors / sum of requests) / (1 - slo), summed over the window, not averaged per minute.",
+    "A rule fires only when BOTH its long and its short window are above the factor. The short window is what lets the alert clear quickly after recovery.",
+    "Keep one open/closed flag per severity. Emit an event only on a transition, never once per minute while firing.",
+    "A window of W minutes at minute m covers minutes m-W+1 .. m. Early in the stream it covers whatever has been observed."
+  ],
+  "related": ["ewma-anomaly-detection", "streaming-latency-percentiles", "canary-analysis"]
+}

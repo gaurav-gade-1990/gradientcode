@@ -1,0 +1,19 @@
+{
+  "id": 158,
+  "slug": "grounded-answer-check",
+  "title": "Grounded Answer Check with One Repair",
+  "difficulty": "Medium",
+  "category": "rag",
+  "tags": ["RAG", "Hallucination", "Citations", "Guardrails"],
+  "mode": "driver",
+  "entry": "grounded_answer",
+  "signature": "def grounded_answer(answer, sources, llm, min_groundedness)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Normalize both sides the same way before the substring test: map curly quotes, dashes and non-breaking spaces to ASCII, lowercase, and collapse whitespace. PDF and HTML extraction break lines in the middle of sentences.",
+    "A quote must be found in a source the sentence actually cites. Finding it in some other source is a misattribution, not support.",
+    "Check the statuses in a fixed priority order. Call the model at most once, only when the first answer is below the threshold, and build the repair prompt exactly as specified."
+  ],
+  "related": ["citation-hallucination-check", "context-packing", "structured-output-repair"]
+}

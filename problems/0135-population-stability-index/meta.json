@@ -1,0 +1,19 @@
+{
+  "id": 135,
+  "slug": "population-stability-index",
+  "title": "Population Stability Index for Feature Drift",
+  "difficulty": "Easy",
+  "category": "monitoring",
+  "tags": ["Drift", "Monitoring", "Feature Store"],
+  "mode": "function",
+  "entry": "psi_report",
+  "signature": "def psi_report(reference, current, n_bins=10, eps=1e-4)",
+  "compare": {"rtol": 1e-7, "atol": 1e-10},
+  "time_limit_ms": 2000,
+  "hints": [
+    "The bin edges come from the reference window only. Refitting them on today's data hides the drift you are looking for.",
+    "Interior edges are np.quantile(reference, [1/n, 2/n, ..., (n-1)/n]). Collapse repeated edges with np.unique before binning.",
+    "Bins are right-closed: np.searchsorted(edges, x, side='left') gives the bin of x. Floor each proportion at eps before taking the log."
+  ],
+  "related": ["ks-drift-detector", "embedding-drift", "train-serve-skew"]
+}

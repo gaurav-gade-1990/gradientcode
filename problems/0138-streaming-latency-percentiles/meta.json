@@ -1,0 +1,20 @@
+{
+  "id": 138,
+  "slug": "streaming-latency-percentiles",
+  "title": "Mergeable Latency Histogram for p99",
+  "difficulty": "Medium",
+  "category": "monitoring",
+  "tags": ["Observability", "Sketches", "Latency", "SLO"],
+  "mode": "driver",
+  "entry": "LatencyHistogram",
+  "signature": "class LatencyHistogram: __init__(alpha=0.01, max_buckets=2048), record(value_ms, count=1), merge(other), quantile(q), count(), buckets()",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Store a dict {bucket index: count} plus a separate counter for exact zeros. Index = ceil(log(v) / log(gamma)).",
+    "Percentiles do not average across replicas, but bucket counts add. merge() is a sum of counts and must not touch the other histogram.",
+    "Validate before mutating: a negative latency or a bad count raises without recording anything.",
+    "When there are too many buckets, fold the lowest ones upward. The tail is what your SLO is about."
+  ],
+  "related": ["slo-burn-rate-alerts", "ewma-anomaly-detection", "load-balancer-p2c"]
+}

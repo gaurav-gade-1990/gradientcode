@@ -1,0 +1,20 @@
+{
+  "id": 137,
+  "slug": "data-quality-validator",
+  "title": "Data Quality Validator for Request Logs",
+  "difficulty": "Easy",
+  "category": "monitoring",
+  "tags": ["Data Quality", "Monitoring", "Pipelines"],
+  "mode": "function",
+  "entry": "validate",
+  "signature": "def validate(records, expectations, refs=None, id_column=\"request_id\", sample_size=3)",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "A null is a missing key or None. Only not_null looks at nulls; every other check skips them and does not count them as evaluated.",
+    "In Python, True is an int. Check for bool before int.",
+    "regex means the whole value: re.fullmatch, not re.match.",
+    "For unique, count every value first, then fail every row whose value occurs more than once, including the first one."
+  ],
+  "related": ["ks-drift-detector", "train-serve-skew", "shadow-deployment-diff"]
+}

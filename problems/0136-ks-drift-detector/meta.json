@@ -1,0 +1,20 @@
+{
+  "id": 136,
+  "slug": "ks-drift-detector",
+  "title": "KS Drift Detector with Bonferroni Correction",
+  "difficulty": "Medium",
+  "category": "monitoring",
+  "tags": ["Drift", "Hypothesis Testing", "Monitoring"],
+  "mode": "function",
+  "entry": "ks_drift",
+  "signature": "def ks_drift(reference, current, alpha=0.05, min_samples=30)",
+  "compare": {"rtol": 1e-7, "atol": 1e-10},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Drop None values first. A null is a missing measurement, not a zero.",
+    "The empirical CDFs only change at sample points, so the supremum is attained at one of the values in either sample. Check the union, not just the reference.",
+    "Compare |a*m - b*n| as integers to find D and its first location, then divide by n*m.",
+    "Bonferroni divides alpha by the number of features you actually tested, not by every column in the schema."
+  ],
+  "related": ["population-stability-index", "embedding-drift", "train-serve-skew"]
+}

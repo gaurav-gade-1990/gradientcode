@@ -1,0 +1,20 @@
+{
+  "id": 141,
+  "slug": "embedding-drift",
+  "title": "Embedding Drift: Centroid Shift and MMD",
+  "difficulty": "Medium",
+  "category": "monitoring",
+  "tags": ["Drift Detection", "Embeddings", "Kernel Methods"],
+  "mode": "driver",
+  "entry": "embedding_drift",
+  "signature": "def embedding_drift(ref, cur, cos_threshold, mmd_threshold) -> dict",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 3000,
+  "hints": [
+    "Centroid shift is 1 - cosine(mean(ref), mean(cur)). It is cheap but blind to changes that keep the mean in place.",
+    "Bandwidth: stack ref and cur, take the Euclidean distance of every unordered pair i < j once, and use the median. No self-pairs (they are all 0).",
+    "Unbiased MMD^2 drops the diagonal of the within-sample kernel matrices: divide by n(n-1) and m(m-1), and by n*m for the cross term.",
+    "Vectorize: squared distances are |a|^2 + |b|^2 - 2 a.b; clip tiny negatives to 0 before the sqrt."
+  ],
+  "related": ["ks-drift-detector", "population-stability-index", "semantic-cache"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": 155,
+  "slug": "acl-aware-retrieval",
+  "title": "Permission-Aware Retrieval with Nested Groups",
+  "difficulty": "Medium",
+  "category": "rag",
+  "tags": ["RAG", "Access Control", "Security", "Multi-tenant"],
+  "mode": "driver",
+  "entry": "search_with_acl",
+  "signature": "def search_with_acl(user_id, query, k, index, acls, groups)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "First compute every group the user belongs to, including through subgroups. Walk the subgroup graph with a visited set, because group graphs from an IdP can have cycles.",
+    "Evaluate each document in a fixed order: no ACL, then deny user, then deny group, then allow user, then allow group, then the default deny. The first rule that matches decides.",
+    "Filter before you rank: pass the allowed doc ids to index.search. Searching first and filtering afterwards returns fewer than k results, and restricted chunks pass through your process."
+  ],
+  "related": ["hybrid-search-rrf", "tenant-isolated-memory", "policy-engine"]
+}

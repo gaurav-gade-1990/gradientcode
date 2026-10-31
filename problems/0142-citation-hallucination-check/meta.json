@@ -1,0 +1,20 @@
+{
+  "id": 142,
+  "slug": "citation-hallucination-check",
+  "title": "Citation Hallucination Check",
+  "difficulty": "Medium",
+  "category": "monitoring",
+  "tags": ["RAG", "Hallucination", "Guardrails"],
+  "mode": "function",
+  "entry": "check_citations",
+  "signature": "def check_citations(answer, passages, stopwords, tau) -> dict",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Split sentences with re.split(r'(?<=[.!?])\\s+', answer.strip()). Pull citations with re.findall(r'\\[(\\d+)\\]') before you strip the markers out.",
+    "Claim tokens: gc_runtime.tokenize, lowercase, keep only \\w+ tokens, drop stopwords, and make it a SET. Do the same to the passage.",
+    "Citations are 1-based. [0] is out of range; passages[-1] is not a valid answer to it.",
+    "Report every cited source, in order of first appearance, but the sentence is supported if any one of them reaches tau."
+  ],
+  "related": ["grounded-answer-check", "context-packing", "prompt-injection-quarantine"]
+}

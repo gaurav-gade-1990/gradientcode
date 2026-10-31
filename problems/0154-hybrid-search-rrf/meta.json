@@ -1,0 +1,19 @@
+{
+  "id": 154,
+  "slug": "hybrid-search-rrf",
+  "title": "Hybrid Search with Reciprocal Rank Fusion",
+  "difficulty": "Easy",
+  "category": "rag",
+  "tags": ["RAG", "Hybrid Search", "BM25", "Ranking"],
+  "mode": "driver",
+  "entry": "hybrid_search",
+  "signature": "def hybrid_search(query, bm25, vector, top_n, candidates=50, k=60, weights=None)",
+  "compare": {"rtol": 1e-9, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "BM25 scores and cosine similarities live on different scales. RRF ignores the raw scores and uses only each hit's rank.",
+    "Ranks are 1-based, and a chunk that a retriever returns twice keeps only its first (best) rank.",
+    "Sort with one key: (-score, best rank, chunk_id). Fetch `candidates` hits from each retriever, not `top_n`."
+  ],
+  "related": ["acl-aware-retrieval", "context-packing", "recursive-chunker"]
+}

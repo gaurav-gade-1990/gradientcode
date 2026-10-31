@@ -1,0 +1,20 @@
+{
+  "id": 140,
+  "slug": "ewma-anomaly-detection",
+  "title": "EWMA Latency Anomaly Detector",
+  "difficulty": "Easy",
+  "category": "monitoring",
+  "tags": ["Anomaly Detection", "Streaming", "Observability"],
+  "mode": "driver",
+  "entry": "EwmaDetector",
+  "signature": "class EwmaDetector: __init__(self, alpha, k, warmup, min_std), update(self, value) -> dict, attributes mean, var",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Score each point against the baseline as it was BEFORE the point. Updating first lets the spike pull the mean toward itself and hide.",
+    "z = (x - mean) / max(sqrt(var), min_std). The floor keeps a perfectly flat series from flagging a 1 ms wobble.",
+    "Anomalous points are reported but never folded into mean or var, or one incident teaches the detector that incidents are normal.",
+    "Incremental EWMA: diff = x - mean; mean += alpha * diff; var = (1 - alpha) * (var + alpha * diff**2)."
+  ],
+  "related": ["slo-burn-rate-alerts", "streaming-latency-percentiles", "ks-drift-detector"]
+}

@@ -1,0 +1,19 @@
+{
+  "id": 153,
+  "slug": "recursive-chunker",
+  "title": "Recursive Document Chunker with Overlap",
+  "difficulty": "Medium",
+  "category": "rag",
+  "tags": ["RAG", "Chunking", "Tokenization", "Ingestion"],
+  "mode": "driver",
+  "entry": "chunk_document",
+  "signature": "def chunk_document(text, max_tokens, overlap_tokens)",
+  "compare": {"rtol": 1e-9, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Work on token spans, not characters: re.finditer(r\"\\w+|[^\\w\\s]\", text) gives each token's (start, end). A chunk is a run of consecutive tokens, and its text is text[first.start:last.end].",
+    "Split first, then merge. A piece that fits is kept whole. A piece that is too big is cut at the strongest separator it contains: blank line, then newline, then sentence end, then single tokens.",
+    "Merge the pieces greedily. When the next piece would overflow, close the chunk and seed the new one with the longest run of trailing pieces that fits both the overlap budget and, together with the next piece, max_tokens."
+  ],
+  "related": ["context-packing", "incremental-index-sync", "hybrid-search-rrf"]
+}
