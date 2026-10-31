@@ -1,0 +1,31 @@
+{
+  "id": 73,
+  "slug": "bpe-tokenizer-training",
+  "title": "BPE Tokenizer Training",
+  "difficulty": "Hard",
+  "category": "llm",
+  "tags": [
+    "LLM",
+    "Tokenization",
+    "Strings",
+    "Greedy"
+  ],
+  "mode": "function",
+  "entry": "train_bpe",
+  "signature": "def train_bpe(corpus: str, num_merges: int, test_words: list) -> tuple",
+  "compare": {
+    "rtol": 1e-09,
+    "atol": 0
+  },
+  "time_limit_ms": 3000,
+  "hints": [
+    "Count each distinct word once with its frequency, and store it as a list of symbols. Pair counts are weighted by word frequency.",
+    "Among pairs with the top count, take the smallest (a, b) tuple. Sorting keys by (-count, pair) handles both rules at once.",
+    "Merge by walking the symbol list left to right and comparing whole symbols. Joining with spaces and calling str.replace can match across symbol boundaries.",
+    "Encode a test word by starting from its characters and replaying every merge in the order it was learned."
+  ],
+  "related": [
+    "tf-idf",
+    "perplexity"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": 78,
+  "slug": "int8-absmax-quantization",
+  "title": "Int8 Absmax Quantization",
+  "difficulty": "Medium",
+  "category": "llm",
+  "tags": ["LLM", "Quantization", "NumPy"],
+  "mode": "function",
+  "entry": "absmax_quantize",
+  "signature": "def absmax_quantize(W: np.ndarray) -> tuple",
+  "compare": {"rtol": 1e-7, "atol": 1e-12},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Each row gets its own scale: max(|W[i]|) / 127. An all-zero row would divide by zero, so give it scale 1.",
+    "np.round rounds halves to even (2.5 -> 2). You need halves away from zero: sign(x) * floor(|x| + 0.5).",
+    "Cast q to int8 only after rounding and clipping. Dequantize with q.astype(float) * scale[:, None]."
+  ],
+  "related": ["lora-forward-and-merge", "gradient-norm-clipping"]
+}

@@ -17,6 +17,7 @@ import os
 import re
 import sys
 import time
+import warnings
 
 from lib import CATEGORIES, DIFFICULTIES, REQUIRED, build_problem, harness, problem_dirs, read
 
@@ -126,6 +127,7 @@ def check_problem(path):
 
 
 def main():
+    warnings.filterwarnings("ignore", category=RuntimeWarning)
     only = sys.argv[1:]
     paths = problem_dirs(only)
     if not paths:

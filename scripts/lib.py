@@ -32,7 +32,7 @@ def problem_dirs(only=None):
     dirs = sorted(d for d in os.listdir(PROBLEMS) if os.path.isdir(os.path.join(PROBLEMS, d)) and d[:4].isdigit())
     if only:
         wanted = set(only)
-        dirs = [d for d in dirs if d in wanted or d[5:] in wanted or str(int(d[:4])) in wanted]
+        dirs = [d for d in dirs if d in wanted or d[:4] in wanted or d[5:] in wanted or str(int(d[:4])) in wanted]
     return [os.path.join(PROBLEMS, d) for d in dirs]
 
 

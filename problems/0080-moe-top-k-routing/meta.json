@@ -1,0 +1,19 @@
+{
+  "id": 80,
+  "slug": "moe-top-k-routing",
+  "title": "Mixture-of-Experts Top-k Routing",
+  "difficulty": "Medium",
+  "category": "llm",
+  "tags": ["LLM", "Mixture of Experts", "Routing"],
+  "mode": "function",
+  "entry": "moe_forward",
+  "signature": "def moe_forward(x, W_router, experts, k) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Softmax over all E router logits first. Then pick the k largest probabilities per token; np.argsort(-probs, kind='stable') puts the lower index first on ties.",
+    "Gates are the chosen probabilities divided by their sum, so each token's k gates sum to 1.",
+    "f_e counts assignments (how many of the T*k slots went to expert e); P_e averages the full softmax probabilities. The loss is E * sum_e f_e * P_e."
+  ],
+  "related": ["swiglu-ffn", "top-k-per-row", "stable-softmax"]
+}

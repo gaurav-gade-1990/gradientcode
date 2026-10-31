@@ -1,0 +1,19 @@
+{
+  "id": 79,
+  "slug": "lora-forward-and-merge",
+  "title": "LoRA Forward and Merge",
+  "difficulty": "Easy",
+  "category": "llm",
+  "tags": ["LLM", "Fine-Tuning", "Linear Algebra"],
+  "mode": "function",
+  "entry": "lora_forward_and_merge",
+  "signature": "def lora_forward_and_merge(x, W, A, B, alpha) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "The rank r is A.shape[1]. The LoRA branch is scaled by alpha / r, not alpha.",
+    "Compute (x @ A) @ B rather than x @ (A @ B): the first never builds a d_in x d_out matrix.",
+    "Merging folds the same scaled update into the weight: W + (alpha / r) * A @ B. Then x @ W_merged equals y."
+  ],
+  "related": ["int8-absmax-quantization", "dense-layer-forward-backward"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 77,
+  "slug": "online-softmax-attention",
+  "title": "Online Softmax Attention (FlashAttention)",
+  "difficulty": "Hard",
+  "category": "llm",
+  "tags": ["LLM", "Attention", "Numerical Stability", "Kernels"],
+  "mode": "function",
+  "entry": "flash_attention",
+  "signature": "def flash_attention(Q, K, V, block_size, causal=False) -> tuple",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Keep three things per query row: the running max m, the running sum l of exp(s - m), and an unnormalized output acc = sum exp(s - m) v.",
+    "When a new block raises the max from m to m_new, every term you have summed so far is too big by exp(m - m_new). Multiply both l and acc by that factor.",
+    "Divide acc by l once, after the last block. Record m and l after every block, not just at the end.",
+    "With causal=True the mask uses global positions: key j0 + c is visible to query i when j0 + c <= i. A block can be fully masked for a row; its contribution is then zero and m does not change."
+  ],
+  "related": ["scaled-dot-product-attention", "stable-softmax", "log-sum-exp", "kv-cache-decoding"]
+}

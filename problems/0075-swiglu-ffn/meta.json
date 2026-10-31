@@ -1,0 +1,19 @@
+{
+  "id": 75,
+  "slug": "swiglu-ffn",
+  "title": "SwiGLU Feed-Forward",
+  "difficulty": "Easy",
+  "category": "llm",
+  "tags": ["LLM", "Activations", "Transformers"],
+  "mode": "function",
+  "entry": "swiglu_ffn",
+  "signature": "def swiglu_ffn(x: np.ndarray, W1: np.ndarray, W3: np.ndarray, W2: np.ndarray) -> np.ndarray",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "There are two up-projections: x @ W1 is the gate and x @ W3 is the value.",
+    "SiLU (Swish) is z * sigmoid(z). Apply it to the gate only.",
+    "Multiply gate and value elementwise, then project down with W2."
+  ],
+  "related": ["rmsnorm", "activation-functions", "moe-top-k-routing"]
+}

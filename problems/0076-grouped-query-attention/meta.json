@@ -1,0 +1,19 @@
+{
+  "id": 76,
+  "slug": "grouped-query-attention",
+  "title": "Grouped-Query Attention",
+  "difficulty": "Medium",
+  "category": "llm",
+  "tags": ["LLM", "Attention", "Transformers"],
+  "mode": "function",
+  "entry": "grouped_query_attention",
+  "signature": "def grouped_query_attention(q: np.ndarray, k: np.ndarray, v: np.ndarray) -> np.ndarray",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "With g = n_q // n_kv, query head h reads K/V head h // g. Consecutive query heads share a K/V head.",
+    "np.repeat(k, g, axis=1) gives exactly that layout. np.tile gives a different one (h % n_kv).",
+    "Mask positions j > i with -inf before a max-shifted softmax. The diagonal stays visible."
+  ],
+  "related": ["multi-head-attention", "scaled-dot-product-attention", "kv-cache-decoding"]
+}

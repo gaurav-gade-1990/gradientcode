@@ -1,0 +1,20 @@
+{
+  "id": 81,
+  "slug": "speculative-decoding-acceptance",
+  "title": "Speculative Decoding Acceptance",
+  "difficulty": "Hard",
+  "category": "llm",
+  "tags": ["LLM", "Sampling", "Inference", "Probability"],
+  "mode": "function",
+  "entry": "speculative_accept",
+  "signature": "def speculative_accept(draft_tokens, q, p, u_accept, u_sample) -> tuple",
+  "compare": {"rtol": 1e-9, "atol": 0},
+  "time_limit_ms": 2000,
+  "hints": [
+    "Walk the draft left to right. Token x at position i is accepted when u_accept[i] < p[i, x] / q[i, x].",
+    "On the first rejection, sample a replacement from max(0, p[i] - q[i]) (unnormalized is fine) with u_sample[i], then stop: later draft tokens are discarded.",
+    "If all K drafts are accepted you get one extra token for free, sampled from p[K] with u_sample[K].",
+    "Inverse CDF: c = np.cumsum(w); token = np.searchsorted(c, u * c[-1], side='right')."
+  ],
+  "related": ["top-k-top-p-sampling", "kv-cache-decoding", "beam-search"]
+}

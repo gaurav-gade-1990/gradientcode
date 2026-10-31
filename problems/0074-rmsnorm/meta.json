@@ -1,0 +1,19 @@
+{
+  "id": 74,
+  "slug": "rmsnorm",
+  "title": "RMSNorm",
+  "difficulty": "Easy",
+  "category": "llm",
+  "tags": ["LLM", "Normalization", "NumPy"],
+  "mode": "function",
+  "entry": "rmsnorm",
+  "signature": "def rmsnorm(x: np.ndarray, weight: np.ndarray, eps: float = 1e-6) -> np.ndarray",
+  "compare": {"rtol": 1e-6, "atol": 1e-9},
+  "time_limit_ms": 2000,
+  "hints": [
+    "RMSNorm is LayerNorm without the mean: there is no centering and no bias.",
+    "The root mean square is taken over the last axis only, one value per row.",
+    "eps goes inside the square root: sqrt(mean(x^2) + eps). Use keepdims=True so it broadcasts back."
+  ],
+  "related": ["layernorm-forward-backward", "swiglu-ffn", "transformer-block-forward"]
+}
