@@ -1,0 +1,270 @@
+[
+  {
+    "id": "ml-fundamentals",
+    "title": "ML Fundamentals",
+    "description": "Vectorized NumPy, the classic models you get asked to write on a whiteboard, and the metrics that grade them.",
+    "sections": [
+      {
+        "title": "NumPy warm-up",
+        "slugs": [
+          "stable-softmax",
+          "log-sum-exp",
+          "one-hot-encoding",
+          "cosine-similarity-matrix",
+          "pairwise-euclidean-distances",
+          "covariance-matrix",
+          "standardize-features",
+          "top-k-per-row"
+        ]
+      },
+      {
+        "title": "Linear models",
+        "slugs": [
+          "linear-regression-closed-form",
+          "linear-regression-gradient-descent",
+          "ridge-regression",
+          "logistic-regression-gd",
+          "perceptron"
+        ]
+      },
+      {
+        "title": "Clustering, neighbors and trees",
+        "slugs": [
+          "k-nearest-neighbors",
+          "k-means",
+          "k-means-plus-plus-init",
+          "gaussian-naive-bayes",
+          "gini-impurity-best-split",
+          "pca"
+        ]
+      },
+      {
+        "title": "Metrics",
+        "slugs": [
+          "confusion-matrix",
+          "precision-recall-f1",
+          "roc-auc",
+          "binary-log-loss",
+          "regression-metrics",
+          "stratified-k-fold"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "deep-learning-from-scratch",
+    "title": "Deep Learning from Scratch",
+    "description": "Layers, backprop by hand, optimizers, a working autograd engine, and the sequence models that lead to attention.",
+    "sections": [
+      {
+        "title": "Building blocks",
+        "slugs": [
+          "activation-functions",
+          "dense-layer-forward-backward",
+          "softmax-cross-entropy-gradient",
+          "weight-initialization",
+          "inverted-dropout",
+          "numerical-gradient-check"
+        ]
+      },
+      {
+        "title": "Normalization and convolutions",
+        "slugs": [
+          "batchnorm-forward",
+          "batchnorm-backward",
+          "layernorm-forward-backward",
+          "im2col",
+          "conv2d-forward",
+          "max-pool-forward-backward"
+        ]
+      },
+      {
+        "title": "Optimizers",
+        "slugs": [
+          "sgd-momentum",
+          "rmsprop",
+          "adam",
+          "adamw",
+          "cosine-schedule-with-warmup",
+          "gradient-norm-clipping"
+        ]
+      },
+      {
+        "title": "Autograd",
+        "slugs": [
+          "scalar-autograd-value",
+          "unbroadcast-gradient",
+          "tensor-autograd-matmul"
+        ]
+      },
+      {
+        "title": "Sequences",
+        "slugs": [
+          "rnn-cell-forward",
+          "lstm-cell-forward",
+          "train-mlp-on-xor",
+          "scaled-dot-product-attention"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "llm-internals",
+    "title": "LLM Internals",
+    "description": "Attention, positional encodings, decoding and sampling, tokenization, and the tricks inside modern LLM serving stacks.",
+    "sections": [
+      {
+        "title": "Attention",
+        "slugs": [
+          "scaled-dot-product-attention",
+          "causal-attention-mask",
+          "multi-head-attention",
+          "sinusoidal-positional-encoding",
+          "rotary-position-embedding",
+          "transformer-block-forward"
+        ]
+      },
+      {
+        "title": "Modern architecture",
+        "slugs": [
+          "rmsnorm",
+          "swiglu-ffn",
+          "grouped-query-attention",
+          "online-softmax-attention",
+          "moe-top-k-routing",
+          "lora-forward-and-merge"
+        ]
+      },
+      {
+        "title": "Tokens and decoding",
+        "slugs": [
+          "bpe-tokenizer-training",
+          "kv-cache-decoding",
+          "top-k-top-p-sampling",
+          "beam-search",
+          "speculative-decoding-acceptance",
+          "int8-absmax-quantization"
+        ]
+      },
+      {
+        "title": "Retrieval",
+        "slugs": [
+          "tf-idf",
+          "bm25",
+          "top-k-cosine-retrieval"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fde-interview-loop",
+    "title": "FDE Interview Loop",
+    "description": "The forward-deployed engineer loop: agent and tool plumbing, reliability, RAG, monitoring and evals, then four customer designs to talk through end to end.",
+    "sections": [
+      {
+        "title": "Agent loop and tools",
+        "slugs": [
+          "react-tool-loop",
+          "agent-loop-detection",
+          "tool-args-schema-validation",
+          "structured-output-repair",
+          "streaming-tool-call-assembly",
+          "idempotent-tool-execution",
+          "tool-result-budgeting"
+        ]
+      },
+      {
+        "title": "Reliability and cost",
+        "slugs": [
+          "retry-with-backoff",
+          "token-bucket-rate-limiter",
+          "circuit-breaker",
+          "prompt-caching-cost",
+          "tenant-cost-attribution",
+          "llm-capacity-cost-estimator"
+        ]
+      },
+      {
+        "title": "RAG and grounding",
+        "slugs": [
+          "recursive-chunker",
+          "hybrid-search-rrf",
+          "acl-aware-retrieval",
+          "context-packing",
+          "citation-hallucination-check"
+        ]
+      },
+      {
+        "title": "Shipping and monitoring",
+        "slugs": [
+          "sse-stream-parser",
+          "api-idempotent-create",
+          "prompt-regression-gate",
+          "llm-judge-position-swap",
+          "population-stability-index",
+          "pii-redaction-vault",
+          "human-approval-gates"
+        ]
+      },
+      {
+        "title": "Customer designs",
+        "slugs": [
+          "returns-refunds-agent",
+          "internal-knowledge-slack-bot",
+          "document-intake-pipeline",
+          "multi-tenant-support-platform"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "agent-platform-engineer",
+    "title": "Agent Platform Engineer",
+    "description": "The shared platform under many agents: MCP and permissions, orchestration, durable execution, multi-tenant isolation and the gateway, then three platform designs.",
+    "sections": [
+      {
+        "title": "MCP and permissions",
+        "slugs": [
+          "mcp-jsonrpc-dispatch",
+          "tool-permission-scopes",
+          "oauth-single-flight-refresh",
+          "tool-registry-versioning",
+          "prompt-injection-quarantine",
+          "policy-engine"
+        ]
+      },
+      {
+        "title": "Orchestration and durability",
+        "slugs": [
+          "parallel-tool-dag",
+          "supervisor-worker-routing",
+          "agent-handoff-context",
+          "memory-under-token-budget",
+          "durable-workflow-replay",
+          "agent-task-queue-leases",
+          "trace-critical-path"
+        ]
+      },
+      {
+        "title": "Multi-tenant platform",
+        "slugs": [
+          "tenant-isolated-memory",
+          "hash-chained-audit-log",
+          "model-router",
+          "semantic-cache",
+          "gateway-failover-hedging",
+          "usage-metering-invoice",
+          "slo-burn-rate-alerts"
+        ]
+      },
+      {
+        "title": "Platform designs",
+        "slugs": [
+          "mcp-tool-platform",
+          "llm-gateway-cost-controls",
+          "shared-ai-coworker-platform"
+        ]
+      }
+    ]
+  }
+]

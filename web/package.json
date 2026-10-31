@@ -1,0 +1,49 @@
+{
+  "name": "gradientcode-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@10.28.1",
+  "scripts": {
+    "problems": "python3 ../scripts/build.py",
+    "predev": "python3 ../scripts/build.py",
+    "dev": "vite",
+    "prebuild": "python3 ../scripts/build.py",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 5180",
+    "typecheck": "tsc --noEmit",
+    "e2e": "playwright test"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "4.7.0",
+    "highlight.js": "11.11.1",
+    "katex": "0.16.22",
+    "monaco-editor": "0.52.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-markdown": "10.1.0",
+    "react-resizable-panels": "2.1.9",
+    "react-router": "7.6.3",
+    "rehype-highlight": "7.0.2",
+    "rehype-katex": "7.0.1",
+    "remark-gfm": "4.0.1",
+    "remark-math": "6.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.53.2",
+    "@tailwindcss/vite": "4.1.11",
+    "@types/node": "22.15.34",
+    "@types/react": "18.3.23",
+    "@types/react-dom": "18.3.7",
+    "@vitejs/plugin-react": "4.6.0",
+    "tailwindcss": "4.1.11",
+    "typescript": "5.8.3",
+    "vite": "6.3.5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "@tailwindcss/oxide"
+    ]
+  }
+}
