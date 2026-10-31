@@ -1,0 +1,3 @@
+{"id": 208, "slug": "mcp-tool-platform", "title": "Shared MCP Tool Platform", "type": "design",
+ "difficulty": "Medium", "category": "design-medium", "tags": ["MCP", "OAuth", "Sandboxing", "Audit", "Platform"],
+ "time_minutes": 60, "related": ["mcp-jsonrpc-dispatch", "tool-permission-scopes", "oauth-single-flight-refresh", "tool-registry-versioning", "hash-chained-audit-log", "prompt-injection-quarantine"]}

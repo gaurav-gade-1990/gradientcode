@@ -1,0 +1,3 @@
+{"id": 214, "slug": "self-hosted-llm-serving", "title": "Self-Hosted LLM Serving for a Regulated Insurer", "type": "design",
+ "difficulty": "Hard", "category": "design-complex", "tags": ["LLM Serving", "GPUs", "vLLM", "Multi-LoRA", "Data Residency", "Model Risk"],
+ "time_minutes": 75, "related": ["gpu-capacity-planner", "continuous-batching-scheduler", "autoscaler-policy", "model-router", "token-bucket-rate-limiter", "llm-capacity-cost-estimator"]}

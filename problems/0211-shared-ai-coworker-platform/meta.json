@@ -1,0 +1,3 @@
+{"id": 211, "slug": "shared-ai-coworker-platform", "title": "Shared AI Coworker Platform", "type": "design",
+ "difficulty": "Medium", "category": "design-medium", "tags": ["AI Coworkers", "Memory", "Skills", "Human-in-the-Loop", "Platform"],
+ "time_minutes": 60, "related": ["tenant-isolated-memory", "skill-dependency-resolver", "human-approval-gates", "ai-coworker-inbox-triage", "durable-workflow-replay", "tool-permission-scopes"]}

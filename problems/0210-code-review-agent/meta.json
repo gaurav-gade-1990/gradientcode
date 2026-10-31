@@ -1,0 +1,3 @@
+{"id": 210, "slug": "code-review-agent", "title": "PR Code Review Agent", "type": "design",
+ "difficulty": "Medium", "category": "design-medium", "tags": ["Code Review", "Developer Tools", "Evals", "GitHub", "Precision"],
+ "time_minutes": 60, "related": ["plan-and-execute-replan", "tool-result-budgeting", "context-packing", "signed-webhook-delivery", "token-bucket-rate-limiter", "prompt-injection-quarantine"]}

@@ -1,0 +1,3 @@
+{"id": 213, "slug": "healthcare-prior-auth", "title": "Healthcare Prior Authorization Agents", "type": "design",
+ "difficulty": "Hard", "category": "design-complex", "tags": ["Healthcare", "FHIR", "HIPAA", "RPA", "Human Review", "Legacy Integration"],
+ "time_minutes": 75, "related": ["structured-output-repair", "grounded-answer-check", "pii-redaction-vault", "human-approval-gates", "agent-task-queue-leases", "saga-compensation"]}

@@ -1,0 +1,3 @@
+{"id": 215, "slug": "global-voice-agent", "title": "Global Real-Time Voice Support Agent", "type": "design",
+ "difficulty": "Hard", "category": "design-complex", "tags": ["Voice", "Real-Time", "Telephony", "Multilingual", "Data Residency", "QA"],
+ "time_minutes": 75, "related": ["streaming-tool-call-assembly", "agent-handoff-context", "idempotent-tool-execution", "streaming-latency-percentiles", "pii-redaction-vault", "llm-judge-position-swap"]}

@@ -1,0 +1,3 @@
+{"id": 209, "slug": "agent-eval-observability", "title": "Agent Evals and Observability", "type": "design",
+ "difficulty": "Medium", "category": "design-medium", "tags": ["Evals", "Tracing", "LLM-as-Judge", "Drift", "Observability"],
+ "time_minutes": 60, "related": ["trace-critical-path", "llm-judge-position-swap", "prompt-regression-gate", "embedding-drift", "slo-burn-rate-alerts", "canary-analysis"]}

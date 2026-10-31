@@ -67,8 +67,20 @@ def check_design(path, meta, errors):
     bodies = re.split(r"^## \d+\. .+$", sol, flags=re.M)[1:]
     words = {}
     for (pillar, title), body in zip(DESIGN_SECTIONS, bodies):
-        if title != "Single View" and ("**Decision.**" not in body or "**Trap.**" not in body):
-            errors.append("solution.md section %r needs a **Decision.** and a **Trap.**" % title)
+        if title != "Single View":
+            if "**Decision.**" not in body or "**Trap.**" not in body:
+                errors.append("solution.md section %r needs a **Decision.** and a **Trap.**" % title)
+            else:
+                # Order: opener, (table), How, Decision, then Trap directly after Decision.
+                opener = body.strip().split("\n", 1)[0]
+                how = body.find("**How:**")
+                dec, trap = body.find("**Decision.**"), body.find("**Trap.**")
+                if not opener or opener.startswith(("**How", "**Decision", "|")):
+                    errors.append("solution.md section %r must open with 1-3 sentences before any table or How" % title)
+                if how != -1 and how > dec:
+                    errors.append("solution.md section %r: How must come before Decision" % title)
+                if trap < dec or body[dec:trap].count("\n\n") > 1:
+                    errors.append("solution.md section %r: Trap must follow Decision directly" % title)
         words[pillar] = words.get(pillar, 0) + len(body.split())
     for pillar, n in words.items():
         if n > PILLAR_WORD_CAP:

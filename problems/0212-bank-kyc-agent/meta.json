@@ -1,0 +1,3 @@
+{"id": 212, "slug": "bank-kyc-agent", "title": "Bank KYC and AML Case Agent", "type": "design",
+ "difficulty": "Hard", "category": "design-complex", "tags": ["Financial Crime", "KYC", "AML", "Model Risk", "Data Residency", "Audit"],
+ "time_minutes": 75, "related": ["hash-chained-audit-log", "policy-engine", "pii-redaction-vault", "human-approval-gates", "durable-workflow-replay", "context-packing"]}
