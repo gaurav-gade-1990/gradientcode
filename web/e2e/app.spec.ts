@@ -203,3 +203,54 @@ test("Detailed Explanation tab renders the walkthrough with math", async ({ page
   await expect(page.getByRole("heading", { name: "Detailed Explanation" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Build Order" })).toBeVisible();
 });
+
+test("AI Leadership track: ten sections, leadership pillars, self-score and complete", async ({ page }) => {
+  const rubric = JSON.parse(readFileSync(resolve(ROOT, "problems/0301-build-buy-fine-tune/rubric.json"), "utf8"));
+  await page.goto("/");
+  await page.getByTestId("track-leadership").click();
+  const rows = page.getByTestId("problem-row");
+  await expect(rows.first()).toBeVisible();
+  // Every leadership case is in the 301-399 range.
+  for (const title of await rows.allTextContents()) expect(title).toMatch(/\b3\d\d\. /);
+
+  await page.goto("/problems/build-buy-fine-tune");
+  await expect(page.getByTestId("problem-title")).toContainText("Build vs Buy vs Fine-tune");
+  await expect(page.locator(".monaco-editor")).toHaveCount(0);
+  await expect(page.getByText("AI Leadership", { exact: true }).first()).toBeVisible();
+  for (const [key, name] of [["A", "Frame"], ["B", "Decide"], ["C", "Execute"], ["D", "Land"]])
+    await expect(page.getByTestId(`pillar-${key}`)).toContainText(name);
+  await expect(page.getByTestId("answer-1")).toHaveAttribute("placeholder", rubric.sections[0].prompt);
+  await expect(page.getByTestId("section-10")).toContainText("Communication");
+  await expect(page.getByTestId("section-11")).toHaveCount(0);
+
+  await page.getByTestId("answer-1").fill("Ship to renewing enterprise customers by month 6 without breaking their contracts.");
+  await page.getByTestId("tab-answer").click();
+  await page.getByTestId("reveal").click();
+  await page.getByTestId("reveal-yes").click();
+  await expect(page.getByTestId("model-answer")).toContainText("1. Situation");
+  await expect(page.getByTestId("model-answer")).toContainText("10. Communication");
+
+  // 70% of criteria completes the case.
+  const all = rubric.sections.flatMap((s: { n: number; criteria: string[] }) => s.criteria.map((_, i) => [s.n, i]));
+  const need = Math.ceil(all.length * 0.7);
+  for (const [n, i] of all.slice(0, need)) await page.getByTestId(`criterion-${n}-${i}`).check();
+  await page.getByTestId("mark-complete").click();
+  await expect(page.getByTestId("complete-note")).toContainText("Marked complete");
+
+  await page.getByTestId("problem-list-link").click();
+  await page.getByTestId("track-leadership").click();
+  const row = page.getByTestId("problem-row").filter({ hasText: "Build vs Buy vs Fine-tune" });
+  await expect(row.getByLabel("Solved")).toBeVisible();
+});
+
+test("leadership study plans list their cases", async ({ page }) => {
+  for (const [id, title, slugs] of [
+    ["principal-architect-loop", "Principal / AI Architect Loop", 13],
+    ["director-executive-loop", "Director / Executive Loop", 22],
+  ] as const) {
+    await page.goto(`/study-plans/${id}`);
+    await expect(page.getByTestId("plan-title")).toContainText(title);
+    await expect(page.getByTestId("plan-section").first()).toBeVisible();
+    await expect(page.locator('[data-testid="plan-section"] a[href*="/problems/"]')).toHaveCount(slugs);
+  }
+});

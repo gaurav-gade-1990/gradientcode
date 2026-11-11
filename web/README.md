@@ -24,7 +24,7 @@ pnpm e2e                                  # starts the dev server if it is not r
 SCREENSHOTS=1 pnpm exec playwright test screenshots   # refresh web/screenshots/
 ```
 
-The first test that judges code waits for Pyodide and NumPy to download from the jsDelivr CDN. Give it up to a minute on a cold cache. The design-problem test serves `e2e/fixtures/design-fixture.json` through request interception, so it does not depend on which design problems are built.
+The first test that judges code waits for Pyodide and NumPy to download from the jsDelivr CDN. Give it up to a minute on a cold cache. The design-problem test serves `e2e/fixtures/design-fixture.json` through request interception, so it does not depend on which design problems are built. The leadership test opens the real case 301 and checks its ten sections and four pillars.
 
 ## Layout
 
@@ -32,4 +32,5 @@ The first test that judges code waits for Pyodide and NumPy to download from the
 - `src/lib/judge.ts`: the main-thread client. It gives each judge call a wall-clock budget of `max(8000, cases × time_limit_ms)` ms. When a call runs past it, the client terminates the worker, reports Time Limit Exceeded and starts a fresh worker.
 - `src/lib/format.ts`: a TypeScript copy of `harness.show`, so examples render before Python loads.
 - `src/lib/storage.ts`: progress in localStorage (`gc:drafts:<slug>`, `gc:subs:<slug>`, `gc:solved`, `gc:attempted`, `gc:design:<slug>`, `gc:theme`, `gc:track`).
-- `src/pages/ProblemPage.tsx`: the coding workspace. `src/components/DesignWorkspace.tsx` is the system design workspace.
+- `src/pages/ProblemPage.tsx`: the coding workspace. `src/components/DesignWorkspace.tsx` is the rubric workspace shared by System Design and AI Leadership. It renders whatever sections the problem's `rubric.json` lists, and takes pillar names and the badge from the problem's track.
+- `src/lib/data.ts`: loads the index. `RUBRIC_TRACKS` lists the tracks whose problems are self-scored (`design`, `leadership`).

@@ -1,10 +1,11 @@
 # GradientCode
 
-GradientCode is a practice site for AI and ML engineering interviews. It looks and works like LeetCode, and has three tracks:
+GradientCode is a practice site for AI and ML engineering and leadership interviews. It looks and works like LeetCode, and has four tracks:
 
 - **Applied AI Engineering**: agents, tools and MCP, gateways, RAG, monitoring and enterprise platforms. Problems are graded against deterministic fakes in `harness/gc_runtime.py`, such as a fake LLM, a virtual clock and an event loop.
 - **ML Foundations**: NumPy implementations of classic ML, neural network layers, optimizers, autograd, transformers and LLM internals.
 - **System Design**: fifteen-section design answers with a timer, a hidden model answer and a self-scoring rubric.
+- **AI Leadership**: eighteen cases for principal, architect, director and executive loops (strategy, org, governance and communication). They use the same workspace with a ten-section framework: Situation, Stakeholders, Options, Decision and Trade-offs, Economics, Org and Ownership, Plan and Milestones, Risk and Governance, Metrics, Communication.
 
 Everything runs in the browser. Code problems run in Python 3 through Pyodide, and progress is saved in localStorage. There is no server.
 
@@ -27,18 +28,20 @@ The live site is https://gradient.appres.ai, a Cloudflare Pages project named `g
 3. **Run** judges the visible cases plus any custom cases you add. **Submit** judges every case and stops at the first failure. Floats are compared with the problem's `rtol` and `atol`. A problem can supply its own checker when more than one answer is valid.
 4. The page gives each judge call a wall-clock budget. If your code is still running when the budget runs out, the worker is killed and you get Time Limit Exceeded.
 
-Design problems have no judge. You write each section, reveal the model answer, and check off the rubric criteria you covered. Checking at least 70% of them lets you mark the problem complete.
+Design problems and leadership cases have no judge. You write each section, reveal the model answer, and check off the rubric criteria you covered. Checking at least 70% of them lets you mark the problem complete.
 
 ## Adding a problem
 
 - For a coding problem, read [AUTHORING.md](AUTHORING.md).
 - For a design problem, read [AUTHORING_DESIGN.md](AUTHORING_DESIGN.md).
+- For a leadership case, read [AUTHORING_LEADERSHIP.md](AUTHORING_LEADERSHIP.md).
+- For the Detailed Explanation tab every problem needs, read [WALKTHROUGH.md](WALKTHROUGH.md).
 
 Check a problem with `python3 scripts/check.py <id>`, then run `python3 scripts/build.py`, or restart `pnpm dev`. Study plans live in `problems/study-plans.json`. Slugs that aren't built yet are skipped.
 
 ## Repo layout
 
-- `problems/`: one folder per problem, the catalogs, and the study plans
+- `problems/`: one folder per problem (ids 1–99 ML, 101–199 Applied, 201–299 Design, 301–399 Leadership), the catalogs, and the study plans
 - `harness/`: the judge (`harness.py`) and the simulation fakes (`gc_runtime.py`). Both run in CPython and Pyodide.
 - `scripts/`: `build.py` and `check.py`
 - `web/`: the site (Vite, React, TypeScript, Tailwind, Monaco). See [web/README.md](web/README.md).
