@@ -19,7 +19,7 @@ export default function ProblemList() {
   const [tags, setTags] = useState<string[]>([]);
   const [track, setTrackState] = useState<TrackKey>(() => {
     const t = getTrackPref();
-    return t === "ml" || t === "design" || t === "applied" ? t : "applied";
+    return t === "ml" || t === "design" || t === "applied" || t === "leadership" ? t : "applied";
   });
   const setTrack = (t: TrackKey) => {
     setTrackState(t);

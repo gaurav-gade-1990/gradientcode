@@ -33,7 +33,7 @@ ALLOWED_IMPORTS = {
 }
 MAX_JSON_BYTES = 400_000
 CATEGORY_KEYS = {k for k, _, _ in CATEGORIES}
-ID_RANGES = {"ml": (1, 99), "applied": (101, 199), "design": (201, 299)}
+ID_RANGES = {"ml": (1, 99), "applied": (101, 199), "design": (201, 299), "leadership": (301, 399)}
 
 # The Styx Unified framework: fifteen sections under four pillars.
 DESIGN_SECTIONS = [
@@ -42,7 +42,24 @@ DESIGN_SECTIONS = [
     ("C", "Endpoints"), ("C", "Caching"), ("C", "Data Stores"), ("C", "Output"),
     ("D", "Guardrails"), ("D", "Key Impact"), ("D", "Failure Modes"), ("D", "Build Order"),
 ]
+# The leadership framework: ten sections under the same four pillars (A Frame, B Decide, C Execute, D Land).
+LEADERSHIP_SECTIONS = [
+    ("A", "Situation"), ("A", "Stakeholders"),
+    ("B", "Options"), ("B", "Decision and Trade-offs"), ("B", "Economics"),
+    ("C", "Org and Ownership"), ("C", "Plan and Milestones"), ("C", "Risk and Governance"),
+    ("D", "Metrics"), ("D", "Communication"),
+]
+# Per track: the section list, and the one section that is a table plus "The one idea to hold:" line
+# instead of an opener / Decision / Trap section.
+FRAMEWORKS = {
+    "design": (DESIGN_SECTIONS, "Single View"),
+    "leadership": (LEADERSHIP_SECTIONS, "Stakeholders"),
+}
 PILLAR_WORD_CAP = 1000
+
+
+def framework(meta):
+    return FRAMEWORKS.get(meta.get("track"), FRAMEWORKS["design"])
 
 # walkthrough.md (the Detailed Explanation tab): numbered "## N. Title" sections, some of them required.
 WALK_REQUIRED_CODE = ("really asking", "full solution", "test case", "complexity", "wrong answer", "follow-up")
@@ -102,7 +119,7 @@ def check_walkthrough(path, meta, errors, problem=None):
         errors.append("walkthrough.md: %d words of prose (< %d)" % (words, WALK_MIN_WORDS))
     if design:
         sub_heads = " ".join(re.findall(r"^#{2,4} .+$", text, re.M)).lower()
-        missing = [t for _, t in DESIGN_SECTIONS if t.lower() not in sub_heads]
+        missing = [t for _, t in framework(meta)[0] if t.lower() not in sub_heads]
         if missing:
             errors.append("walkthrough.md: no heading for section(s) %s" % ", ".join(missing))
         return words
@@ -138,22 +155,28 @@ def check_design(path, meta, errors):
         return {}
     if not meta.get("time_minutes"):
         errors.append("meta.time_minutes missing")
+    sections, table_section = framework(meta)
     rubric = json.loads(read(path, "rubric.json"))
     secs = rubric.get("sections", [])
-    if [(x.get("pillar"), x.get("title")) for x in secs] != DESIGN_SECTIONS:
-        errors.append("rubric.json sections must be the 15 framework sections in order: %s" % [t for _, t in DESIGN_SECTIONS])
+    if [(x.get("pillar"), x.get("title")) for x in secs] != sections:
+        errors.append("rubric.json sections must be the %d framework sections in order: %s" % (len(sections), [t for _, t in sections]))
+    if [x.get("n") for x in secs] != list(range(1, len(secs) + 1)):
+        errors.append("rubric.json sections must be numbered 1..%d" % len(secs))
     for x in secs:
         if not x.get("prompt") or len(x.get("criteria", [])) < 2:
             errors.append("rubric section %r needs a prompt and >= 2 criteria" % x.get("title"))
     sol = read(path, "solution.md")
     heads = re.findall(r"^## (\d+)\. (.+?)\s*$", sol, re.M)
-    if [(int(n), t) for n, t in heads] != [(i + 1, t) for i, (_, t) in enumerate(DESIGN_SECTIONS)]:
-        errors.append("solution.md needs '## 1. Scenario' ... '## 15. Build Order' in order, got %s" % heads)
+    if [(int(n), t) for n, t in heads] != [(i + 1, t) for i, (_, t) in enumerate(sections)]:
+        errors.append("solution.md needs '## 1. %s' ... '## %d. %s' in order, got %s" % (sections[0][1], len(sections), sections[-1][1], heads))
         return {}
     bodies = re.split(r"^## \d+\. .+$", sol, flags=re.M)[1:]
     words = {}
-    for (pillar, title), body in zip(DESIGN_SECTIONS, bodies):
-        if title != "Single View":
+    for (pillar, title), body in zip(sections, bodies):
+        if title == table_section:
+            if "**The one idea to hold:**" not in body or not re.search(r"^\|", body, re.M):
+                errors.append("solution.md section %r needs a table and a '**The one idea to hold:**' line" % title)
+        else:
             if "**Decision.**" not in body or "**Trap.**" not in body:
                 errors.append("solution.md section %r needs a **Decision.** and a **Trap.**" % title)
             else:

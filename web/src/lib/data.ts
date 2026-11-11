@@ -48,23 +48,31 @@ const DEFAULT_TRACKS: ProblemIndex["tracks"] = [
   { key: "applied", name: "Applied AI Engineering" },
   { key: "ml", name: "ML Foundations" },
   { key: "design", name: "System Design" },
+  { key: "leadership", name: "AI Leadership" },
 ];
+
+/** Fallback when an index entry has no track: the id ranges 1-99, 101-199, 201-299 and 301-399. */
+function trackForId(id: number): TrackKey {
+  return id >= 300 ? "leadership" : id >= 200 ? "design" : id > 100 ? "applied" : "ml";
+}
+
+/** Tracks whose problems are self-scored rubric answers rather than judged code. */
+export const RUBRIC_TRACKS: TrackKey[] = ["design", "leadership"];
 
 /** Fill in track/type for indexes built before tracks existed, and sort by id. */
 export function normalizeIndex(idx: ProblemIndex): ProblemIndex {
   const tracks = idx.tracks?.length ? idx.tracks : DEFAULT_TRACKS;
   const catTrack = new Map(idx.categories.map((c) => [c.key, c.track]));
-  const guess = (id: number): TrackKey => (id >= 200 ? "design" : id > 100 ? "applied" : "ml");
   const categories = idx.categories.map((c) => ({ ...c, track: c.track ?? "ml" }));
   const problems = [...idx.problems]
     .map((p) => {
-      const track = p.track ?? catTrack.get(p.category) ?? guess(p.id);
-      return { ...p, track, type: p.type ?? (track === "design" ? "design" : "code") } as ProblemSummary;
+      const track = p.track ?? catTrack.get(p.category) ?? trackForId(p.id);
+      return { ...p, track, type: p.type ?? (RUBRIC_TRACKS.includes(track) ? "design" : "code") } as ProblemSummary;
     })
     .sort((a, b) => a.id - b.id);
   return { ...idx, tracks, categories, problems, plans: idx.plans ?? [] };
 }
 
 export function trackOf(p: ProblemSummary): TrackKey {
-  return p.track ?? (p.id >= 200 ? "design" : p.id > 100 ? "applied" : "ml");
+  return p.track ?? trackForId(p.id);
 }

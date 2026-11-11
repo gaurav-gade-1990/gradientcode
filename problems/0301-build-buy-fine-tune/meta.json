@@ -1,0 +1,3 @@
+{"id": 301, "slug": "build-buy-fine-tune", "title": "Build vs Buy vs Fine-tune", "type": "design",
+ "difficulty": "Medium", "category": "lead-strategy", "tags": ["Build vs Buy", "Fine-tuning", "TCO", "Vendor Risk", "Data Contracts"],
+ "time_minutes": 45, "related": ["llm-capacity-cost-estimator", "model-router", "prompt-regression-gate", "self-hosted-llm-serving", "llm-gateway-cost-controls"]}

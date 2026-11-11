@@ -1,0 +1,123 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "What is the real decision, by when, and which numbers frame it?",
+   "criteria": [
+    "Restates the decision as what enterprise customers see by renewal season (month 6)",
+    "Derives the manual queue (16.8M a month) and the bookkeeper hours it costs",
+    "Names the enterprise contract clauses as the constraint that decides the case",
+    "States at least one thing out of scope"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who has a stake, what does each want, and how do you bring them along?",
+   "criteria": [
+    "Covers at least CFO, CPO, sales and legal, each with a distinct want",
+    "Says what the CPO gives up (consolidation slips two quarters) and how the trade is agreed",
+    "Includes the enterprise customers' controllers and what they need to trust the books",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "What are the real options, and how does each fare on calendar, contracts and cost?",
+   "criteria": [
+    "Includes 'do nothing' as an option",
+    "Shows that buying adds a sub-processor, so it needs 90 days' notice and enterprise customers can object",
+    "Shows that the fine-tune plan needs 6 engineers when only 4 are free, so it misses the date",
+    "Compares options on one table with the same criteria"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "What do you recommend, what do you give up, and what would make you change course?",
+   "criteria": [
+    "Makes one clear recommendation",
+    "Names what is given up, including the roadmap slip and the permanent run team",
+    "Says whether the decision is reversible and why",
+    "Gives a dated revisit with measurable triggers"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "What does each option cost over three years, and what is the opportunity cost?",
+   "criteria": [
+    "Compares 3-year totals, not year-one cost",
+    "Derives per-transaction model cost from tokens and list prices, including the Sonnet escalation",
+    "Separates new spend against the $1.5M cap from engineers already on payroll",
+    "Labels assumptions such as run-team size or revenue at risk"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Who owns what, during the build and after launch?",
+   "criteria": [
+    "Names a single accountable owner",
+    "Splits ownership of the model service and the product experience",
+    "Puts threshold and prompt changes behind an eval gate rather than a person"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "What is the plan to launch before renewal season, and where can it be stopped?",
+   "criteria": [
+    "Lands GA before renewal season (month 6)",
+    "Has at least one gate with a measurable threshold before launch",
+    "Starts the beta with renewing enterprise accounts",
+    "Includes the month-12 revisit as a milestone"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What could go wrong at this volume, and what controls it?",
+   "criteria": [
+    "Quantifies wrong postings a month from coverage and precision",
+    "Keeps every customer's data in its own context, with no training, and tests it",
+    "Has a fallback if the beta fails a gate",
+    "Puts the precision floor and opt-in in code or product, not in policy alone"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "How do you know it worked, and what would show it is causing harm?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Measures precision of auto-applied postings, not accuracy of all suggestions",
+    "Ties at least one metric to renewals or lost-deal notes",
+    "Tracks cost per transaction against the revisit trigger"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "What does each audience hear, and how often?",
+   "criteria": [
+    "Gives a one-line message for at least four audiences",
+    "Tells the CFO new spend and payroll cost separately",
+    "Stops sales from promising an accuracy number",
+    "Sets a cadence and says failed gates are reported too"
+   ]
+  }
+ ]
+}

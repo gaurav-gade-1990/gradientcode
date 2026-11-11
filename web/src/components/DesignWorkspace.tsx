@@ -9,12 +9,29 @@ import { Markdown } from "./Markdown";
 import { DifficultyPill, Pill, diffText } from "./ui";
 import { Gutter, PanelTabs, TopBar } from "./WorkspaceChrome";
 
-export const PILLARS: { key: Pillar; name: string }[] = [
-  { key: "A", name: "Scope & architecture" },
-  { key: "B", name: "Agents, retrieval & processing" },
-  { key: "C", name: "Data, infra & serving" },
-  { key: "D", name: "Health, quality & execution" },
-];
+type PillarDef = { key: Pillar; name: string };
+
+/** Pillar names and the badge label per rubric track; the sections themselves come from rubric.json. */
+const FRAMEWORKS: Record<"design" | "leadership", { label: string; pillars: PillarDef[] }> = {
+  design: {
+    label: "System Design",
+    pillars: [
+      { key: "A", name: "Scope & architecture" },
+      { key: "B", name: "Agents, retrieval & processing" },
+      { key: "C", name: "Data, infra & serving" },
+      { key: "D", name: "Health, quality & execution" },
+    ],
+  },
+  leadership: {
+    label: "AI Leadership",
+    pillars: [
+      { key: "A", name: "Frame" },
+      { key: "B", name: "Decide" },
+      { key: "C", name: "Execute" },
+      { key: "D", name: "Land" },
+    ],
+  },
+};
 const PILLAR_SECS = 5 * 60;
 const PASS = 0.7;
 
@@ -76,6 +93,9 @@ export function DesignWorkspace({ problem, index }: { problem: DesignProblem; in
   const { meta } = problem;
   const slug = meta.slug;
   const sections = problem.rubric.sections;
+  const framework = FRAMEWORKS[meta.track === "leadership" ? "leadership" : "design"];
+  // Only pillars that have sections in this rubric.
+  const PILLARS = framework.pillars.filter((p) => sections.some((s) => s.pillar === p.key));
   const budgetSecs = (meta.time_minutes ?? 45) * 60;
   const { solved } = useProgress();
   const [draft, setDraft] = useState<DesignDraft>(() => getDesignDraft(slug));
@@ -205,7 +225,7 @@ export function DesignWorkspace({ problem, index }: { problem: DesignProblem; in
             </div>
             <div className="mb-5 flex flex-wrap gap-2">
               <DifficultyPill d={meta.difficulty} />
-              <Pill>System Design</Pill>
+              <Pill>{framework.label}</Pill>
               <Pill>{meta.time_minutes ?? 45} min</Pill>
               {meta.tags.map((t) => (
                 <Pill key={t}>{t}</Pill>

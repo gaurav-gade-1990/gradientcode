@@ -83,7 +83,8 @@ test("stable-softmax: starter is Wrong Answer, reference solution is Accepted", 
   await setCode(page, solution("0001-stable-softmax"));
   await page.getByTestId("submit").click();
   await expect(page.getByTestId("result-status")).toHaveText("Accepted", { timeout: PY_READY });
-  await expect(page.getByTestId("result-passed")).toContainText("9 / 9 testcases passed");
+  // Every case passes, however many the problem has.
+  await expect(page.getByTestId("result-passed")).toHaveText(/^(\d+) \/ \1 testcases passed$/);
 
   await page.getByTestId("tab-submissions").click();
   await expect(page.getByTestId("submission-row").first()).toContainText("Accepted");
@@ -107,7 +108,7 @@ test("autograd driver problem is Accepted with its solution", async ({ page }) =
   await setCode(page, solution("0056-scalar-autograd-value"));
   await page.getByTestId("submit").click();
   await expect(page.getByTestId("result-status")).toHaveText("Accepted", { timeout: PY_READY });
-  await expect(page.getByTestId("result-passed")).toContainText("13 / 13");
+  await expect(page.getByTestId("result-passed")).toHaveText(/^(\d+) \/ \1 testcases passed$/);
 });
 
 test("a custom testcase runs and shows its output", async ({ page }) => {
