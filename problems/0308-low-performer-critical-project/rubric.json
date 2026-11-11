@@ -1,0 +1,103 @@
+{
+ "sections": [
+  {
+   "n": 1, "pillar": "A", "title": "Situation",
+   "prompt": "What is the real problem, by when, and which numbers frame it?",
+   "criteria": [
+    "Separates two problems: a go-live that depends on one person, and a person who needs clear feedback and support",
+    "Derives the harness finishing around week 14 at Dana's recent rate (15 days at about 1.1 a week)",
+    "Derives the team's 10 engineer-days of slack and the 9-day shortfall if nothing changes",
+    "States what isn't known yet (the cause) and doesn't guess at it"
+   ]
+  },
+  {
+   "n": 2, "pillar": "A", "title": "Stakeholders",
+   "prompt": "Who has a stake, what does each want, and how do you bring them along?",
+   "criteria": [
+    "Puts Dana first, with what Dana needs: clear expectations, privacy and support",
+    "Includes the HR partner, your manager, the chain and the peers doing extra reviews",
+    "Says what Lee takes on and what comes off Lee's plate",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3, "pillar": "B", "title": "Options",
+   "prompt": "What are the real options, and how does each do on the go-live and on fairness?",
+   "criteria": [
+    "Includes waiting and covering quietly as an option",
+    "Shows that a formal PIP now is blocked because no feedback is documented",
+    "Shows that removing Dana now is unfair and loses the harness knowledge",
+    "Compares options on one table with the same criteria"
+   ]
+  },
+  {
+   "n": 4, "pillar": "B", "title": "Decision and Trade-offs",
+   "prompt": "What do you do, what do you give up, and what would make you change course?",
+   "criteria": [
+    "Makes one clear call that both moves the critical path and starts a fair feedback process",
+    "Names what is given up, including Dana's ownership of the harness and Lee's own work",
+    "Says the re-plan is reversible and a formal process is not to be started lightly",
+    "Gives a dated checkpoint (week 4) with written criteria"
+   ]
+  },
+  {
+   "n": 5, "pillar": "B", "title": "Economics",
+   "prompt": "What does each option cost, in credits, revenue at risk, contractor spend and backfill?",
+   "criteria": [
+    "Prices waiting as about 8 weeks of credits ($320k) and the $4.8M termination right",
+    "Prices the contractor from hours and rate ($36k) and the engineer-days it adds",
+    "Prices an exit as a backfill cost and a 4-month vacancy that lands after go-live",
+    "Labels the assumed figures (rate, focus, backfill)"
+   ]
+  },
+  {
+   "n": 6, "pillar": "C", "title": "Org and Ownership",
+   "prompt": "Who owns what on the team for the next 10 weeks?",
+   "criteria": [
+    "Gives the harness one owner who isn't Dana, with Dana on a defined part",
+    "Gives the contractor bounded, non-critical work",
+    "Keeps you as owner of the feedback process, with HR as partner"
+   ]
+  },
+  {
+   "n": 7, "pillar": "C", "title": "Plan and Milestones",
+   "prompt": "What happens week by week, for the project and for Dana?",
+   "criteria": [
+    "Has the direct conversation in week 0, before any re-plan is announced",
+    "Lands the harness by week 6 under the new owner",
+    "Has written check-ins for Dana at weeks 2 and 4",
+    "Has a measurable project gate before go-live"
+   ]
+  },
+  {
+   "n": 8, "pillar": "C", "title": "Risk and Governance",
+   "prompt": "What keeps this fair, documented and lawful?",
+   "criteria": [
+    "Writes expectations as observable facts with dates, not judgments about character",
+    "Offers support (EAP, leave, flexibility) and doesn't ask for medical details",
+    "Brings HR in before the conversation and before any formal step",
+    "Protects against retaliation if Dana takes leave"
+   ]
+  },
+  {
+   "n": 9, "pillar": "D", "title": "Metrics",
+   "prompt": "How do you know it's working, for the project and for Dana?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Tracks harness completion and accuracy against the 97% gate",
+    "Tracks peer review workload and after-hours work as a guard on the team",
+    "Tracks that promised support was actually given, as a fairness guard"
+   ]
+  },
+  {
+   "n": 10, "pillar": "D", "title": "Communication",
+   "prompt": "What does each audience hear, and what stays private?",
+   "criteria": [
+    "Gives a one-line message for at least four audiences",
+    "Keeps Dana's situation private from the team and the customer",
+    "Tells your manager the risk and the plan in numbers",
+    "Sets a cadence for check-ins"
+   ]
+  }
+ ]
+}

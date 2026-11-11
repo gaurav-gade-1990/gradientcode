@@ -1,0 +1,3 @@
+{"id": 308, "slug": "low-performer-critical-project", "title": "A Low Performer on a Critical Project", "type": "design",
+ "difficulty": "Easy", "category": "lead-org", "tags": ["Performance Management", "Critical Path", "HR Partnership", "Documentation", "Delivery Risk"],
+ "time_minutes": 45, "related": ["document-intake-pipeline", "structured-output-repair", "prompt-regression-gate", "agent-eval-observability"]}

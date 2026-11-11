@@ -1,0 +1,3 @@
+{"id": 316, "slug": "explaining-eval-regression", "title": "Explaining an Eval Regression to Non-technical Leaders", "type": "design",
+ "difficulty": "Medium", "category": "lead-comms", "tags": ["Precision and Recall", "Confidence Intervals", "Sample Size", "Eval Regression", "Executive Communication"],
+ "time_minutes": 45, "related": ["prompt-regression-gate", "ab-test-significance", "agent-eval-observability", "pii-redaction-vault", "shadow-deployment-diff"]}

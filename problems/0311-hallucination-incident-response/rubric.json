@@ -1,0 +1,124 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "How bad is it, how fast is it growing, and what clocks are running?",
+   "criteria": [
+    "Derives the eligibility error rate (2.3%) and compares it with other topics and last month to locate the failure",
+    "Estimates employees affected so far (about 1,739) and added harm per day (about 580), labelling the one-employee-per-conversation assumption",
+    "Names both clocks: 18 days left in the window and the day-48 late-add deadline",
+    "Puts containment ahead of root-cause analysis"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who has a stake, what does each want, and how do you bring them along?",
+   "criteria": [
+    "Covers the escalating customer, all affected employers, employees, sales, legal and support, each with a distinct want",
+    "Addresses sales' request to notify only one customer and why it is declined",
+    "Reaches employees through their employers rather than directly",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "What are the containment options, and how does each do on harm, contact-center load and speed?",
+   "criteria": [
+    "Includes keep-running and full shutdown as options",
+    "Computes extra contacts for each option against the 2,500 of spare capacity",
+    "Shows that turning the topic off without cards overloads the center before the BPO arrives",
+    "Puts the options on one table with the same rows"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "What do you do, what do you give up, and when would you restore generated answers?",
+   "criteria": [
+    "Makes one call that combines rollback with narrow containment of the failing topic",
+    "Names what is given up, including handoffs for 30% of eligibility questions",
+    "Distinguishes reversible steps (flags, rollback) from the irreversible one (notification)",
+    "Sets a measurable condition for re-enabling generated eligibility answers"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "What does each option cost over the rest of the window, and what revenue is at stake?",
+   "criteria": [
+    "Prices overtime and BPO from the brief's per-contact costs for each option",
+    "Sizes the remediation review (about 302 hours) and who does it without cutting contact capacity",
+    "Puts the cost of keep-running in employees misled, not as zero",
+    "Weighs the response cost against the escalating customer's ARR and Q1 renewals, with the assumption labelled"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Who runs the incident, and who owns each workstream?",
+   "criteria": [
+    "Names one incident commander",
+    "Assigns separate owners for containment, remediation and customer notice",
+    "Gives the notification decision an executive owner",
+    "Keeps the postmortem blameless and owned by someone other than the release author"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "What happens in the first hour, the first week and the next six weeks?",
+   "criteria": [
+    "Contains within the first hour",
+    "Notifies all affected employers inside the 5-business-day contract window",
+    "Files carrier late-adds with slack before day 48",
+    "Has gates with checkable conditions, such as cards spot-checked or generation confirmed off in logs"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What could still go wrong, and what stops the next release repeating this?",
+   "criteria": [
+    "Re-checks every logged eligibility answer, not a sample, to find affected employees",
+    "Changes the release gate to judge each high-impact topic, not the overall average",
+    "Adds a runtime check of answers against the employer's plan rules",
+    "Avoids promising zero hallucinations"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "How do you know the response worked, and what would it hide?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Tracks affected employees corrected, not just the error rate",
+    "Tracks handoff load against contact-center capacity",
+    "Ties at least one metric to renewals"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "What does each audience hear, when, and from whom?",
+   "criteria": [
+    "Gives a one-line message for at least four audiences, including affected employers and employees",
+    "Calls the escalating customer personally and early",
+    "Sets an update cadence that tightens during containment",
+    "Shares the postmortem with customers"
+   ]
+  }
+ ]
+}

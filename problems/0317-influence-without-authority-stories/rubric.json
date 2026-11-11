@@ -1,0 +1,123 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "What was the setting, what was your role, and why did you have no authority over the people who had to change?",
+   "criteria": [
+    "Names the company type, their own role and one number for scale (revenue, volume or headcount) in three sentences or fewer",
+    "States plainly that the other org did not report to them or their manager",
+    "Quantifies the problem in money or volume a year, with the arithmetic shown",
+    "Names a deadline or planning window that made the timing matter"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who had to change, what did each of them want, and how did you bring them along?",
+   "criteria": [
+    "Names the decision-maker in the other org and what they were protecting (a date, a budget or a commitment)",
+    "Includes at least one person below the decision-maker they won over first",
+    "Includes their own manager or director and what that person gave up",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "What routes did you consider for getting the change, and why did most of them fail?",
+   "criteria": [
+    "Lists escalation as an option and says why they did not use it",
+    "Lists doing it themselves (a workaround in their own system) and names its long-term cost",
+    "Lists waiting for the next planning cycle and prices the delay",
+    "Compares the options on the same criteria, such as time to effect and who owns the result"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "What did you decide to ask for, and what did you give up to get it?",
+   "criteria": [
+    "Names one specific ask, sized in people and time, not 'alignment'",
+    "Names something they or their team gave up (roadmap, headcount or credit)",
+    "Says how the ask was made easy to stop, with a checkpoint and a condition",
+    "Uses 'I' for the decision and the trade, not 'we'"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "What was at stake in numbers, and what did the change cost?",
+   "criteria": [
+    "Derives the annual value at stake from volume and unit cost",
+    "Counts the cost of their own give-up (delayed launch or lent engineers), not only the other org's",
+    "Separates new spend from people already on payroll",
+    "Labels every assumed figure as assumed"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Who owned the work during the change and after it?",
+   "criteria": [
+    "Leaves the other org owning the result after a dated handover",
+    "Describes their own role during the work, such as tech lead with no reporting line",
+    "Names a written agreement, such as a data contract or an OKR, that outlasts the people involved"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "What did you do in what order, before and after the other org agreed?",
+   "criteria": [
+    "Shows the influence steps before the decision meeting (evidence, one-to-ones, a pilot)",
+    "Says who saw the proposal before the decision-maker did, and why",
+    "Has at least one checkpoint with a measurable condition during the work",
+    "Gives a timeline in weeks or months"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What could have gone wrong, for the other org, the customer and the relationship?",
+   "criteria": [
+    "Names the risk to the other org's commitment and how it was protected",
+    "Names a risk to customers from the change itself and a control for it",
+    "Names a relationship risk, such as the decision-maker feeling ambushed, and how it was avoided",
+    "Quantifies at least one risk"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "What was the measured result, and what showed nothing else broke?",
+   "criteria": [
+    "Gives a quantified result with a before and after number",
+    "Pairs the result with a guard metric, such as the other org's date being hit",
+    "Includes a result that matters to the other org, not only to them",
+    "Claims the measured result, not the full theoretical value"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "How did you tell each audience, and how do you tell the story in two minutes?",
+   "criteria": [
+    "Tells the story in STAR order (Situation, Task, Action, Result) in about two minutes",
+    "Gives each key audience a different one-line message",
+    "Says what they would do differently, specifically",
+    "Keeps the Action part the longest, in first person"
+   ]
+  }
+ ]
+}

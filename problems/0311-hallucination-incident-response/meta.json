@@ -1,0 +1,3 @@
+{"id": 311, "slug": "hallucination-incident-response", "title": "Production Hallucination Incident Response", "type": "design",
+ "difficulty": "Medium", "category": "lead-governance", "tags": ["Incident Response", "Hallucination", "Containment", "Customer Notification", "Postmortem"],
+ "time_minutes": 45, "related": ["grounded-answer-check", "citation-hallucination-check", "feature-flag-rollout", "canary-analysis", "prompt-regression-gate", "agent-eval-observability"]}

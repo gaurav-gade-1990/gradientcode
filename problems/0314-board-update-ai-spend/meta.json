@@ -1,0 +1,3 @@
+{"id": 314, "slug": "board-update-ai-spend", "title": "Board Update on AI Spend", "type": "design",
+ "difficulty": "Hard", "category": "lead-comms", "tags": ["Board Communication", "AI Portfolio ROI", "Budget Overrun", "Margin Guidance", "Stage Gates"],
+ "time_minutes": 60, "related": ["tenant-cost-attribution", "llm-gateway-cost-controls", "usage-metering-invoice", "ab-test-significance", "llm-capacity-cost-estimator"]}

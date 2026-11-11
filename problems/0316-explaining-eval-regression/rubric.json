@@ -1,0 +1,119 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "What are the executives really asking, and which numbers frame the answer?",
+   "criteria": [
+    "Derives 2,000 frauds a month and $130k a month per recall point",
+    "Shows the recall gap rests on 4 net claims out of 40 (8 disagreements, 6–2)",
+    "Explains that a model flagging nothing scores 96% accuracy",
+    "States that rollback is ruled out by the privacy rule"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who is reacting to which number, and how do you bring each along?",
+   "criteria": [
+    "Pre-briefs the SIU director and compliance before Thursday",
+    "Gives the CFO the cost per recall point in dollars",
+    "Includes the chief claims officer's concern about false alarms on honest claims",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "What messages could you take into the room, and how does each fare?",
+   "criteria": [
+    "Includes 'accuracy is up' and 'roll back' as options and shows why each fails",
+    "Explains in plain words why accuracy and recall moved in opposite directions",
+    "Compares options on truth, action and trust on one table"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "What do you do now, and what does it cost?",
+   "criteria": [
+    "Lowers the threshold now and derives the flag volume (2,900 a month) against SIU capacity",
+    "Names what is given up, including the false alarms the redacted version had saved",
+    "Says which steps are reversible and that the redaction is not",
+    "Sets a revisit with measurable triggers after the replay"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "How uncertain is the gap, and what does knowing cost?",
+   "criteria": [
+    "Derives a 95% range for each recall figure (e.g. 68–91% and 57–84%)",
+    "Gives the range on the gap in dollars a month, not only the $1.3M point estimate",
+    "Derives the sample needed for ±5 points (288 frauds) and compares audit cost with the replay",
+    "Shows precision and false alarms a month for each version"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Who owns the threshold, the replay and the fix?",
+   "criteria": [
+    "Names a single accountable owner",
+    "Makes the SIU director a co-owner of the threshold",
+    "Requires compliance sign-off on each new signal"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "What happens between now and the fix?",
+   "criteria": [
+    "Lowers the threshold before Thursday",
+    "Commits to a narrowed range by a date (two weeks)",
+    "Has a measurable gate before the fix ships"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What could still mislead, and what controls it?",
+   "criteria": [
+    "Names the bias in replaying historical frauds and how to check it",
+    "Adds a recall gate to future releases",
+    "Retires accuracy as a headline metric"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "How will leaders read model quality from now on?",
+   "criteria": [
+    "Pairs recall with precision or SIU load as a guard",
+    "Reports every eval figure as a count out of n with a range",
+    "Ties a metric to dollars of leakage"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "What exactly do you say on Thursday?",
+   "criteria": [
+    "Gives an opening line that answers 'broken?' and 'roll back?' in plain words",
+    "Puts the slide in counts out of 40 and dollars, not jargon",
+    "Answers 'is the AI broken?' by explaining fewer flags, not by citing accuracy",
+    "Answers 'why not roll back?' with the rule and the fix date"
+   ]
+  }
+ ]
+}

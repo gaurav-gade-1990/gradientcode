@@ -1,0 +1,119 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "What is the board really asking, and which numbers frame the answer?",
+   "criteria": [
+    "Derives the overrun ($6.6M, 36.7%) and its gross effect on margin (27.5 bp) against the 10 bp cushion",
+    "Shows $17.7M of $18M is already spent, so the year cannot return to plan",
+    "Splits the overrun by cause: success (service agent), slippage (forecasting), waste (marketing and copilot)",
+    "Nets the extra savings ($3.6M) against the overrun before judging guidance"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who has a stake in the update, and how do you bring each along before the meeting?",
+   "criteria": [
+    "Includes the audit committee chair and a pre-brief before the meeting",
+    "Agrees the net figure and Q4 actions with the CFO before the deck is written",
+    "Names the CMO as the stakeholder who loses, and what they are offered",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "What framings or asks could you bring to the board, and how does each fare?",
+   "criteria": [
+    "Includes at least report-only, cut-to-plan and a re-base option on one table",
+    "Shows cut-to-plan only works by stopping the service agent during the holiday peak",
+    "Compares each option's net hit to operating profit against the 10 bp cushion"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "What do you recommend, what do you give up, and when would you revisit?",
+   "criteria": [
+    "Makes one recommendation with the Q4 actions taken before the meeting",
+    "Derives the year-end figure ($22.475M) from the marketing pause and seat cut",
+    "Says which actions are reversible and that board trust is the irreversible part",
+    "Gives revisit triggers that can be measured (a 10% quarterly overrun, a repeat-contact rise)"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "What did each initiative cost and return, and what is the net effect on the plan?",
+   "criteria": [
+    "Shows cost and measured value per initiative, including that marketing's range includes zero",
+    "Derives the net hit after actions: $0.875M, about 3.6 bp",
+    "Gives the all-in cost including the AI team ($28.8M) and labels the $210k assumption",
+    "Derives the agent's unit economics ($4.13 against $7.00 a contact)"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Who owns spend and who owns value from now on?",
+   "criteria": [
+    "Names a business owner accountable for each initiative's value number",
+    "Keeps one accountable owner for portfolio spend and gates",
+    "Sets an escalation rule for overruns before money is spent"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "What happens between now and the board, and over the next year?",
+   "criteria": [
+    "Takes the Q4 actions and the CFO sign-off before the board meeting",
+    "Schedules the audit chair pre-brief before the deck is final",
+    "Has a dated gate with a measurable condition for the forecasting tranche"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What could go wrong next, and what controls it?",
+   "criteria": [
+    "Names a second surprise as the main risk, not the spend already made",
+    "Has a quality guard on the service agent it is scaling",
+    "Builds the overrun trigger and tranche gate into the budget, not into a policy note"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "How will the board know next year is working?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Measures the service agent per resolved contact, not as a fixed budget",
+    "Reports value signed by business owners and reconciled by finance, not usage counts"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "What exactly do you say in the room?",
+   "criteria": [
+    "Gives an opening line that states the overrun and the net margin effect in the first sentence",
+    "Shows one slide with all five initiatives, their spend, value and call",
+    "Answers 'why trust next year's number?' with priced and gated lines, not a promise",
+    "Answers 'why not stop?' with the cost of stopping the service agent"
+   ]
+  }
+ ]
+}

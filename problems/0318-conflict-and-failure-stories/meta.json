@@ -1,0 +1,3 @@
+{"id": 318, "slug": "conflict-and-failure-stories", "title": "Conflict and Failure: Story Bank", "type": "design",
+ "difficulty": "Medium", "category": "lead-comms", "tags": ["Behavioral", "Story Bank", "Failure", "Conflict", "STAR"],
+ "time_minutes": 45, "related": ["canary-analysis", "feature-flag-rollout", "agent-eval-observability", "human-approval-gates", "slo-burn-rate-alerts"]}

@@ -1,0 +1,3 @@
+{"id": 307, "slug": "ai-hiring-plan-leveling", "title": "AI Hiring Plan and Leveling", "type": "design",
+ "difficulty": "Medium", "category": "lead-org", "tags": ["Hiring Plan", "Leveling", "Compensation Bands", "Internal Equity", "Internal Mobility"],
+ "time_minutes": 45, "related": ["grounded-answer-check", "prompt-regression-gate", "agent-eval-observability", "ai-coworker-inbox-triage", "react-tool-loop"]}

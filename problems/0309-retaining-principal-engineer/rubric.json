@@ -1,0 +1,103 @@
+{
+ "sections": [
+  {
+   "n": 1, "pillar": "A", "title": "Situation",
+   "prompt": "What is the real decision, by when, and which numbers frame it?",
+   "criteria": [
+    "Restates the decision as what to offer within your authority in 10 days, and how to protect the refresh either way",
+    "Derives the gap between the offer and current pay ($160k, 44%) and between the offer and the band maximum ($120k)",
+    "Identifies key-person risk on the refresh as a problem to fix whatever Maya decides",
+    "States at least one thing out of scope or unknown"
+   ]
+  },
+  {
+   "n": 2, "pillar": "A", "title": "Stakeholders",
+   "prompt": "Who has a stake, what does each want, and how do you bring them along?",
+   "criteria": [
+    "Puts Maya first, with her stated reason (scope and on-call) ahead of money",
+    "Includes HR, your manager, Ravi and the on-call rotation, each with a distinct want",
+    "Includes the two other principals as an internal-equity stake",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3, "pillar": "B", "title": "Options",
+   "prompt": "What are the real options, and how does each do on the 10-day deadline, fairness and the refresh?",
+   "criteria": [
+    "Includes letting her go well as an option",
+    "Shows that matching $520k can't be promised in 10 days and breaks the band",
+    "Rejects promising a committee outcome or a future promotion to close the decision",
+    "Compares options on one table with the same criteria"
+   ]
+  },
+  {
+   "n": 4, "pillar": "B", "title": "Decision and Trade-offs",
+   "prompt": "What do you offer, what do you give up, and what would make you change course?",
+   "criteria": [
+    "Leads with the role (BEC lead, off on-call) and adds cash and equity within policy",
+    "Says plainly that the offer does not match $520k, and by how much ($45k in year one)",
+    "Names what is given up, including Maya on the refresh and the external lead search",
+    "Gives a dated revisit with measurable triggers"
+   ]
+  },
+  {
+   "n": 5, "pillar": "B", "title": "Economics",
+   "prompt": "What does keeping her cost, and what does losing her cost, over the same horizon?",
+   "criteria": [
+    "Prices the counter over 3 years ($270k) and a cash match over 3 years ($480k)",
+    "Prices losing her: agency fee, BEC launch delay ($250k a month) and the refresh precedent ($1.1M ARR)",
+    "Shows how converting the lead role to a senior hire funds the counter",
+    "Labels all compensation figures as assumed"
+   ]
+  },
+  {
+   "n": 6, "pillar": "C", "title": "Org and Ownership",
+   "prompt": "Who owns what after Maya's role changes?",
+   "criteria": [
+    "Makes Ravi the owner of this refresh, with Maya as reviewer",
+    "Keeps the on-call rotation at 4 without Maya",
+    "Gives Maya a defined BEC remit with a launch milestone"
+   ]
+  },
+  {
+   "n": 7, "pillar": "C", "title": "Plan and Milestones",
+   "prompt": "What happens in the next 10 days and the next 10 weeks?",
+   "criteria": [
+    "Has a stay conversation in the first days, before making the offer",
+    "Gets HR approval for the offer inside the 10-day window",
+    "Completes the runbook and a dry run before the refresh is due",
+    "Includes a revisit at 6 months"
+   ]
+  },
+  {
+   "n": 8, "pillar": "C", "title": "Risk and Governance",
+   "prompt": "What could go wrong with fairness, policy and the refresh?",
+   "criteria": [
+    "Keeps the offer within policy and doesn't promise a committee outcome",
+    "Flags the internal-equity effect on the two other principals to HR",
+    "Avoids teaching the team that an outside offer is the way to get scope or pay",
+    "Has a plan for the refresh if Maya leaves anyway"
+   ]
+  },
+  {
+   "n": 9, "pillar": "D", "title": "Metrics",
+   "prompt": "How do you know it worked, and what would show it is causing harm?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Tracks the refresh on time with customer-reported misses as the guard",
+    "Tracks the on-call load on the rest of the team",
+    "Tracks Maya's BEC milestones, not just whether she stayed"
+   ]
+  },
+  {
+   "n": 10, "pillar": "D", "title": "Communication",
+   "prompt": "What does each audience hear, and what stays private?",
+   "criteria": [
+    "Gives a one-line message for at least four audiences",
+    "Keeps the outside offer private from the team",
+    "Tells your manager the cost of both outcomes",
+    "Sets a cadence for following up with Maya after she decides"
+   ]
+  }
+ ]
+}

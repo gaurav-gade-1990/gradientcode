@@ -1,0 +1,104 @@
+{
+ "sections": [
+  {
+   "n": 1, "pillar": "A", "title": "Situation",
+   "prompt": "What is the real decision, by when, and which numbers frame it?",
+   "criteria": [
+    "Restates the decision as the smallest org change that passes the review at month 9 without touching the restoration commitment or the rate case",
+    "Derives the governance workload (103 person-weeks) and the review window (39 weeks)",
+    "Names the three hard floors: headcount frozen at 40, data science at 13 or more, grid operations squad untouched",
+    "States at least one thing out of scope"
+   ]
+  },
+  {
+   "n": 2, "pillar": "A", "title": "Stakeholders",
+   "prompt": "Who has a stake, what does each want, and how do you bring them along?",
+   "criteria": [
+    "Covers at least the CEO or board, the CRO, the VP of Rates and the SVP of Electric Operations, each with a distinct want",
+    "Says what the VP of Rates gives up (3 data scientists, leaving the team at its floor of 13) and what they get in return",
+    "Includes the 40 staff, and treats the 3 people who move as a separate group",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3, "pillar": "B", "title": "Options",
+   "prompt": "What are the real org options, and how does each fare on the review, the restoration commitment and people?",
+   "criteria": [
+    "Includes 'change nothing' (or a steering committee only) as an option",
+    "Counts how many of the 40 change manager under each option",
+    "Shows that 3 in-house validators cannot finish 103 person-weeks alone (93 available), so outside validation is needed",
+    "Compares options on one table with the same criteria"
+   ]
+  },
+  {
+   "n": 4, "pillar": "B", "title": "Decision and Trade-offs",
+   "prompt": "What org do you recommend, what do you give up, and what would make you change it?",
+   "criteria": [
+    "Makes one clear recommendation with governance reporting outside the AI and business lines",
+    "Names what is given up, including direct control of the squads and data science left at its floor",
+    "Says which moves are hard to reverse and why the recommendation keeps later options open",
+    "Gives a dated revisit (month 12) with measurable triggers"
+   ]
+  },
+  {
+   "n": 5, "pillar": "B", "title": "Economics",
+   "prompt": "What does each option cost or save over three years, in cash and in people?",
+   "criteria": [
+    "Prices vendor consolidation over the same 3-year horizon for every option ($0.6M a year from month 6)",
+    "Prices reorg attrition from the number of people changing manager, with the assumption labelled",
+    "Prices the restoration risk as an expected slip in the $12M ramp, not as zero",
+    "Separates cash from freed capacity of people already on payroll"
+   ]
+  },
+  {
+   "n": 6, "pillar": "C", "title": "Org and Ownership",
+   "prompt": "Who reports to whom, and who decides what?",
+   "criteria": [
+    "Gives the new structure with headcounts that add up to 40",
+    "Puts validators under the CRO, not under the VP of AI or a business head",
+    "Says how standards bind teams that don't report to you (the contract, the gateway, the inventory)",
+    "Names one owner for the review readiness"
+   ]
+  },
+  {
+   "n": 7, "pillar": "C", "title": "Plan and Milestones",
+   "prompt": "What happens between the board meeting and month 12?",
+   "criteria": [
+    "Moves the 3 validators by about week 8 and finishes validation before the review",
+    "Times the contract consolidation to the renewals within 6 months",
+    "Has at least one gate with a measurable threshold",
+    "Includes the month-12 revisit as a milestone"
+   ]
+  },
+  {
+   "n": 8, "pillar": "C", "title": "Risk and Governance",
+   "prompt": "What could go wrong, including the HR and legal process of the reorg itself?",
+   "criteria": [
+    "Picks the 3 people who move by stated criteria, asks for volunteers first, and keeps level and pay unchanged",
+    "Covers the risk that data science at 13 loses one more person, with a named response",
+    "Covers squads bypassing the shared gateway or contract",
+    "Has HR and legal review the role changes before anyone is told"
+   ]
+  },
+  {
+   "n": 9, "pillar": "D", "title": "Metrics",
+   "prompt": "How do you know the org works, and what would show it is causing harm?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Tracks attrition in the groups that changed manager against the 15% baseline",
+    "Tracks the restoration run-rate against the $12M commitment",
+    "Measures validation so it can't quietly become a release bottleneck"
+   ]
+  },
+  {
+   "n": 10, "pillar": "D", "title": "Communication",
+   "prompt": "What does each audience hear, and in what order?",
+   "criteria": [
+    "Gives a one-line message for at least five audiences",
+    "Tells the people who change manager before the wider announcement, in person",
+    "Tells the board the cost of the design and what is deliberately left for month 12",
+    "Sets a cadence and an order of announcement"
+   ]
+  }
+ ]
+}

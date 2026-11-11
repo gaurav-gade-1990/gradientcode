@@ -1,0 +1,123 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "What is the council really deciding, and which numbers frame it?",
+   "criteria": [
+    "Identifies in-house data engineering on customer data (84 requested, 60 available) as the binding constraint",
+    "Shows that ML capacity and budget are not the binding constraints",
+    "Notes that the $39M of claims rests on different kinds of evidence and can't be added as is",
+    "Spots that P1, P2 and P8 draw on the same care calls"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who has a stake, what does each want, and how do you bring them along?",
+   "criteria": [
+    "Covers the CFO and at least four of the five sponsoring executives",
+    "Says what the unfunded sponsors (P7, P8) get instead of a flat no",
+    "Includes the data engineers and their load",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "What are the real ways to build the portfolio, and how does each compare?",
+   "criteria": [
+    "Compares at least two ranking methods, including ranking by claimed benefit",
+    "Shows that moving non-customer-data work (P4, P5) to contractors frees the bottleneck",
+    "Shows what spreading the bottleneck across everyone does",
+    "Compares options on one table with funded set, months used and weighted value"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "Which proposals are in, which are out, and what would change the line?",
+   "criteria": [
+    "Draws one clear cut line with every proposal placed",
+    "Funds P1 in stages with a measurable gate",
+    "Names a fallback for the freed capacity if P1's gate fails",
+    "Justifies P6 as a risk decision rather than on ROI alone"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "What is each proposal worth after weights and overlaps, and what does the portfolio cost?",
+   "criteria": [
+    "Applies finance's weights to every claim and uses P3's measured effect (0.03, not 0.05)",
+    "Removes the P1 and P2 overlap with a stated calculation",
+    "Ranks by weighted benefit per in-house data-engineer-month",
+    "Separates new spend ($4.2M) from payroll ($2.71M) and gives the portfolio total"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Who decides, who owns each benefit, and who measures it?",
+   "criteria": [
+    "Names a single accountable owner for the portfolio",
+    "Makes each sponsor own their benefit figure as weighted",
+    "Has finance, not sponsors, measure realized benefit",
+    "Makes re-allocating data-engineer months a council decision"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "What happens through the year, and where can money and people move?",
+   "criteria": [
+    "Includes a dated P1 gate with a measurable threshold",
+    "Has a quarterly review with a rule for stopping under-delivering projects",
+    "Puts P6 through a shadow phase before it blocks customers",
+    "Ends with next year's portfolio informed by measured results"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What could go wrong with the portfolio, and what controls it?",
+   "criteria": [
+    "Quantifies how fragile the bottleneck is (93% allocated; one leaver costs about 12 months)",
+    "Keeps contractors off customer data with access controls",
+    "Guards P1 against deflection that comes back as repeat calls",
+    "Addresses benefits failing to materialize with a concrete rule"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "How will the council know a year from now whether the portfolio worked?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Measures realized against weighted benefit per project",
+    "Reports project by project, not only the portfolio total"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "What does each executive hear, and how often?",
+   "criteria": [
+    "Gives a one-line message for at least four audiences",
+    "Tells the CFO weighted benefit, new spend and payroll separately",
+    "Pre-wires the unfunded sponsors before the council meets",
+    "Sets a cadence and says failed gates and missed benefits are reported"
+   ]
+  }
+ ]
+}

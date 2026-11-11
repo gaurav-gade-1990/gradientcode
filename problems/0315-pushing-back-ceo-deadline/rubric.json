@@ -1,0 +1,120 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "What is the CEO really asking for, and which numbers frame the conversation?",
+   "criteria": [
+    "Restates the CEO's goal as anchor renewals and a credible summit, not a feature list",
+    "Derives the monthly exposure of autonomy everywhere: $540k under-quoting and $990k fraud, labelling the fraud rate as assumed",
+    "Derives the 17-week critical path from vetting onboarding, integration and shadow run",
+    "Names week 18 (the renewal) as the date that matters alongside week 8"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who has a stake in the deadline, and how do you bring each along?",
+   "criteria": [
+    "Pushes back to the CEO in a one-to-one, not the staff meeting",
+    "Gives carrier compliance and the COO a role on the risks they own",
+    "Covers the anchor shippers and the brokers, each with a distinct want",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "What answers could you give the CEO, and how does each fare?",
+   "criteria": [
+    "Includes yes-as-asked, a flat no and a re-scoped yes on one table",
+    "Prices option A's exposure from week 8 to week 17 (about $3.2M)",
+    "Derives the autonomous anchor volume (1,860 loads a month) and its under-quote ceiling",
+    "Scores each option on what is true on stage and on the CEO's promise"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "What do you recommend, and what does it give up?",
+   "criteria": [
+    "Makes one recommendation that keeps the summit date",
+    "States what the $400k buys (3 weeks) and why it cannot buy the date",
+    "Says to sign the vetting contract this week because the clock starts at signature",
+    "Names a measurable trigger that changes what goes on stage"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "What money and risk sit behind each answer?",
+   "criteria": [
+    "Compares exposure over the same window for each option",
+    "Separates new spend ($400k, $18k a month) from engineers already on payroll",
+    "Quantifies the co-pilot's value in broker hours without claiming it as cash",
+    "States the opportunity cost of building two products at once"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Who owns the risky decisions?",
+   "criteria": [
+    "Names a single accountable owner",
+    "Gives the trusted-carrier list to compliance and the price band to pricing",
+    "Agrees the stage words jointly with the CEO and CRO"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "What happens between Friday and week 18?",
+   "criteria": [
+    "Has a measurable shadow gate before the summit",
+    "Puts vetting live by week 10 and all-shipper autonomy by week 17",
+    "Has a fallback of co-pilot only if the gate fails"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What could go wrong after the announcement, and what controls it?",
+   "criteria": [
+    "Names cargo theft on an autonomous booking as the main risk",
+    "Removes a carrier from the trusted list on any bank-detail change",
+    "Puts the price band and trusted list in the booking path, not in guidance"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "How do you know the counter-offer worked?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Tracks margin per autonomous load against broker-booked loads",
+    "Ties a metric to the anchor renewals"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "What exactly do you say to the CEO?",
+   "criteria": [
+    "Gives an opening line that leads with what you can deliver before the risk",
+    "Writes the one paragraph the CEO can use as stage words",
+    "Answers 'why can't we match the competitor?' with a date and a priced risk",
+    "Answers 'are you making me walk it back?' by keeping the promise to the two anchors"
+   ]
+  }
+ ]
+}

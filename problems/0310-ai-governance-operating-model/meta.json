@@ -1,0 +1,3 @@
+{"id": 310, "slug": "ai-governance-operating-model", "title": "AI Governance Operating Model", "type": "design",
+ "difficulty": "Hard", "category": "lead-governance", "tags": ["AI Governance", "Operating Model", "Risk Tiering", "EU AI Act", "Three Lines of Defense", "Regulator Review"],
+ "time_minutes": 60, "related": ["bank-kyc-agent", "agent-eval-observability", "model-registry-stages", "hash-chained-audit-log", "policy-engine"]}

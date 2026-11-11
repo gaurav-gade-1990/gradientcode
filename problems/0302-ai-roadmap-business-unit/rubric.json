@@ -1,0 +1,123 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "What is the real decision, and which numbers and dates frame it?",
+   "criteria": [
+    "Says the ERP freeze (months 4-9) decides the order of work, not only the value ranking",
+    "Derives capacity (84 engineer-months) against demand (102) and the 21-month post-freeze window",
+    "Derives today's blended win rate (24.25%) and the $57.6M quoted a month",
+    "Names the GM's $3M promise as something to test, and states one thing out of scope"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who has a stake, what does each want, and how do you bring them along?",
+   "criteria": [
+    "Covers the GM and at least four of the five sponsors, each with a distinct want",
+    "Says what BU finance and the VP Field Sales get instead of what they asked for",
+    "Includes the ERP programme lead and what you promise them",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "What are the real ways to fill the year, and how does each fare against the freeze?",
+   "criteria": [
+    "Compares at least two whole-year sequences, not just a list of initiatives",
+    "Notices that draft-only Quote Assist writes nothing to ERP and can ship during the freeze",
+    "Shows that write-back and AR triage cannot both fit the post-freeze window",
+    "Compares options on one table with the same criteria"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "What roadmap do you recommend, what do you give up, and what would change it?",
+   "criteria": [
+    "Makes one clear roadmap with initiatives placed by quarter",
+    "Names what is cut or deferred (AR triage, built account briefs) and why",
+    "Says which parts are reversible",
+    "Sets a dated checkpoint for an ERP slip with a pre-agreed alternative"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "What is each initiative worth at month 12, and what does the plan cost?",
+   "criteria": [
+    "Derives win-rate gains from the 4-hour share and turns them into gross profit at 24%",
+    "Discounts the speed-to-win link as partly correlation, labelled as an assumption",
+    "Gives a floor and an upside run-rate ($1.95M and $3.07M)",
+    "Separates new spend against the $900k cap from engineers already on payroll"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Who owns the roadmap, each initiative and the value number?",
+   "criteria": [
+    "Names a single accountable owner",
+    "Makes sponsors own adoption targets, not just requests",
+    "Has finance, not the AI team, report the run-rate"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "What ships when, and where can the plan be stopped or changed?",
+   "criteria": [
+    "Puts something live during the freeze (month 4 to 9)",
+    "Has at least one gate with a measurable threshold",
+    "Plans for the replica changing at cutover",
+    "Includes the month-9 checkpoint before the post-freeze window"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What could go wrong, and what controls it?",
+   "criteria": [
+    "Quantifies wrong SKU matches a month (about 20,000 at 86%)",
+    "Keeps pricing in ERP so AI errors can't leak margin",
+    "Has a fallback if the ERP cutover slips",
+    "Keeps a rep confirming each line before a quote goes out"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "How do you know the roadmap worked, and what would show it is causing harm?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Guards win rate with margin per won quote",
+    "Measures the speed-to-win effect against non-pilot branches",
+    "Ties the headline metric to gross profit, not minutes saved"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "What does each audience hear, and how often?",
+   "criteria": [
+    "Gives a one-line message for at least four audiences",
+    "Resets the GM's $3M to a floor and an upside before the quarterly review",
+    "Tells deferred sponsors when their work starts and why",
+    "Sets a cadence and says failed gates are reported too"
+   ]
+  }
+ ]
+}

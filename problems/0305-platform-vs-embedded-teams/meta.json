@@ -1,0 +1,3 @@
+{"id": 305, "slug": "platform-vs-embedded-teams", "title": "Platform Team vs Embedded AI Teams", "type": "design",
+ "difficulty": "Hard", "category": "lead-strategy", "tags": ["Org Design", "AI Platform", "Reorg", "Model Spend", "AI Risk Ownership"],
+ "time_minutes": 60, "related": ["llm-gateway-cost-controls", "model-router", "prompt-caching-cost", "tenant-cost-attribution", "shared-ai-coworker-platform", "mcp-tool-platform"]}
