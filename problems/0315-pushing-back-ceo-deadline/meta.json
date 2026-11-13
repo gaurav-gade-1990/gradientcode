@@ -1,0 +1,3 @@
+{"id": 315, "slug": "pushing-back-ceo-deadline", "title": "Pushing Back on a CEO Deadline", "type": "design",
+ "difficulty": "Medium", "category": "lead-comms", "tags": ["Managing Up", "Scope Negotiation", "Critical Path", "Autonomy Risk", "Executive Communication"],
+ "time_minutes": 45, "related": ["human-approval-gates", "policy-engine", "feature-flag-rollout", "shadow-deployment-diff", "canary-analysis"]}

@@ -1,0 +1,3 @@
+{"id": 304, "slug": "kill-or-scale-pilot", "title": "Kill or Scale a Stalled Pilot", "type": "design",
+ "difficulty": "Easy", "category": "lead-strategy", "tags": ["Kill or Scale", "Pilot Evaluation", "Sunk Cost", "Fair Housing", "Team Capacity"],
+ "time_minutes": 45, "related": ["ab-test-significance", "agent-eval-observability", "prompt-regression-gate", "feature-flag-rollout", "policy-engine", "prompt-caching-cost"]}

@@ -1,0 +1,124 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "What is really being decided, and which numbers and dates frame it?",
+   "criteria": [
+    "Separates the 90-day risk control, the platform and the operating model into distinct decisions",
+    "Derives next year's model spend with compounding growth ($25.1M), not 12 × $1.5M",
+    "Identifies the 36 infrastructure roles (22 needed) as the duplication, not all 150 staff",
+    "States the autos launch and the 90-day deadline as the clash that shapes the plan"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who has a stake, what does each want, and how do you bring them along?",
+   "criteria": [
+    "Covers the CEO, audit committee, CFO, CTO and at least two unit presidents, each with a distinct want",
+    "Says what the CTO gets when their proposal is not adopted",
+    "Includes the infrastructure staff who move and what they are told",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "What are the real operating models, and how does each fare on people, money and risk?",
+   "criteria": [
+    "Includes the status quo, the CTO's full centralization and at least one hybrid",
+    "Prices extra attrition from HR's data for each option",
+    "Shows how the 90-day control is met under each option",
+    "Compares options on one table over the same 3-year horizon"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "What do you recommend, what do you give up, and what would change it?",
+   "criteria": [
+    "Makes one clear recommendation, including where the platform reports",
+    "Decouples the risk control from the reorg so the deadline doesn't depend on moving people",
+    "Says which moves are reversible and which are not",
+    "Gives a dated revisit with measurable triggers"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "Where do the savings come from, and what does each option cost over three years?",
+   "criteria": [
+    "Derives the routing and caching saving from list prices and the audit's shares (about 38%)",
+    "Phases savings by when each unit reaches the gateway, autos last",
+    "Separates new spend and attrition cost from payroll already paid",
+    "Labels assumptions such as flat spend after month 12 and ignored cache writes"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Who decides what between the platform and the business units, and who pays?",
+   "criteria": [
+    "Gives a decision-rights table between platform and units",
+    "Names one accountable owner for AI risk",
+    "States a funding model (central platform, model spend billed to units at cost)",
+    "Gives the platform a service target so units don't route around it"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "What happens by day 90, by the autos launch and after it?",
+   "criteria": [
+    "Has a control covering every unit, autos included, before day 90",
+    "Moves no autos staff before the month-5 launch",
+    "Tells movers one to one before any announcement",
+    "Includes the month-12 revisit as a milestone"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What could go wrong with the reorg and the controls, and what manages it?",
+   "criteria": [
+    "Quantifies expected departures among moved staff",
+    "Puts the vendor control in the network and gateway, not only in policy",
+    "Gates routing changes on each use case's evals",
+    "Addresses vendor concentration after contracts are consolidated"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "How do you know the new model works, and what would show harm?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Guards platform savings with unit velocity",
+    "Tracks gateway coverage against the day-90 and month-7 targets",
+    "Tracks moved-staff attrition against HR's 24%"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "What does each audience hear, in what order and how often?",
+   "criteria": [
+    "Gives a one-line message for at least five audiences",
+    "Sequences the news: movers first, then presidents, then the wider organization",
+    "Gives the audit committee a reporting cadence until the inquiry closes",
+    "Tells infrastructure staff plainly that nobody is being cut"
+   ]
+  }
+ ]
+}

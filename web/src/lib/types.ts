@@ -1,6 +1,6 @@
 export type Difficulty = "Easy" | "Medium" | "Hard";
 
-export type TrackKey = "applied" | "ml" | "design";
+export type TrackKey = "applied" | "ml" | "design" | "leadership";
 
 export interface Track {
   key: TrackKey;

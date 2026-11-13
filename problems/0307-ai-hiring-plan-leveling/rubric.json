@@ -1,0 +1,103 @@
+{
+ "sections": [
+  {
+   "n": 1, "pillar": "A", "title": "Situation",
+   "prompt": "What is the real decision, by when, and which numbers frame it?",
+   "criteria": [
+    "Restates the decision as a team in seats in time for the month-6 back-to-school release, inside $3.6M, under one fair pay rule",
+    "Derives the VP Product's mix at market ($4.06M) and at band ($3.40M)",
+    "Derives the band acceptance rate (3 of 11, about 27%) and what it does to the calendar",
+    "States at least one thing out of scope"
+   ]
+  },
+  {
+   "n": 2, "pillar": "A", "title": "Stakeholders",
+   "prompt": "Who has a stake, what does each want, and how do you bring them along?",
+   "criteria": [
+    "Covers at least the CFO, HR or the comp committee, the VP Product and recruiting, each with a distinct want",
+    "Says what the VP Product gives up (a staff engineer, a head, a later triage date) and how it is agreed",
+    "Includes the 40 L5 engineers outside AI and the managers who lose transfers",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3, "pillar": "B", "title": "Options",
+   "prompt": "What are the real hiring and pay options, and how does each fare on budget, calendar and fairness?",
+   "criteria": [
+    "Includes hiring at the standard bands (the do-nothing on pay) as an option",
+    "Rules out a premium for new hires only, citing the comp committee and the 40 L5 engineers",
+    "Shows that hiring at band leaves the team incomplete until about month 10",
+    "Compares options on one table with the same criteria"
+   ]
+  },
+  {
+   "n": 4, "pillar": "B", "title": "Decision and Trade-offs",
+   "prompt": "What do you recommend, what do you give up, and what would make you change course?",
+   "criteria": [
+    "Makes one clear recommendation with a level mix that fits inside $3.6M",
+    "Names what is given up, including the 12th head and the second staff engineer",
+    "Says whether the pay range and the level mix are reversible",
+    "Gives a dated revisit with measurable triggers"
+   ]
+  },
+  {
+   "n": 5, "pillar": "B", "title": "Economics",
+   "prompt": "What does each option cost over three years, and what does a late team cost?",
+   "criteria": [
+    "Compares 3-year run-rate cost for each option from the level mix",
+    "Prices the cost of a late team as deferred ARR ($500k a month)",
+    "Prices extending the AI range to all 40 L5 engineers ($2.4M a year) to show why it is scoped to the role",
+    "Labels the compensation figures as assumed and names who pays for transfer backfills"
+   ]
+  },
+  {
+   "n": 6, "pillar": "C", "title": "Org and Ownership",
+   "prompt": "Who owns leveling, offers and the AI range?",
+   "criteria": [
+    "Names who decides the level, separate from who negotiates the offer",
+    "Allocates the 11 or 12 people across the AI tutor, triage and shared work",
+    "Gives HR ownership of the AI range and its yearly review"
+   ]
+  },
+  {
+   "n": 7, "pillar": "C", "title": "Plan and Milestones",
+   "prompt": "How do you get the team in seats before the back-to-school release?",
+   "criteria": [
+    "Starts the 4 transfers in month 1 and the staff engineer search first",
+    "Shows the offer count and calendar for the external hires (about 10 offers, last start by month 5)",
+    "Has at least one gate with a measurable threshold",
+    "Includes the month-6 revisit of the 12th head"
+   ]
+  },
+  {
+   "n": 8, "pillar": "C", "title": "Risk and Governance",
+   "prompt": "What could go wrong with fairness, leveling and the process itself?",
+   "criteria": [
+    "Applies the same loop and the same bar to internal and external candidates",
+    "Writes down the AI role criteria so the range has a documented, job-based reason",
+    "Forbids up-leveling to close an offer, and says what flexibility is allowed instead",
+    "Has a fallback if offers are still declined at market"
+   ]
+  },
+  {
+   "n": 9, "pillar": "D", "title": "Metrics",
+   "prompt": "How do you know the hiring plan worked, and what would show it is causing harm?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Tracks offer acceptance against the 70% assumption",
+    "Tracks attrition among the L5 engineers outside AI as the internal-equity guard",
+    "Tracks run-rate cost against $3.6M"
+   ]
+  },
+  {
+   "n": 10, "pillar": "D", "title": "Communication",
+   "prompt": "What does each audience hear, and how often?",
+   "criteria": [
+    "Gives a one-line message for at least five audiences",
+    "Tells the wider engineering org how anyone can reach the AI range, before offers go out",
+    "Tells the VP Product exactly what is given up",
+    "Sets a cadence for hiring status"
+   ]
+  }
+ ]
+}

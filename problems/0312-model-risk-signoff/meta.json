@@ -1,0 +1,3 @@
+{"id": 312, "slug": "model-risk-signoff", "title": "Model Risk Sign-off Process", "type": "design",
+ "difficulty": "Hard", "category": "lead-governance", "tags": ["Model Risk Management", "Validation", "Risk Tiering", "Banking", "SR 11-7", "Fair Lending"],
+ "time_minutes": 60, "related": ["model-registry-stages", "prompt-regression-gate", "shadow-deployment-diff", "llm-judge-position-swap", "agent-eval-observability", "bank-kyc-agent"]}

@@ -1,0 +1,124 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "What is the real decision, and what did the pilot actually show?",
+   "criteria": [
+    "Says the overtime metric was the wrong measure, not proof the product failed",
+    "Separates business hours (0.4 points, not significant) from after hours (6.5 points, significant)",
+    "Derives the 2.3-day vacancy gain and its range from the 0.8-day standard error",
+    "Names the $417k already spent as sunk and irrelevant to the call"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who has a stake, what does each want, and how do you bring them along?",
+   "criteria": [
+    "Covers at least the VP of Engineering, leasing operations, legal and the payments migration lead",
+    "Gives the pilot sponsor a new success measure in place of overtime",
+    "Includes the engineers and what the two who stay will own",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "What are the real options, and which fit 2 engineers after week 8?",
+   "criteria": [
+    "Includes kill, and at least one option between kill and full scale",
+    "Shows that scaling to all 300 needs 12 engineer-months of PMS integrations the team doesn't have",
+    "Explains why extending the pilot as is buys no new information",
+    "Compares options on one table with the same criteria"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "What do you recommend, what do you give up, and what would change your mind?",
+   "criteria": [
+    "Makes one clear recommendation and says what is switched off",
+    "Names what is given up, including the PMS-B and PMS-C properties",
+    "Says the decision is reversible and how (per-property flag)",
+    "Gives a dated revisit with both an expand trigger and a kill trigger"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "What is the value and the cost over three years, and how sure are you?",
+   "criteria": [
+    "Derives annual value from turnovers, vacancy days and daily rent ($867.5k at 120 properties)",
+    "Shows the value at the low end of the range as well as the central estimate",
+    "Derives cost per conversation from tokens and list prices, including cache reads",
+    "Shows that people, not model spend, are almost all of the cost"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Who owns what once half the team has left?",
+   "criteria": [
+    "Names a single accountable owner",
+    "Puts one engineer on run with a named backup and a runbook",
+    "Gives legal ownership of what counts as a fair-housing failure",
+    "Puts prompt and model changes behind the fair-housing eval"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "What gets done before week 8, and where can it be stopped?",
+   "criteria": [
+    "Finishes the build and rollout before the 2 engineers leave at week 8",
+    "Has a fair-housing gate with a measurable threshold before any new property goes live",
+    "Rolls out in waves rather than all at once",
+    "Includes the month-7 revisit as a milestone"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What could go wrong at 120 properties, and what controls it?",
+   "criteria": [
+    "Quantifies fair-housing problems a month at the new volume (about 86 unfixed)",
+    "Explains why a clean sample doesn't prove a zero rate",
+    "Puts the fair-housing control in code, not in policy or sampling alone",
+    "Addresses the lost-handoff problem with a number"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "How will you know at month 7 whether to expand or kill?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Uses vacancy days as the primary outcome, not share handled by AI",
+    "Names a control group for the month-7 comparison",
+    "Tracks fair-housing failures as a guard metric"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "What does each audience hear, and how often?",
+   "criteria": [
+    "Gives a one-line message for at least four audiences",
+    "Retires the overtime target with the sponsor explicitly",
+    "Tells the payments lead the engineers arrive on time",
+    "Sets a cadence and says failed gates are reported the same day"
+   ]
+  }
+ ]
+}

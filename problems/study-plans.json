@@ -266,5 +266,94 @@
         ]
       }
     ]
+  },
+  {
+    "id": "principal-architect-loop",
+    "title": "Principal / AI Architect Loop",
+    "description": "For principal engineer and AI architect loops: strategy calls with three-year economics, governance and model risk, then the four hardest system designs.",
+    "sections": [
+      {
+        "title": "Strategy calls",
+        "slugs": [
+          "build-buy-fine-tune",
+          "ai-roadmap-business-unit",
+          "ai-portfolio-roi",
+          "kill-or-scale-pilot",
+          "platform-vs-embedded-teams"
+        ]
+      },
+      {
+        "title": "Governance and risk",
+        "slugs": [
+          "ai-governance-operating-model",
+          "hallucination-incident-response",
+          "model-risk-signoff",
+          "vendor-concentration-exit-plan"
+        ]
+      },
+      {
+        "title": "Hard designs",
+        "slugs": [
+          "bank-kyc-agent",
+          "healthcare-prior-auth",
+          "self-hosted-llm-serving",
+          "global-voice-agent"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "director-executive-loop",
+    "title": "Director / Executive Loop",
+    "description": "For director and executive loops: all 18 AI Leadership cases (strategy, org, governance, communication and story banks), plus four platform designs a director is expected to own.",
+    "sections": [
+      {
+        "title": "Strategy",
+        "slugs": [
+          "build-buy-fine-tune",
+          "ai-roadmap-business-unit",
+          "ai-portfolio-roi",
+          "kill-or-scale-pilot",
+          "platform-vs-embedded-teams"
+        ]
+      },
+      {
+        "title": "Org and people",
+        "slugs": [
+          "design-ai-org-40",
+          "ai-hiring-plan-leveling",
+          "low-performer-critical-project",
+          "retaining-principal-engineer"
+        ]
+      },
+      {
+        "title": "Governance and risk",
+        "slugs": [
+          "ai-governance-operating-model",
+          "hallucination-incident-response",
+          "model-risk-signoff",
+          "vendor-concentration-exit-plan"
+        ]
+      },
+      {
+        "title": "Communication and stories",
+        "slugs": [
+          "board-update-ai-spend",
+          "pushing-back-ceo-deadline",
+          "explaining-eval-regression",
+          "influence-without-authority-stories",
+          "conflict-and-failure-stories"
+        ]
+      },
+      {
+        "title": "Platform designs",
+        "slugs": [
+          "llm-gateway-cost-controls",
+          "agent-eval-observability",
+          "shared-ai-coworker-platform",
+          "self-hosted-llm-serving"
+        ]
+      }
+    ]
   }
 ]

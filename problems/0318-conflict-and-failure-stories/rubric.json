@@ -1,0 +1,123 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "What was the setting, what failed, and is the story's scope right for your level?",
+   "criteria": [
+    "Names the company type, their role and one number for scale in three sentences or fewer",
+    "States the failure as their own decision ('I recommended', 'I chose'), not as bad luck or the team's mistake",
+    "Quantifies the damage in money or volume, with the arithmetic shown",
+    "Checks the story's scope (orgs, money, people) against the level they are interviewing for"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who was affected or in conflict, what did each want, and how did you bring them along?",
+   "criteria": [
+    "Names the person they were in conflict with and what that person was protecting",
+    "Shows at least three stakeholders wanting incompatible things",
+    "Includes the customers who were harmed, and what they needed",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "When the failure surfaced, what could you do, and what would each option cost?",
+   "criteria": [
+    "Lists at least three options, including the one the conflicting peer wanted",
+    "Prices each option over the same remaining period",
+    "Rules out at least one option on a hard limit (capacity, time or contract), not on preference",
+    "Puts the options on one table with the same criteria"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "What did you decide, and what did you or your org give up?",
+   "criteria": [
+    "Makes one clear call in the first person",
+    "Names a trade-off they paid from their own budget, roadmap or credibility",
+    "Says whether the call was reversible and what would have reversed it",
+    "Explains how the conflict was resolved, not just that it ended"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "What did the failure cost, what did your call save, and what would the right process have cost?",
+   "criteria": [
+    "Derives the cost of the failure from volume, error rate and unit cost",
+    "Compares the cost of the options over the same period",
+    "Prices the counterfactual: what following the original plan would have cost",
+    "Labels every assumed figure as assumed"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Who owned the response, and what ownership changed afterwards?",
+   "criteria": [
+    "Names themselves as accountable for the failure and the response",
+    "Gives the conflicting peer a defined role in the response",
+    "Names an ownership or process change that outlasts the incident"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "What happened in what order, from discovery to relaunch?",
+   "criteria": [
+    "Gives the time from discovery to decision in hours or days",
+    "Shows the conflict conversation happening before the decision was announced",
+    "Has a relaunch with measurable gates, not a single switch back on",
+    "Includes a review that was shared beyond their own team"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What risks remained after your call, and what rule changed so the failure can't recur the same way?",
+   "criteria": [
+    "Quantifies the risk that remained after the decision",
+    "Names a control for the harmed customers, such as proactive outreach",
+    "States a governance change in specific terms, such as who can skip a launch gate",
+    "Names a kill criterion that was agreed in advance"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "What was the measured result, and what guard shows the fix didn't move the harm elsewhere?",
+   "criteria": [
+    "Gives a quantified result with a before and after number",
+    "Pairs it with a guard metric, such as hold time or repeat contacts",
+    "Says what happened to the program or the relationship afterwards",
+    "Labels any figure that is part of the story's assumed outcome"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "How do you tell the primary story in two minutes, and how does the other story use the same structure?",
+   "criteria": [
+    "Tells the primary story in STAR order in about two minutes, in the first person",
+    "Retells the other story (conflict or failure) in the same STAR structure",
+    "Says what they would do differently, specifically, and what they changed as a result",
+    "Gives the people they had to tell (exec, peer, team) a different one-line message each"
+   ]
+  }
+ ]
+}

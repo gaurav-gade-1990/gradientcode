@@ -1,0 +1,124 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "What is the board really asking for, and which numbers show the size of the problem?",
+   "criteria": [
+    "Restates the ask as testable outcomes for month 6: inventory with owners, high-risk assessments evidenced, board oversight",
+    "Counts the work due by month 6 (306 items) including the queue and new proposals, not just the 212 in production",
+    "Shows that a full assessment for every item (36,720 h) and even a tiered central-only approach (5,211 h vs 4,680 h) do not fit",
+    "Puts a number on what the queue costs (about €3.17M of claims savings per month of delay)"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who has a stake, what does each want, and how do you bring them along?",
+   "criteria": [
+    "Covers the board risk committee, the supervisor, the CRO, the CFO and the country CEOs, each with a distinct want",
+    "Separates the 3 countries with data science teams from the other 6",
+    "Offers the countries something concrete for registering systems, such as an amnesty or a service level",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "What operating models are possible, and how does each fare against the supervisor's tests and the hours?",
+   "criteria": [
+    "Compares at least central, federated and hub-and-spoke on one table, plus a freeze or do-nothing option",
+    "Computes hours against capacity for each option rather than asserting fit",
+    "Shows that a federated model fails the independence test the supervisor will apply",
+    "Gives a three-year cost for each option"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "What do you recommend, what do you give up, and what would make you change it?",
+   "criteria": [
+    "Makes one recommendation with tiers and a country-level first line",
+    "Keeps approval of high-risk systems away from the people who build them, including the candidate's own platform",
+    "Says the decision is reversible per country and how",
+    "Gives measurable triggers, such as a sampling defect rate or a service-level breach"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "What does each option cost over three years, and what does delay cost?",
+   "criteria": [
+    "Compares three-year totals and separates new spend from people already on payroll",
+    "Shows year-one new spend (€1.22M) against the €1.5M cap",
+    "Prices the claims programme delay and labels the assumption behind it",
+    "Names the opportunity cost of the country leads' time"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Who is accountable, who approves, and who does the work in each line?",
+   "criteria": [
+    "Names one accountable executive",
+    "Places the approval body and the central reviewers in the second line under the CRO",
+    "Requires a named business owner for every inventory entry",
+    "Includes internal audit as the third line with a dated review"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "What happens between now and the supervisor's review, and where can you still correct course?",
+   "criteria": [
+    "Completes all high-risk assessments before month 6",
+    "Clears the claims programme's queued assessments early, not after the high-risk work",
+    "Has at least one gate with a measurable threshold",
+    "Runs a mock review or internal audit dry run before month 6"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What could undermine the model, and what controls produce evidence a supervisor can test?",
+   "criteria": [
+    "Treats unregistered systems as the main risk and has a technical control for it, such as gateway keys tied to an inventory id",
+    "Samples first-line assessments with a stated rate and a consequence for failure",
+    "Has a fallback if the high-risk underwriting model fails its assessment",
+    "Uses frameworks such as NIST AI RMF or ISO/IEC 42001 as structure without making certification a month-6 goal"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "How do you know the model works, and what would show it is being gamed?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Tracks review time by tier against a stated service level",
+    "Tracks unregistered systems found after the amnesty",
+    "Avoids activity metrics such as number of policies or trainings"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "What does each audience hear, and how often?",
+   "criteria": [
+    "Gives a one-line message for at least four audiences, including the supervisor and the country CEOs",
+    "Tells the CFO new spend and existing people separately",
+    "Sets a cadence to the board until the review and after it",
+    "Reports failed gates and sampling defects as well as progress"
+   ]
+  }
+ ]
+}

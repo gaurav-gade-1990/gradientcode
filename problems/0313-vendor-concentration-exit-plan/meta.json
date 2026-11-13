@@ -1,0 +1,3 @@
+{"id": 313, "slug": "vendor-concentration-exit-plan", "title": "Vendor Concentration and Exit Plan", "type": "design",
+ "difficulty": "Hard", "category": "lead-governance", "tags": ["Vendor Concentration", "Exit Strategy", "DORA", "Operational Resilience", "Contract Negotiation", "Board Risk Appetite"],
+ "time_minutes": 60, "related": ["gateway-failover-hedging", "llm-gateway-cost-controls", "model-router", "self-hosted-llm-serving", "circuit-breaker", "prompt-regression-gate"]}

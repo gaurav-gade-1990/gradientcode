@@ -16,6 +16,7 @@ TRACKS = [
     ("applied", "Applied AI Engineering"),
     ("ml", "ML Foundations"),
     ("design", "System Design"),
+    ("leadership", "AI Leadership"),
 ]
 CATEGORIES = [
     # Track 1: Applied AI Engineering (ids 101-199)
@@ -42,6 +43,11 @@ CATEGORIES = [
     ("design-easy", "Design: Foundations", "design"),
     ("design-medium", "Design: Platforms at Scale", "design"),
     ("design-complex", "Design: Enterprise & Regulated", "design"),
+    # AI Leadership (ids 301-399): design-style cases for principal, architect, director and exec loops
+    ("lead-strategy", "Strategy & Portfolio", "leadership"),
+    ("lead-org", "Org & People", "leadership"),
+    ("lead-governance", "Risk & Governance", "leadership"),
+    ("lead-comms", "Communication & Influence", "leadership"),
 ]
 CATEGORY_TRACK = {k: t for k, _, t in CATEGORIES}
 DIFFICULTIES = ("Easy", "Medium", "Hard")

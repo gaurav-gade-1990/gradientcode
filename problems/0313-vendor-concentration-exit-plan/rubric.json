@@ -1,0 +1,124 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "What is the board really asking, and what does a week without the incumbent cost?",
+   "criteria": [
+    "Restates the ask as the board's two limits: 24 hours degraded and 90 days to exit",
+    "Derives manual onboarding capacity (about 3,086 a week) and the weekly backlog in an outage (about 7,914)",
+    "Prices a week of outage (about €3.99M of first-year revenue)",
+    "Tiers the four workloads by criticality instead of treating all traffic alike"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who has a stake, what does each want, and how do you bring them along?",
+   "criteria": [
+    "Covers the board risk committee, the supervisor, the CFO, the CRO and operations, each with a distinct want",
+    "Includes the incumbent provider as a party to negotiate with",
+    "Shows how the CFO's booked discount and the board's limits can both be met",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "What are the options, and how does each do on the 24-hour limit, the 90-day exit and the commitment?",
+   "criteria": [
+    "Includes a paper-plan option and shows it fails the 24-hour limit",
+    "Checks each option's spend against the €9M commitment",
+    "Shows the active-active split misses the commitment and loses most of the discount",
+    "Weighs the self-hosted fallback's lower evaluation score, not only its cost"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "What do you recommend, what do you give up, and what would make you revisit it?",
+   "criteria": [
+    "Makes one recommendation that combines the commitment with a live standby for the critical workload",
+    "Names what is given up, including the discount lost on moved traffic",
+    "Identifies the commitment as the one-way door and routing as reversible",
+    "Derives a growth-rate trigger (about 22%) below which the commitment is at risk"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "What does each option cost over three years, and how does that compare with an outage?",
+   "criteria": [
+    "Compares three-year totals with the same growth forecast for every option",
+    "Separates new spend from engineers already on payroll",
+    "Compares the extra cost of readiness with the cost of an outage (about 1.9 days)",
+    "Shows year-one new spend against the CFO's budget"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Who owns the exit plan, the fallbacks and the contract?",
+   "criteria": [
+    "Names one accountable owner",
+    "Gives each workload owner their own fallback procedure",
+    "Includes second-line challenge from the CRO's team",
+    "Has finance tracking the commitment"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "What happens before the renewal is signed, and how is the plan tested?",
+   "criteria": [
+    "Gets the second provider live and drilled before signing the renewal",
+    "Has a gate with a measurable threshold, such as an evaluation score or a switch time",
+    "Sets quarterly drills reported to the board",
+    "Fits the plan inside the 10-week board date and the 5-month renewal"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What could make the exit plan fail, and what goes into the contract?",
+   "criteria": [
+    "Keeps live traffic on the standby so it can't degrade unnoticed",
+    "Lists exit terms to negotiate, such as termination assistance, version-retirement notice and data deletion, framed as asks or company policy",
+    "Keeps one evaluation set run on both providers",
+    "Updates the register of third-party arrangements with the tested switch time"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "How do you know the plan works, and what would it hide?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Measures drill switch time rather than the existence of a plan",
+    "Tracks commitment progress next to resilience",
+    "Tracks the quality gap between providers"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "What does each audience hear, and how often?",
+   "criteria": [
+    "Gives a one-line message for at least four audiences, including the supervisor and the CFO",
+    "Tells the CFO the discount depends on the growth forecast",
+    "Reports drill results quarterly, including failures",
+    "Leads with evidence rather than the plan"
+   ]
+  }
+ ]
+}

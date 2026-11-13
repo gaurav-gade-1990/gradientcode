@@ -1,0 +1,124 @@
+{
+ "sections": [
+  {
+   "n": 1,
+   "pillar": "A",
+   "title": "Situation",
+   "prompt": "What is the real decision, and how many validator hours are actually available?",
+   "criteria": [
+    "Derives free MRM capacity: 12,600 − 12,100 = 500 hours",
+    "Applies the policy that bank validators do at least half of each validation, so 500 bank-led hours cover at most 1,000 total",
+    "Shows that validating all six from scratch (1,800 hours, 900 bank-led) does not fit",
+    "Protects the exam-finding work first and states something out of scope"
+   ]
+  },
+  {
+   "n": 2,
+   "pillar": "A",
+   "title": "Stakeholders",
+   "prompt": "Who has a stake, what does each want, and how do you bring them along?",
+   "criteria": [
+    "Covers the head of MRM, the model risk committee, the board, compliance and the business owners, each with a distinct want",
+    "Lets MRM scope its own platform validation rather than accept the first line's evidence plan",
+    "Includes examiners and what they will look for",
+    "Ends with one idea that ties the stakeholders together"
+   ]
+  },
+  {
+   "n": 3,
+   "pillar": "B",
+   "title": "Options",
+   "prompt": "What are the sign-off options, and how many use cases fit in the free hours under each?",
+   "criteria": [
+    "Includes an option that exempts generative AI and one that waits for the finding to close",
+    "Computes bank-led hours for each option against 500",
+    "Shows the platform-plus-tiers option fits five use cases (450 bank-led hours) and not the sixth",
+    "Chooses what to defer by value per validator hour and sensitivity, not by which business shouts loudest"
+   ]
+  },
+  {
+   "n": 4,
+   "pillar": "B",
+   "title": "Decision and Trade-offs",
+   "prompt": "What do you recommend, what do you give up, and what would change it?",
+   "criteria": [
+    "Makes one recommendation in which the model risk committee, not the first line, rules on what is a model",
+    "Names the deferred use case and its value",
+    "Says what is reversible, such as moving a use case to a higher tier",
+    "Gives triggers, including the overdue-validation count and a filled requisition"
+   ]
+  },
+  {
+   "n": 5,
+   "pillar": "B",
+   "title": "Economics",
+   "prompt": "What value does each option deliver over three years, and what does it cost?",
+   "criteria": [
+    "Compares three-year value with launch months labelled as assumptions",
+    "Prices contractor hours as new spend and separates first-line hours already on payroll",
+    "States model API spend and why it does not separate the options",
+    "Prices the deferral per month"
+   ]
+  },
+  {
+   "n": 6,
+   "pillar": "C",
+   "title": "Org and Ownership",
+   "prompt": "Where is the line between the first line and MRM, and who decides what?",
+   "criteria": [
+    "Keeps validation conclusions with MRM and evidence with the first line",
+    "Names a business owner per use case",
+    "Gives compliance ownership of fair-treatment testing",
+    "Rejects a joint first-line and MRM validation team"
+   ]
+  },
+  {
+   "n": 7,
+   "pillar": "C",
+   "title": "Plan and Milestones",
+   "prompt": "In what order do the validations run, and where are the gates?",
+   "criteria": [
+    "Validates the platform before any use case",
+    "Runs income extraction in parallel before it affects a credit decision",
+    "Has gates with measurable conditions",
+    "Puts the finding's closure in the plan ahead of the deferred use case"
+   ]
+  },
+  {
+   "n": 8,
+   "pillar": "C",
+   "title": "Risk and Governance",
+   "prompt": "What could go wrong in a credit decision, and how are model changes handled?",
+   "criteria": [
+    "Tests income extraction errors across applicant segments",
+    "Defines a change-validation path for provider model-version changes and fits its hours in the budget",
+    "Measures human review rather than assuming it works",
+    "Pauses generative AI validation if the overdue count slips"
+   ]
+  },
+  {
+   "n": 9,
+   "pillar": "D",
+   "title": "Metrics",
+   "prompt": "How do you know the process works, and what would it hide?",
+   "criteria": [
+    "Pairs each success metric with a guard metric",
+    "Uses the overdue-validation count as a guard on generative AI progress",
+    "Tracks the largest accuracy gap between applicant segments",
+    "Sets cycle-time targets per tier"
+   ]
+  },
+  {
+   "n": 10,
+   "pillar": "D",
+   "title": "Communication",
+   "prompt": "What does each audience hear, and how often?",
+   "criteria": [
+    "Gives a one-line message for at least four audiences, including the model risk committee and the board",
+    "Leads updates with the finding's status",
+    "Sets a monthly and a quarterly cadence",
+    "Avoids promising business owners dates before tier rulings"
+   ]
+  }
+ ]
+}

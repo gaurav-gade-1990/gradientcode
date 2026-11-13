@@ -1,0 +1,3 @@
+{"id": 302, "slug": "ai-roadmap-business-unit", "title": "12-Month AI Roadmap for a Business Unit", "type": "design",
+ "difficulty": "Medium", "category": "lead-strategy", "tags": ["AI Roadmap", "Sequencing", "Capacity Planning", "ERP Freeze", "Expectation Setting"],
+ "time_minutes": 45, "related": ["document-intake-pipeline", "hybrid-search-rrf", "structured-output-repair", "prompt-regression-gate", "feature-flag-rollout", "llm-capacity-cost-estimator"]}

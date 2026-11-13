@@ -82,6 +82,23 @@ test("capture", async ({ page, context }) => {
   await page.getByTestId("mark-complete").click();
   await page.screenshot({ path: `${OUT}/design-after-reveal.png` });
 
+  // AI Leadership: the track list, the pilot case before and after reveal, and the director plan.
+  await page.goto("/");
+  await page.getByTestId("track-leadership").click();
+  await expect(page.getByTestId("problem-row").first()).toBeVisible();
+  await page.screenshot({ path: `${OUT}/list-leadership.png` });
+  await page.goto("/problems/build-buy-fine-tune");
+  await page.getByTestId("answer-1").fill("What enterprise customers see by renewal season (month 6), within their contracts.\n\n- Queue: 60M × 28% = **16.8M** a month\n- At stake: **$12M** of renewals");
+  await page.screenshot({ path: `${OUT}/leadership-case.png` });
+  await page.getByTestId("tab-answer").click();
+  await page.getByTestId("reveal").click();
+  await page.getByTestId("reveal-yes").click();
+  await expect(page.getByTestId("model-answer")).toContainText("10. Communication");
+  await page.screenshot({ path: `${OUT}/leadership-after-reveal.png` });
+  await page.goto("/study-plans/director-executive-loop");
+  await expect(page.getByTestId("plan-title")).toBeVisible();
+  await page.screenshot({ path: `${OUT}/study-plan-director.png` });
+
   await page.goto("/study-plans");
   await expect(page.getByTestId("plan-card").first()).toBeVisible();
   await page.screenshot({ path: `${OUT}/study-plans.png` });

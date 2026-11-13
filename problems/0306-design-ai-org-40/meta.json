@@ -1,0 +1,3 @@
+{"id": 306, "slug": "design-ai-org-40", "title": "Designing a 40-Person AI Org", "type": "design",
+ "difficulty": "Hard", "category": "lead-org", "tags": ["Org Design", "Hub and Spoke", "Reorg", "Model Risk", "Headcount Freeze"],
+ "time_minutes": 60, "related": ["llm-gateway-cost-controls", "model-registry-stages", "agent-eval-observability", "bank-kyc-agent", "tenant-cost-attribution"]}
